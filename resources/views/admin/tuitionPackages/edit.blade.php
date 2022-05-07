@@ -21,28 +21,18 @@
                 <span class="help-block">{{ trans('cruds.tuitionPackage.fields.name_helper') }}</span>
             </div>
             <div class="form-group">
-                <label class="required" for="price">{{ trans('cruds.tuitionPackage.fields.price') }}</label>
-                <input class="form-control {{ $errors->has('price') ? 'is-invalid' : '' }}" type="number" name="price" id="price" value="{{ old('price', $tuitionPackage->price) }}" step="0.01" required>
-                @if($errors->has('price'))
+                <label class="required" for="total_lesson">{{ trans('cruds.tuitionPackage.fields.total_lesson') }}</label>
+                <input class="form-control {{ $errors->has('total_lesson') ? 'is-invalid' : '' }}" type="number" name="total_lesson" id="total_lesson" value="{{ old('total_lesson', $tuitionPackage->total_lesson) }}" step="0.01" required>
+                @if($errors->has('total_lesson'))
                     <div class="invalid-feedback">
-                        {{ $errors->first('price') }}
+                        {{ $errors->first('total_lesson') }}
                     </div>
                 @endif
-                <span class="help-block">{{ trans('cruds.tuitionPackage.fields.price_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.tuitionPackage.fields.total_lesson_helper') }}</span>
             </div>
             <div class="form-group">
-                <label class="required" for="total_minute">{{ trans('cruds.tuitionPackage.fields.total_minute') }}</label>
-                <input class="form-control {{ $errors->has('total_minute') ? 'is-invalid' : '' }}" type="number" name="total_minute" id="total_minute" value="{{ old('total_minute', $tuitionPackage->total_minute) }}" step="0.01" required>
-                @if($errors->has('total_minute'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('total_minute') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.tuitionPackage.fields.total_minute_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label for="lesson_category_id">{{ trans('cruds.tuitionPackage.fields.lesson_category') }}</label>
-                <select class="form-control select2 {{ $errors->has('lesson_category') ? 'is-invalid' : '' }}" name="lesson_category_id" id="lesson_category_id">
+                <label class="required" for="lesson_category_id">{{ trans('cruds.tuitionPackage.fields.lesson_category') }}</label>
+                <select class="form-control select2 {{ $errors->has('lesson_category') ? 'is-invalid' : '' }}" name="lesson_category_id" id="lesson_category_id" required>
                     @foreach($lesson_categories as $id => $entry)
                         <option value="{{ $id }}" {{ (old('lesson_category_id') ? old('lesson_category_id') : $tuitionPackage->lesson_category->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
                     @endforeach

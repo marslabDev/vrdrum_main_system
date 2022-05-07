@@ -25,10 +25,10 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.studentTuition.fields.minute_left') }}
+                            {{ trans('cruds.studentTuition.fields.lesson_left') }}
                         </th>
                         <td>
-                            {{ $studentTuition->minute_left }}
+                            {{ $studentTuition->lesson_left }}
                         </td>
                     </tr>
                     <tr>

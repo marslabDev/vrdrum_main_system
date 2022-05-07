@@ -11,16 +11,6 @@
             @method('PUT')
             @csrf
             <div class="form-group">
-                <label class="required" for="minute_left">{{ trans('cruds.studentTuition.fields.minute_left') }}</label>
-                <input class="form-control {{ $errors->has('minute_left') ? 'is-invalid' : '' }}" type="number" name="minute_left" id="minute_left" value="{{ old('minute_left', $studentTuition->minute_left) }}" step="0.01" required>
-                @if($errors->has('minute_left'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('minute_left') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.studentTuition.fields.minute_left_helper') }}</span>
-            </div>
-            <div class="form-group">
                 <label for="tuition_package_id">{{ trans('cruds.studentTuition.fields.tuition_package') }}</label>
                 <select class="form-control select2 {{ $errors->has('tuition_package') ? 'is-invalid' : '' }}" name="tuition_package_id" id="tuition_package_id">
                     @foreach($tuition_packages as $id => $entry)

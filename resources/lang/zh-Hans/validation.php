@@ -118,4 +118,9 @@ return [
     'exceeds_maximum_number'         => ':attribute超出了最大模型长度',
     'db_column'                      => ':attribute只能包含ISO基本拉丁字母，数字，破折号，并且不能以数字开头。',
     'attributes'                     => [],
+    'lesson_category_required'       => 'The Lesson Category is required',
+    'total_lesson_required'          => 'When type is lesson, The Lesson is required',
+    'quantity_required'              => 'When type is product, The Quantity is required',
+    'tuition_package_required'       => 'The Tuition Package is required',
+    'inventory_required'             => 'When type is product, The Inventory is required',
 ];
