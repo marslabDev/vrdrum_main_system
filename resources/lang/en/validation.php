@@ -118,4 +118,9 @@ return [
     'exceeds_maximum_number'         => 'The :attribute exceeds maximum model length',
     'db_column'                      => 'The :attribute may only contain ISO basic Latin alphabet letters, numbers, dash and cannot start with number.',
     'attributes'                     => [],
+    'lesson_category_required'       => 'The Lesson Category is required',
+    'total_lesson_required'          => 'When type is lesson, The Lesson is required',
+    'quantity_required'              => 'When type is product, The Quantity is required',
+    'tuition_package_required'       => 'The Tuition Package is required',
+    'inventory_required'             => 'When type is product, The Inventory is required',
 ];

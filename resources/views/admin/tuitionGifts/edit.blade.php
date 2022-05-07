@@ -26,14 +26,14 @@
                 <span class="help-block">{{ trans('cruds.tuitionGift.fields.type_helper') }}</span>
             </div>
             <div class="form-group">
-                <label for="total_minute">{{ trans('cruds.tuitionGift.fields.total_minute') }}</label>
-                <input class="form-control {{ $errors->has('total_minute') ? 'is-invalid' : '' }}" type="number" name="total_minute" id="total_minute" value="{{ old('total_minute', $tuitionGift->total_minute) }}" step="0.01">
-                @if($errors->has('total_minute'))
+                <label for="total_lesson">{{ trans('cruds.tuitionGift.fields.total_lesson') }}</label>
+                <input class="form-control {{ $errors->has('total_lesson') ? 'is-invalid' : '' }}" type="number" name="total_lesson" id="total_lesson" value="{{ old('total_lesson', $tuitionGift->total_lesson) }}" step="0.01">
+                @if($errors->has('total_lesson'))
                     <div class="invalid-feedback">
-                        {{ $errors->first('total_minute') }}
+                        {{ $errors->first('total_lesson') }}
                     </div>
                 @endif
-                <span class="help-block">{{ trans('cruds.tuitionGift.fields.total_minute_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.tuitionGift.fields.total_lesson_helper') }}</span>
             </div>
             <div class="form-group">
                 <label for="quantity">{{ trans('cruds.tuitionGift.fields.quantity') }}</label>

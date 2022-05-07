@@ -21,10 +21,14 @@ class StoreTuitionPackageRequest extends FormRequest
                 'string',
                 'required',
             ],
-            'price' => [
-                'required',
-            ],
-            'total_minute' => [
+            // 'price' => [
+            //     'required',
+            // ],
+            // 'total_minute' => [
+            //     'numeric',
+            //     'required',
+            // ],
+            'total_lesson' => [
                 'numeric',
                 'required',
             ],

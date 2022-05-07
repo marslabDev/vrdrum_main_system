@@ -28,7 +28,7 @@
                         {{ trans('cruds.tuitionGift.fields.type') }}
                     </th>
                     <th>
-                        {{ trans('cruds.tuitionGift.fields.total_minute') }}
+                        {{ trans('cruds.tuitionGift.fields.total_lesson') }}
                     </th>
                     <th>
                         {{ trans('cruds.tuitionGift.fields.quantity') }}
@@ -97,7 +97,7 @@
       { data: 'placeholder', name: 'placeholder' },
 { data: 'id', name: 'id' },
 { data: 'type', name: 'type' },
-{ data: 'total_minute', name: 'total_minute' },
+{ data: 'total_lesson', name: 'total_lesson' },
 { data: 'quantity', name: 'quantity' },
 { data: 'tuition_package_name', name: 'tuition_package.name' },
 { data: 'inventory_efk', name: 'inventory_efk' },

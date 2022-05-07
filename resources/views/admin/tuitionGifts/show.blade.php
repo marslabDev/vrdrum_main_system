@@ -33,10 +33,10 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.tuitionGift.fields.total_minute') }}
+                            {{ trans('cruds.tuitionGift.fields.total_lesson') }}
                         </th>
                         <td>
-                            {{ $tuitionGift->total_minute }}
+                            {{ $tuitionGift->total_lesson }}
                         </td>
                     </tr>
                     <tr>

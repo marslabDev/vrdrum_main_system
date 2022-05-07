@@ -31,7 +31,7 @@
                         {{ trans('cruds.tuitionPackage.fields.price') }}
                     </th>
                     <th>
-                        {{ trans('cruds.tuitionPackage.fields.total_minute') }}
+                        {{ trans('cruds.tuitionPackage.fields.total_lesson') }}
                     </th>
                     <th>
                         {{ trans('cruds.tuitionPackage.fields.lesson_category') }}
@@ -95,7 +95,7 @@
 { data: 'id', name: 'id' },
 { data: 'name', name: 'name' },
 { data: 'price', name: 'price' },
-{ data: 'total_minute', name: 'total_minute' },
+{ data: 'total_lesson', name: 'total_lesson' },
 { data: 'lesson_category_name', name: 'lesson_category.name' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],

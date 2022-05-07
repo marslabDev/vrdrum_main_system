@@ -120,3 +120,10 @@ Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 
         Route::post('profile/destroy', 'ChangePasswordController@destroy')->name('password.destroyProfile');
     }
 });
+
+
+Route::group(['prefix' => 'function', 'as' => 'function.', 'namespace' => 'Function\V1', 'middleware' => ['auth']], function () {
+    // get tuition package with lesson category & tuition gift
+    Route::get('get-tuition-with-gift', 'TuitionPakageWithGiftController@index');
+
+});

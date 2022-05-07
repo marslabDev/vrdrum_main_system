@@ -17,10 +17,10 @@ class StoreStudentTuitionRequest extends FormRequest
     public function rules()
     {
         return [
-            'minute_left' => [
-                'numeric',
-                'required',
-            ],
+            // 'minute_left' => [
+            //     'numeric',
+            //     'required',
+            // ],
             'student_efk' => [
                 'required',
                 'integer',
