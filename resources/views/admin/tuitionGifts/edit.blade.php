@@ -46,8 +46,8 @@
                 <span class="help-block">{{ trans('cruds.tuitionGift.fields.quantity_helper') }}</span>
             </div>
             <div class="form-group">
-                <label for="tuition_package_id">{{ trans('cruds.tuitionGift.fields.tuition_package') }}</label>
-                <select class="form-control select2 {{ $errors->has('tuition_package') ? 'is-invalid' : '' }}" name="tuition_package_id" id="tuition_package_id">
+                <label class="required" for="tuition_package_id">{{ trans('cruds.tuitionGift.fields.tuition_package') }}</label>
+                <select class="form-control select2 {{ $errors->has('tuition_package') ? 'is-invalid' : '' }}" name="tuition_package_id" id="tuition_package_id" required>
                     @foreach($tuition_packages as $id => $entry)
                         <option value="{{ $id }}" {{ (old('tuition_package_id') ? old('tuition_package_id') : $tuitionGift->tuition_package->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
                     @endforeach
