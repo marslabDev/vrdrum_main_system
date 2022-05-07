@@ -10,20 +10,75 @@ use App\Models\ClassRoom;
 use App\Models\Lesson;
 use App\Models\LessonTime;
 use App\Models\LessonTimeChange;
-use App\Models\User;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Yajra\DataTables\Facades\DataTables;
 
 class LessonTimeChangeController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         abort_if(Gate::denies('lesson_time_change_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $lessonTimeChanges = LessonTimeChange::with(['old_lesson_time', 'class_room', 'lesson', 'student', 'request_user', 'response_user'])->get();
+        if ($request->ajax()) {
+            $query = LessonTimeChange::with(['old_lesson_time', 'class_room', 'lesson', 'created_by'])->select(sprintf('%s.*', (new LessonTimeChange())->table));
+            $table = Datatables::of($query);
 
-        return view('admin.lessonTimeChanges.index', compact('lessonTimeChanges'));
+            $table->addColumn('placeholder', '&nbsp;');
+            $table->addColumn('actions', '&nbsp;');
+
+            $table->editColumn('actions', function ($row) {
+                $viewGate = 'lesson_time_change_show';
+                $editGate = 'lesson_time_change_edit';
+                $deleteGate = 'lesson_time_change_delete';
+                $crudRoutePart = 'lesson-time-changes';
+
+                return view('partials.datatablesActions', compact(
+                'viewGate',
+                'editGate',
+                'deleteGate',
+                'crudRoutePart',
+                'row'
+            ));
+            });
+
+            $table->editColumn('id', function ($row) {
+                return $row->id ? $row->id : '';
+            });
+            $table->addColumn('old_lesson_time_lesson_code', function ($row) {
+                return $row->old_lesson_time ? $row->old_lesson_time->lesson_code : '';
+            });
+
+            $table->addColumn('class_room_room_title', function ($row) {
+                return $row->class_room ? $row->class_room->room_title : '';
+            });
+
+            $table->addColumn('lesson_name', function ($row) {
+                return $row->lesson ? $row->lesson->name : '';
+            });
+
+            $table->editColumn('student_efk', function ($row) {
+                return $row->student_efk ? $row->student_efk : '';
+            });
+            $table->editColumn('status', function ($row) {
+                return $row->status ? $row->status : '';
+            });
+
+            $table->editColumn('request_user_efk', function ($row) {
+                return $row->request_user_efk ? $row->request_user_efk : '';
+            });
+
+            $table->editColumn('response_user_efk', function ($row) {
+                return $row->response_user_efk ? $row->response_user_efk : '';
+            });
+
+            $table->rawColumns(['actions', 'placeholder', 'old_lesson_time', 'class_room', 'lesson']);
+
+            return $table->make(true);
+        }
+
+        return view('admin.lessonTimeChanges.index');
     }
 
     public function create()
@@ -36,13 +91,7 @@ class LessonTimeChangeController extends Controller
 
         $lessons = Lesson::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $students = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $request_users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $response_users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        return view('admin.lessonTimeChanges.create', compact('class_rooms', 'lessons', 'old_lesson_times', 'request_users', 'response_users', 'students'));
+        return view('admin.lessonTimeChanges.create', compact('class_rooms', 'lessons', 'old_lesson_times'));
     }
 
     public function store(StoreLessonTimeChangeRequest $request)
@@ -62,15 +111,9 @@ class LessonTimeChangeController extends Controller
 
         $lessons = Lesson::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $students = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $lessonTimeChange->load('old_lesson_time', 'class_room', 'lesson', 'created_by');
 
-        $request_users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $response_users = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        $lessonTimeChange->load('old_lesson_time', 'class_room', 'lesson', 'student', 'request_user', 'response_user');
-
-        return view('admin.lessonTimeChanges.edit', compact('class_rooms', 'lessonTimeChange', 'lessons', 'old_lesson_times', 'request_users', 'response_users', 'students'));
+        return view('admin.lessonTimeChanges.edit', compact('class_rooms', 'lessonTimeChange', 'lessons', 'old_lesson_times'));
     }
 
     public function update(UpdateLessonTimeChangeRequest $request, LessonTimeChange $lessonTimeChange)
@@ -84,7 +127,7 @@ class LessonTimeChangeController extends Controller
     {
         abort_if(Gate::denies('lesson_time_change_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $lessonTimeChange->load('old_lesson_time', 'class_room', 'lesson', 'student', 'request_user', 'response_user');
+        $lessonTimeChange->load('old_lesson_time', 'class_room', 'lesson', 'created_by');
 
         return view('admin.lessonTimeChanges.show', compact('lessonTimeChange'));
     }

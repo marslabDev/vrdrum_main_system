@@ -11,16 +11,58 @@ use App\Models\LessonLevel;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Yajra\DataTables\Facades\DataTables;
 
 class LessonController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         abort_if(Gate::denies('lesson_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $lessons = Lesson::with(['lesson_level'])->get();
+        if ($request->ajax()) {
+            $query = Lesson::with(['lesson_level', 'created_by'])->select(sprintf('%s.*', (new Lesson())->table));
+            $table = Datatables::of($query);
 
-        return view('admin.lessons.index', compact('lessons'));
+            $table->addColumn('placeholder', '&nbsp;');
+            $table->addColumn('actions', '&nbsp;');
+
+            $table->editColumn('actions', function ($row) {
+                $viewGate = 'lesson_show';
+                $editGate = 'lesson_edit';
+                $deleteGate = 'lesson_delete';
+                $crudRoutePart = 'lessons';
+
+                return view('partials.datatablesActions', compact(
+                'viewGate',
+                'editGate',
+                'deleteGate',
+                'crudRoutePart',
+                'row'
+            ));
+            });
+
+            $table->editColumn('id', function ($row) {
+                return $row->id ? $row->id : '';
+            });
+            $table->editColumn('no_of_class', function ($row) {
+                return $row->no_of_class ? $row->no_of_class : '';
+            });
+            $table->editColumn('name', function ($row) {
+                return $row->name ? $row->name : '';
+            });
+            $table->editColumn('syllabus', function ($row) {
+                return $row->syllabus ? $row->syllabus : '';
+            });
+            $table->addColumn('lesson_level_level', function ($row) {
+                return $row->lesson_level ? $row->lesson_level->level : '';
+            });
+
+            $table->rawColumns(['actions', 'placeholder', 'lesson_level']);
+
+            return $table->make(true);
+        }
+
+        return view('admin.lessons.index');
     }
 
     public function create()
@@ -45,7 +87,7 @@ class LessonController extends Controller
 
         $lesson_levels = LessonLevel::pluck('level', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $lesson->load('lesson_level');
+        $lesson->load('lesson_level', 'created_by');
 
         return view('admin.lessons.edit', compact('lesson', 'lesson_levels'));
     }
@@ -61,7 +103,7 @@ class LessonController extends Controller
     {
         abort_if(Gate::denies('lesson_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $lesson->load('lesson_level');
+        $lesson->load('lesson_level', 'created_by');
 
         return view('admin.lessons.show', compact('lesson'));
     }

@@ -8,20 +8,56 @@ use App\Http\Requests\StoreLessonTimeCoachRequest;
 use App\Http\Requests\UpdateLessonTimeCoachRequest;
 use App\Models\LessonTime;
 use App\Models\LessonTimeCoach;
-use App\Models\User;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Yajra\DataTables\Facades\DataTables;
 
 class LessonTimeCoachController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         abort_if(Gate::denies('lesson_time_coach_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $lessonTimeCoaches = LessonTimeCoach::with(['lesson_time', 'coach'])->get();
+        if ($request->ajax()) {
+            $query = LessonTimeCoach::with(['lesson_time', 'created_by'])->select(sprintf('%s.*', (new LessonTimeCoach())->table));
+            $table = Datatables::of($query);
 
-        return view('admin.lessonTimeCoaches.index', compact('lessonTimeCoaches'));
+            $table->addColumn('placeholder', '&nbsp;');
+            $table->addColumn('actions', '&nbsp;');
+
+            $table->editColumn('actions', function ($row) {
+                $viewGate = 'lesson_time_coach_show';
+                $editGate = 'lesson_time_coach_edit';
+                $deleteGate = 'lesson_time_coach_delete';
+                $crudRoutePart = 'lesson-time-coaches';
+
+                return view('partials.datatablesActions', compact(
+                'viewGate',
+                'editGate',
+                'deleteGate',
+                'crudRoutePart',
+                'row'
+            ));
+            });
+
+            $table->editColumn('id', function ($row) {
+                return $row->id ? $row->id : '';
+            });
+            $table->addColumn('lesson_time_lesson_code', function ($row) {
+                return $row->lesson_time ? $row->lesson_time->lesson_code : '';
+            });
+
+            $table->editColumn('coach_efk', function ($row) {
+                return $row->coach_efk ? $row->coach_efk : '';
+            });
+
+            $table->rawColumns(['actions', 'placeholder', 'lesson_time']);
+
+            return $table->make(true);
+        }
+
+        return view('admin.lessonTimeCoaches.index');
     }
 
     public function create()
@@ -30,9 +66,7 @@ class LessonTimeCoachController extends Controller
 
         $lesson_times = LessonTime::pluck('lesson_code', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $coaches = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        return view('admin.lessonTimeCoaches.create', compact('coaches', 'lesson_times'));
+        return view('admin.lessonTimeCoaches.create', compact('lesson_times'));
     }
 
     public function store(StoreLessonTimeCoachRequest $request)
@@ -48,11 +82,9 @@ class LessonTimeCoachController extends Controller
 
         $lesson_times = LessonTime::pluck('lesson_code', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $coaches = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $lessonTimeCoach->load('lesson_time', 'created_by');
 
-        $lessonTimeCoach->load('lesson_time', 'coach');
-
-        return view('admin.lessonTimeCoaches.edit', compact('coaches', 'lessonTimeCoach', 'lesson_times'));
+        return view('admin.lessonTimeCoaches.edit', compact('lessonTimeCoach', 'lesson_times'));
     }
 
     public function update(UpdateLessonTimeCoachRequest $request, LessonTimeCoach $lessonTimeCoach)
@@ -66,7 +98,7 @@ class LessonTimeCoachController extends Controller
     {
         abort_if(Gate::denies('lesson_time_coach_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $lessonTimeCoach->load('lesson_time', 'coach');
+        $lessonTimeCoach->load('lesson_time', 'created_by');
 
         return view('admin.lessonTimeCoaches.show', compact('lessonTimeCoach'));
     }

@@ -11,6 +11,7 @@ class CreateStudentTuitionsTable extends Migration
         Schema::create('student_tuitions', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->float('minute_left', 15, 2);
+            $table->integer('student_efk');
             $table->timestamps();
             $table->softDeletes();
         });

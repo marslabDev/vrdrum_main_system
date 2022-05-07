@@ -15,6 +15,7 @@ class CreateLessonTimesTable extends Migration
             $table->datetime('date_to');
             $table->datetime('attended_at')->nullable();
             $table->datetime('leaved_at')->nullable();
+            $table->integer('student_efk');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -15,82 +15,33 @@
     </div>
 
     <div class="card-body">
-        <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-TuitionPackage">
-                <thead>
-                    <tr>
-                        <th width="10">
+        <table class=" table table-bordered table-striped table-hover ajaxTable datatable datatable-TuitionPackage">
+            <thead>
+                <tr>
+                    <th width="10">
 
-                        </th>
-                        <th>
-                            {{ trans('cruds.tuitionPackage.fields.id') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.tuitionPackage.fields.name') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.tuitionPackage.fields.price') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.tuitionPackage.fields.total_minute') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.tuitionPackage.fields.lesson_category') }}
-                        </th>
-                        <th>
-                            &nbsp;
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($tuitionPackages as $key => $tuitionPackage)
-                        <tr data-entry-id="{{ $tuitionPackage->id }}">
-                            <td>
-
-                            </td>
-                            <td>
-                                {{ $tuitionPackage->id ?? '' }}
-                            </td>
-                            <td>
-                                {{ $tuitionPackage->name ?? '' }}
-                            </td>
-                            <td>
-                                {{ $tuitionPackage->price ?? '' }}
-                            </td>
-                            <td>
-                                {{ $tuitionPackage->total_minute ?? '' }}
-                            </td>
-                            <td>
-                                {{ $tuitionPackage->lesson_category->name ?? '' }}
-                            </td>
-                            <td>
-                                @can('tuition_package_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.tuition-packages.show', $tuitionPackage->id) }}">
-                                        {{ trans('global.view') }}
-                                    </a>
-                                @endcan
-
-                                @can('tuition_package_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.tuition-packages.edit', $tuitionPackage->id) }}">
-                                        {{ trans('global.edit') }}
-                                    </a>
-                                @endcan
-
-                                @can('tuition_package_delete')
-                                    <form action="{{ route('admin.tuition-packages.destroy', $tuitionPackage->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                                    </form>
-                                @endcan
-
-                            </td>
-
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+                    </th>
+                    <th>
+                        {{ trans('cruds.tuitionPackage.fields.id') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.tuitionPackage.fields.name') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.tuitionPackage.fields.price') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.tuitionPackage.fields.total_minute') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.tuitionPackage.fields.lesson_category') }}
+                    </th>
+                    <th>
+                        &nbsp;
+                    </th>
+                </tr>
+            </thead>
+        </table>
     </div>
 </div>
 
@@ -103,14 +54,14 @@
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
 @can('tuition_package_delete')
-  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
+  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}';
   let deleteButton = {
     text: deleteButtonTrans,
     url: "{{ route('admin.tuition-packages.massDestroy') }}",
     className: 'btn-danger',
     action: function (e, dt, node, config) {
-      var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
-          return $(entry).data('entry-id')
+      var ids = $.map(dt.rows({ selected: true }).data(), function (entry) {
+          return entry.id
       });
 
       if (ids.length === 0) {
@@ -132,18 +83,33 @@
   dtButtons.push(deleteButton)
 @endcan
 
-  $.extend(true, $.fn.dataTable.defaults, {
+  let dtOverrideGlobals = {
+    buttons: dtButtons,
+    processing: true,
+    serverSide: true,
+    retrieve: true,
+    aaSorting: [],
+    ajax: "{{ route('admin.tuition-packages.index') }}",
+    columns: [
+      { data: 'placeholder', name: 'placeholder' },
+{ data: 'id', name: 'id' },
+{ data: 'name', name: 'name' },
+{ data: 'price', name: 'price' },
+{ data: 'total_minute', name: 'total_minute' },
+{ data: 'lesson_category_name', name: 'lesson_category.name' },
+{ data: 'actions', name: '{{ trans('global.actions') }}' }
+    ],
     orderCellsTop: true,
     order: [[ 1, 'desc' ]],
     pageLength: 100,
-  });
-  let table = $('.datatable-TuitionPackage:not(.ajaxTable)').DataTable({ buttons: dtButtons })
+  };
+  let table = $('.datatable-TuitionPackage').DataTable(dtOverrideGlobals);
   $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
   
-})
+});
 
 </script>
 @endsection

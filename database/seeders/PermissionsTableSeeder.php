@@ -468,6 +468,46 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'id'    => 115,
+                'title' => 'coach_detail_create',
+            ],
+            [
+                'id'    => 116,
+                'title' => 'coach_detail_edit',
+            ],
+            [
+                'id'    => 117,
+                'title' => 'coach_detail_show',
+            ],
+            [
+                'id'    => 118,
+                'title' => 'coach_detail_delete',
+            ],
+            [
+                'id'    => 119,
+                'title' => 'coach_detail_access',
+            ],
+            [
+                'id'    => 120,
+                'title' => 'coach_metum_create',
+            ],
+            [
+                'id'    => 121,
+                'title' => 'coach_metum_edit',
+            ],
+            [
+                'id'    => 122,
+                'title' => 'coach_metum_show',
+            ],
+            [
+                'id'    => 123,
+                'title' => 'coach_metum_delete',
+            ],
+            [
+                'id'    => 124,
+                'title' => 'coach_metum_access',
+            ],
+            [
+                'id'    => 125,
                 'title' => 'profile_password_edit',
             ],
         ];

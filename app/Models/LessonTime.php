@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use \DateTimeInterface;
+use App\Traits\Auditable;
+use App\Traits\MultiTenantModelTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,6 +13,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class LessonTime extends Model
 {
     use SoftDeletes;
+    use MultiTenantModelTrait;
+    use Auditable;
     use HasFactory;
 
     public $table = 'lesson_times';
@@ -33,10 +37,11 @@ class LessonTime extends Model
         'leaved_at',
         'class_room_id',
         'lesson_id',
-        'student_id',
+        'student_efk',
         'created_at',
         'updated_at',
         'deleted_at',
+        'created_by_id',
     ];
 
     public function getDateFromAttribute($value)
@@ -89,9 +94,9 @@ class LessonTime extends Model
         return $this->belongsTo(Lesson::class, 'lesson_id');
     }
 
-    public function student()
+    public function created_by()
     {
-        return $this->belongsTo(User::class, 'student_id');
+        return $this->belongsTo(User::class, 'created_by_id');
     }
 
     protected function serializeDate(DateTimeInterface $date)

@@ -14,6 +14,7 @@ class CreateSubmissionsTable extends Migration
             $table->datetime('submit_at')->nullable();
             $table->float('mark', 15, 2)->nullable();
             $table->datetime('mark_at')->nullable();
+            $table->integer('student_efk');
             $table->timestamps();
             $table->softDeletes();
         });

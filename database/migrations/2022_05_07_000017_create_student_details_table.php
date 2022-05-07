@@ -15,6 +15,7 @@ class CreateStudentDetailsTable extends Migration
             $table->string('parent_phone')->nullable();
             $table->string('group');
             $table->boolean('is_disabled')->default(0);
+            $table->integer('student_efk');
             $table->timestamps();
             $table->softDeletes();
         });

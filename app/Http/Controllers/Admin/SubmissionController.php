@@ -8,20 +8,67 @@ use App\Http\Requests\StoreSubmissionRequest;
 use App\Http\Requests\UpdateSubmissionRequest;
 use App\Models\StudentWork;
 use App\Models\Submission;
-use App\Models\User;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Yajra\DataTables\Facades\DataTables;
 
 class SubmissionController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         abort_if(Gate::denies('submission_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $submissions = Submission::with(['student_work', 'student'])->get();
+        if ($request->ajax()) {
+            $query = Submission::with(['student_work', 'created_by'])->select(sprintf('%s.*', (new Submission())->table));
+            $table = Datatables::of($query);
 
-        return view('admin.submissions.index', compact('submissions'));
+            $table->addColumn('placeholder', '&nbsp;');
+            $table->addColumn('actions', '&nbsp;');
+
+            $table->editColumn('actions', function ($row) {
+                $viewGate = 'submission_show';
+                $editGate = 'submission_edit';
+                $deleteGate = 'submission_delete';
+                $crudRoutePart = 'submissions';
+
+                return view('partials.datatablesActions', compact(
+                'viewGate',
+                'editGate',
+                'deleteGate',
+                'crudRoutePart',
+                'row'
+            ));
+            });
+
+            $table->editColumn('id', function ($row) {
+                return $row->id ? $row->id : '';
+            });
+            $table->editColumn('status', function ($row) {
+                return $row->status ? Submission::STATUS_SELECT[$row->status] : '';
+            });
+
+            $table->editColumn('mark', function ($row) {
+                return $row->mark ? $row->mark : '';
+            });
+
+            $table->addColumn('student_work_title', function ($row) {
+                return $row->student_work ? $row->student_work->title : '';
+            });
+
+            $table->editColumn('student_work.title', function ($row) {
+                return $row->student_work ? (is_string($row->student_work) ? $row->student_work : $row->student_work->title) : '';
+            });
+            $table->editColumn('student_efk', function ($row) {
+                return $row->student_efk ? $row->student_efk : '';
+            });
+
+            $table->rawColumns(['actions', 'placeholder', 'student_work']);
+
+            return $table->make(true);
+        }
+
+        return view('admin.submissions.index');
     }
 
     public function create()
@@ -30,9 +77,7 @@ class SubmissionController extends Controller
 
         $student_works = StudentWork::pluck('title', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $students = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        return view('admin.submissions.create', compact('student_works', 'students'));
+        return view('admin.submissions.create', compact('student_works'));
     }
 
     public function store(StoreSubmissionRequest $request)
@@ -48,11 +93,9 @@ class SubmissionController extends Controller
 
         $student_works = StudentWork::pluck('title', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $students = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $submission->load('student_work', 'created_by');
 
-        $submission->load('student_work', 'student');
-
-        return view('admin.submissions.edit', compact('student_works', 'students', 'submission'));
+        return view('admin.submissions.edit', compact('student_works', 'submission'));
     }
 
     public function update(UpdateSubmissionRequest $request, Submission $submission)
@@ -66,7 +109,7 @@ class SubmissionController extends Controller
     {
         abort_if(Gate::denies('submission_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $submission->load('student_work', 'student');
+        $submission->load('student_work', 'created_by');
 
         return view('admin.submissions.show', compact('submission'));
     }

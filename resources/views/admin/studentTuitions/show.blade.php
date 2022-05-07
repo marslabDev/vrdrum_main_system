@@ -41,10 +41,10 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.studentTuition.fields.student') }}
+                            {{ trans('cruds.studentTuition.fields.student_efk') }}
                         </th>
                         <td>
-                            {{ $studentTuition->student->name ?? '' }}
+                            {{ $studentTuition->student_efk }}
                         </td>
                     </tr>
                 </tbody>

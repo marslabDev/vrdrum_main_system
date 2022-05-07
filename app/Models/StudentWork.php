@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use \DateTimeInterface;
+use App\Traits\Auditable;
+use App\Traits\MultiTenantModelTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,6 +13,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class StudentWork extends Model
 {
     use SoftDeletes;
+    use MultiTenantModelTrait;
+    use Auditable;
     use HasFactory;
 
     public const CATEGORY_SELECT = [
@@ -41,6 +45,7 @@ class StudentWork extends Model
         'created_at',
         'updated_at',
         'deleted_at',
+        'created_by_id',
     ];
 
     public function getStartAtAttribute($value)
@@ -66,6 +71,11 @@ class StudentWork extends Model
     public function lesson_time()
     {
         return $this->belongsTo(LessonTime::class, 'lesson_time_id');
+    }
+
+    public function created_by()
+    {
+        return $this->belongsTo(User::class, 'created_by_id');
     }
 
     protected function serializeDate(DateTimeInterface $date)

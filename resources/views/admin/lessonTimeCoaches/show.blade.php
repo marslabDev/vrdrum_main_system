@@ -33,10 +33,10 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.lessonTimeCoach.fields.coach') }}
+                            {{ trans('cruds.lessonTimeCoach.fields.coach_efk') }}
                         </th>
                         <td>
-                            {{ $lessonTimeCoach->coach->name ?? '' }}
+                            {{ $lessonTimeCoach->coach_efk }}
                         </td>
                     </tr>
                 </tbody>

@@ -15,100 +15,42 @@
     </div>
 
     <div class="card-body">
-        <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-Submission">
-                <thead>
-                    <tr>
-                        <th width="10">
+        <table class=" table table-bordered table-striped table-hover ajaxTable datatable datatable-Submission">
+            <thead>
+                <tr>
+                    <th width="10">
 
-                        </th>
-                        <th>
-                            {{ trans('cruds.submission.fields.id') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.submission.fields.status') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.submission.fields.submit_at') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.submission.fields.mark') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.submission.fields.mark_at') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.submission.fields.student_work') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.studentWork.fields.title') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.submission.fields.student') }}
-                        </th>
-                        <th>
-                            &nbsp;
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($submissions as $key => $submission)
-                        <tr data-entry-id="{{ $submission->id }}">
-                            <td>
-
-                            </td>
-                            <td>
-                                {{ $submission->id ?? '' }}
-                            </td>
-                            <td>
-                                {{ App\Models\Submission::STATUS_SELECT[$submission->status] ?? '' }}
-                            </td>
-                            <td>
-                                {{ $submission->submit_at ?? '' }}
-                            </td>
-                            <td>
-                                {{ $submission->mark ?? '' }}
-                            </td>
-                            <td>
-                                {{ $submission->mark_at ?? '' }}
-                            </td>
-                            <td>
-                                {{ $submission->student_work->title ?? '' }}
-                            </td>
-                            <td>
-                                {{ $submission->student_work->title ?? '' }}
-                            </td>
-                            <td>
-                                {{ $submission->student->name ?? '' }}
-                            </td>
-                            <td>
-                                @can('submission_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.submissions.show', $submission->id) }}">
-                                        {{ trans('global.view') }}
-                                    </a>
-                                @endcan
-
-                                @can('submission_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.submissions.edit', $submission->id) }}">
-                                        {{ trans('global.edit') }}
-                                    </a>
-                                @endcan
-
-                                @can('submission_delete')
-                                    <form action="{{ route('admin.submissions.destroy', $submission->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                                    </form>
-                                @endcan
-
-                            </td>
-
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+                    </th>
+                    <th>
+                        {{ trans('cruds.submission.fields.id') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.submission.fields.status') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.submission.fields.submit_at') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.submission.fields.mark') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.submission.fields.mark_at') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.submission.fields.student_work') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.studentWork.fields.title') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.submission.fields.student_efk') }}
+                    </th>
+                    <th>
+                        &nbsp;
+                    </th>
+                </tr>
+            </thead>
+        </table>
     </div>
 </div>
 
@@ -121,14 +63,14 @@
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
 @can('submission_delete')
-  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
+  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}';
   let deleteButton = {
     text: deleteButtonTrans,
     url: "{{ route('admin.submissions.massDestroy') }}",
     className: 'btn-danger',
     action: function (e, dt, node, config) {
-      var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
-          return $(entry).data('entry-id')
+      var ids = $.map(dt.rows({ selected: true }).data(), function (entry) {
+          return entry.id
       });
 
       if (ids.length === 0) {
@@ -150,18 +92,36 @@
   dtButtons.push(deleteButton)
 @endcan
 
-  $.extend(true, $.fn.dataTable.defaults, {
+  let dtOverrideGlobals = {
+    buttons: dtButtons,
+    processing: true,
+    serverSide: true,
+    retrieve: true,
+    aaSorting: [],
+    ajax: "{{ route('admin.submissions.index') }}",
+    columns: [
+      { data: 'placeholder', name: 'placeholder' },
+{ data: 'id', name: 'id' },
+{ data: 'status', name: 'status' },
+{ data: 'submit_at', name: 'submit_at' },
+{ data: 'mark', name: 'mark' },
+{ data: 'mark_at', name: 'mark_at' },
+{ data: 'student_work_title', name: 'student_work.title' },
+{ data: 'student_work.title', name: 'student_work.title' },
+{ data: 'student_efk', name: 'student_efk' },
+{ data: 'actions', name: '{{ trans('global.actions') }}' }
+    ],
     orderCellsTop: true,
     order: [[ 1, 'desc' ]],
     pageLength: 100,
-  });
-  let table = $('.datatable-Submission:not(.ajaxTable)').DataTable({ buttons: dtButtons })
+  };
+  let table = $('.datatable-Submission').DataTable(dtOverrideGlobals);
   $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
   
-})
+});
 
 </script>
 @endsection

@@ -15,70 +15,27 @@
     </div>
 
     <div class="card-body">
-        <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-LessonTimeCoach">
-                <thead>
-                    <tr>
-                        <th width="10">
+        <table class=" table table-bordered table-striped table-hover ajaxTable datatable datatable-LessonTimeCoach">
+            <thead>
+                <tr>
+                    <th width="10">
 
-                        </th>
-                        <th>
-                            {{ trans('cruds.lessonTimeCoach.fields.id') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.lessonTimeCoach.fields.lesson_time') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.lessonTimeCoach.fields.coach') }}
-                        </th>
-                        <th>
-                            &nbsp;
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($lessonTimeCoaches as $key => $lessonTimeCoach)
-                        <tr data-entry-id="{{ $lessonTimeCoach->id }}">
-                            <td>
-
-                            </td>
-                            <td>
-                                {{ $lessonTimeCoach->id ?? '' }}
-                            </td>
-                            <td>
-                                {{ $lessonTimeCoach->lesson_time->lesson_code ?? '' }}
-                            </td>
-                            <td>
-                                {{ $lessonTimeCoach->coach->name ?? '' }}
-                            </td>
-                            <td>
-                                @can('lesson_time_coach_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.lesson-time-coaches.show', $lessonTimeCoach->id) }}">
-                                        {{ trans('global.view') }}
-                                    </a>
-                                @endcan
-
-                                @can('lesson_time_coach_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.lesson-time-coaches.edit', $lessonTimeCoach->id) }}">
-                                        {{ trans('global.edit') }}
-                                    </a>
-                                @endcan
-
-                                @can('lesson_time_coach_delete')
-                                    <form action="{{ route('admin.lesson-time-coaches.destroy', $lessonTimeCoach->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                                    </form>
-                                @endcan
-
-                            </td>
-
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+                    </th>
+                    <th>
+                        {{ trans('cruds.lessonTimeCoach.fields.id') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.lessonTimeCoach.fields.lesson_time') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.lessonTimeCoach.fields.coach_efk') }}
+                    </th>
+                    <th>
+                        &nbsp;
+                    </th>
+                </tr>
+            </thead>
+        </table>
     </div>
 </div>
 
@@ -91,14 +48,14 @@
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
 @can('lesson_time_coach_delete')
-  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
+  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}';
   let deleteButton = {
     text: deleteButtonTrans,
     url: "{{ route('admin.lesson-time-coaches.massDestroy') }}",
     className: 'btn-danger',
     action: function (e, dt, node, config) {
-      var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
-          return $(entry).data('entry-id')
+      var ids = $.map(dt.rows({ selected: true }).data(), function (entry) {
+          return entry.id
       });
 
       if (ids.length === 0) {
@@ -120,18 +77,31 @@
   dtButtons.push(deleteButton)
 @endcan
 
-  $.extend(true, $.fn.dataTable.defaults, {
+  let dtOverrideGlobals = {
+    buttons: dtButtons,
+    processing: true,
+    serverSide: true,
+    retrieve: true,
+    aaSorting: [],
+    ajax: "{{ route('admin.lesson-time-coaches.index') }}",
+    columns: [
+      { data: 'placeholder', name: 'placeholder' },
+{ data: 'id', name: 'id' },
+{ data: 'lesson_time_lesson_code', name: 'lesson_time.lesson_code' },
+{ data: 'coach_efk', name: 'coach_efk' },
+{ data: 'actions', name: '{{ trans('global.actions') }}' }
+    ],
     orderCellsTop: true,
     order: [[ 1, 'desc' ]],
     pageLength: 100,
-  });
-  let table = $('.datatable-LessonTimeCoach:not(.ajaxTable)').DataTable({ buttons: dtButtons })
+  };
+  let table = $('.datatable-LessonTimeCoach').DataTable(dtOverrideGlobals);
   $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
   
-})
+});
 
 </script>
 @endsection

@@ -11,6 +11,7 @@ class CreateStudentLessonProgressesTable extends Migration
         Schema::create('student_lesson_progresses', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('progress');
+            $table->integer('student_efk');
             $table->timestamps();
             $table->softDeletes();
         });

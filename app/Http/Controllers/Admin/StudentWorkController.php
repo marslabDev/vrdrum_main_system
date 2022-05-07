@@ -11,16 +11,62 @@ use App\Models\StudentWork;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Yajra\DataTables\Facades\DataTables;
 
 class StudentWorkController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         abort_if(Gate::denies('student_work_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $studentWorks = StudentWork::with(['lesson_time'])->get();
+        if ($request->ajax()) {
+            $query = StudentWork::with(['lesson_time', 'created_by'])->select(sprintf('%s.*', (new StudentWork())->table));
+            $table = Datatables::of($query);
 
-        return view('admin.studentWorks.index', compact('studentWorks'));
+            $table->addColumn('placeholder', '&nbsp;');
+            $table->addColumn('actions', '&nbsp;');
+
+            $table->editColumn('actions', function ($row) {
+                $viewGate = 'student_work_show';
+                $editGate = 'student_work_edit';
+                $deleteGate = 'student_work_delete';
+                $crudRoutePart = 'student-works';
+
+                return view('partials.datatablesActions', compact(
+                'viewGate',
+                'editGate',
+                'deleteGate',
+                'crudRoutePart',
+                'row'
+            ));
+            });
+
+            $table->editColumn('id', function ($row) {
+                return $row->id ? $row->id : '';
+            });
+            $table->editColumn('category', function ($row) {
+                return $row->category ? StudentWork::CATEGORY_SELECT[$row->category] : '';
+            });
+            $table->editColumn('title', function ($row) {
+                return $row->title ? $row->title : '';
+            });
+            $table->editColumn('desc', function ($row) {
+                return $row->desc ? $row->desc : '';
+            });
+
+            $table->editColumn('time_given_minute', function ($row) {
+                return $row->time_given_minute ? $row->time_given_minute : '';
+            });
+            $table->addColumn('lesson_time_lesson_code', function ($row) {
+                return $row->lesson_time ? $row->lesson_time->lesson_code : '';
+            });
+
+            $table->rawColumns(['actions', 'placeholder', 'lesson_time']);
+
+            return $table->make(true);
+        }
+
+        return view('admin.studentWorks.index');
     }
 
     public function create()
@@ -45,7 +91,7 @@ class StudentWorkController extends Controller
 
         $lesson_times = LessonTime::pluck('lesson_code', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $studentWork->load('lesson_time');
+        $studentWork->load('lesson_time', 'created_by');
 
         return view('admin.studentWorks.edit', compact('lesson_times', 'studentWork'));
     }
@@ -61,7 +107,7 @@ class StudentWorkController extends Controller
     {
         abort_if(Gate::denies('student_work_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $studentWork->load('lesson_time');
+        $studentWork->load('lesson_time', 'created_by');
 
         return view('admin.studentWorks.show', compact('studentWork'));
     }

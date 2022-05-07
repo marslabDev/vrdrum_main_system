@@ -8,20 +8,59 @@ use App\Http\Requests\StoreStudentTuitionRequest;
 use App\Http\Requests\UpdateStudentTuitionRequest;
 use App\Models\StudentTuition;
 use App\Models\TuitionPackage;
-use App\Models\User;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Yajra\DataTables\Facades\DataTables;
 
 class StudentTuitionController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         abort_if(Gate::denies('student_tuition_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $studentTuitions = StudentTuition::with(['tuition_package', 'student'])->get();
+        if ($request->ajax()) {
+            $query = StudentTuition::with(['tuition_package', 'created_by'])->select(sprintf('%s.*', (new StudentTuition())->table));
+            $table = Datatables::of($query);
 
-        return view('admin.studentTuitions.index', compact('studentTuitions'));
+            $table->addColumn('placeholder', '&nbsp;');
+            $table->addColumn('actions', '&nbsp;');
+
+            $table->editColumn('actions', function ($row) {
+                $viewGate = 'student_tuition_show';
+                $editGate = 'student_tuition_edit';
+                $deleteGate = 'student_tuition_delete';
+                $crudRoutePart = 'student-tuitions';
+
+                return view('partials.datatablesActions', compact(
+                'viewGate',
+                'editGate',
+                'deleteGate',
+                'crudRoutePart',
+                'row'
+            ));
+            });
+
+            $table->editColumn('id', function ($row) {
+                return $row->id ? $row->id : '';
+            });
+            $table->editColumn('minute_left', function ($row) {
+                return $row->minute_left ? $row->minute_left : '';
+            });
+            $table->addColumn('tuition_package_name', function ($row) {
+                return $row->tuition_package ? $row->tuition_package->name : '';
+            });
+
+            $table->editColumn('student_efk', function ($row) {
+                return $row->student_efk ? $row->student_efk : '';
+            });
+
+            $table->rawColumns(['actions', 'placeholder', 'tuition_package']);
+
+            return $table->make(true);
+        }
+
+        return view('admin.studentTuitions.index');
     }
 
     public function create()
@@ -30,9 +69,7 @@ class StudentTuitionController extends Controller
 
         $tuition_packages = TuitionPackage::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $students = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        return view('admin.studentTuitions.create', compact('students', 'tuition_packages'));
+        return view('admin.studentTuitions.create', compact('tuition_packages'));
     }
 
     public function store(StoreStudentTuitionRequest $request)
@@ -48,11 +85,9 @@ class StudentTuitionController extends Controller
 
         $tuition_packages = TuitionPackage::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $students = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $studentTuition->load('tuition_package', 'created_by');
 
-        $studentTuition->load('tuition_package', 'student');
-
-        return view('admin.studentTuitions.edit', compact('studentTuition', 'students', 'tuition_packages'));
+        return view('admin.studentTuitions.edit', compact('studentTuition', 'tuition_packages'));
     }
 
     public function update(UpdateStudentTuitionRequest $request, StudentTuition $studentTuition)
@@ -66,7 +101,7 @@ class StudentTuitionController extends Controller
     {
         abort_if(Gate::denies('student_tuition_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $studentTuition->load('tuition_package', 'student');
+        $studentTuition->load('tuition_package', 'created_by');
 
         return view('admin.studentTuitions.show', compact('studentTuition'));
     }

@@ -11,16 +11,58 @@ use App\Models\TuitionPackage;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Yajra\DataTables\Facades\DataTables;
 
 class TuitionPackageController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         abort_if(Gate::denies('tuition_package_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $tuitionPackages = TuitionPackage::with(['lesson_category'])->get();
+        if ($request->ajax()) {
+            $query = TuitionPackage::with(['lesson_category', 'created_by'])->select(sprintf('%s.*', (new TuitionPackage())->table));
+            $table = Datatables::of($query);
 
-        return view('admin.tuitionPackages.index', compact('tuitionPackages'));
+            $table->addColumn('placeholder', '&nbsp;');
+            $table->addColumn('actions', '&nbsp;');
+
+            $table->editColumn('actions', function ($row) {
+                $viewGate = 'tuition_package_show';
+                $editGate = 'tuition_package_edit';
+                $deleteGate = 'tuition_package_delete';
+                $crudRoutePart = 'tuition-packages';
+
+                return view('partials.datatablesActions', compact(
+                'viewGate',
+                'editGate',
+                'deleteGate',
+                'crudRoutePart',
+                'row'
+            ));
+            });
+
+            $table->editColumn('id', function ($row) {
+                return $row->id ? $row->id : '';
+            });
+            $table->editColumn('name', function ($row) {
+                return $row->name ? $row->name : '';
+            });
+            $table->editColumn('price', function ($row) {
+                return $row->price ? $row->price : '';
+            });
+            $table->editColumn('total_minute', function ($row) {
+                return $row->total_minute ? $row->total_minute : '';
+            });
+            $table->addColumn('lesson_category_name', function ($row) {
+                return $row->lesson_category ? $row->lesson_category->name : '';
+            });
+
+            $table->rawColumns(['actions', 'placeholder', 'lesson_category']);
+
+            return $table->make(true);
+        }
+
+        return view('admin.tuitionPackages.index');
     }
 
     public function create()
@@ -45,7 +87,7 @@ class TuitionPackageController extends Controller
 
         $lesson_categories = LessonCategory::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $tuitionPackage->load('lesson_category');
+        $tuitionPackage->load('lesson_category', 'created_by');
 
         return view('admin.tuitionPackages.edit', compact('lesson_categories', 'tuitionPackage'));
     }
@@ -61,7 +103,7 @@ class TuitionPackageController extends Controller
     {
         abort_if(Gate::denies('tuition_package_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $tuitionPackage->load('lesson_category');
+        $tuitionPackage->load('lesson_category', 'created_by');
 
         return view('admin.tuitionPackages.show', compact('tuitionPackage'));
     }

@@ -15,77 +15,30 @@
     </div>
 
     <div class="card-body">
-        <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-ClassRoom">
-                <thead>
-                    <tr>
-                        <th width="10">
+        <table class=" table table-bordered table-striped table-hover ajaxTable datatable datatable-ClassRoom">
+            <thead>
+                <tr>
+                    <th width="10">
 
-                        </th>
-                        <th>
-                            {{ trans('cruds.classRoom.fields.id') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.classRoom.fields.room_title') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.classRoom.fields.is_available') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.classRoom.fields.branch_efk') }}
-                        </th>
-                        <th>
-                            &nbsp;
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($classRooms as $key => $classRoom)
-                        <tr data-entry-id="{{ $classRoom->id }}">
-                            <td>
-
-                            </td>
-                            <td>
-                                {{ $classRoom->id ?? '' }}
-                            </td>
-                            <td>
-                                {{ $classRoom->room_title ?? '' }}
-                            </td>
-                            <td>
-                                <span style="display:none">{{ $classRoom->is_available ?? '' }}</span>
-                                <input type="checkbox" disabled="disabled" {{ $classRoom->is_available ? 'checked' : '' }}>
-                            </td>
-                            <td>
-                                {{ $classRoom->branch_efk ?? '' }}
-                            </td>
-                            <td>
-                                @can('class_room_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.class-rooms.show', $classRoom->id) }}">
-                                        {{ trans('global.view') }}
-                                    </a>
-                                @endcan
-
-                                @can('class_room_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.class-rooms.edit', $classRoom->id) }}">
-                                        {{ trans('global.edit') }}
-                                    </a>
-                                @endcan
-
-                                @can('class_room_delete')
-                                    <form action="{{ route('admin.class-rooms.destroy', $classRoom->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                                    </form>
-                                @endcan
-
-                            </td>
-
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+                    </th>
+                    <th>
+                        {{ trans('cruds.classRoom.fields.id') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.classRoom.fields.room_title') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.classRoom.fields.is_available') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.classRoom.fields.branch_efk') }}
+                    </th>
+                    <th>
+                        &nbsp;
+                    </th>
+                </tr>
+            </thead>
+        </table>
     </div>
 </div>
 
@@ -98,14 +51,14 @@
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
 @can('class_room_delete')
-  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
+  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}';
   let deleteButton = {
     text: deleteButtonTrans,
     url: "{{ route('admin.class-rooms.massDestroy') }}",
     className: 'btn-danger',
     action: function (e, dt, node, config) {
-      var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
-          return $(entry).data('entry-id')
+      var ids = $.map(dt.rows({ selected: true }).data(), function (entry) {
+          return entry.id
       });
 
       if (ids.length === 0) {
@@ -127,18 +80,32 @@
   dtButtons.push(deleteButton)
 @endcan
 
-  $.extend(true, $.fn.dataTable.defaults, {
+  let dtOverrideGlobals = {
+    buttons: dtButtons,
+    processing: true,
+    serverSide: true,
+    retrieve: true,
+    aaSorting: [],
+    ajax: "{{ route('admin.class-rooms.index') }}",
+    columns: [
+      { data: 'placeholder', name: 'placeholder' },
+{ data: 'id', name: 'id' },
+{ data: 'room_title', name: 'room_title' },
+{ data: 'is_available', name: 'is_available' },
+{ data: 'branch_efk', name: 'branch_efk' },
+{ data: 'actions', name: '{{ trans('global.actions') }}' }
+    ],
     orderCellsTop: true,
     order: [[ 1, 'desc' ]],
     pageLength: 100,
-  });
-  let table = $('.datatable-ClassRoom:not(.ajaxTable)').DataTable({ buttons: dtButtons })
+  };
+  let table = $('.datatable-ClassRoom').DataTable(dtOverrideGlobals);
   $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
   
-})
+});
 
 </script>
 @endsection

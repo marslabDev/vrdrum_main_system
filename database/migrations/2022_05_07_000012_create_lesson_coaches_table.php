@@ -10,6 +10,7 @@ class CreateLessonCoachesTable extends Migration
     {
         Schema::create('lesson_coaches', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('coach_efk');
             $table->timestamps();
             $table->softDeletes();
         });

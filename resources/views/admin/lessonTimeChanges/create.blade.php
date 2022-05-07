@@ -72,18 +72,14 @@
                 <span class="help-block">{{ trans('cruds.lessonTimeChange.fields.lesson_helper') }}</span>
             </div>
             <div class="form-group">
-                <label for="student_id">{{ trans('cruds.lessonTimeChange.fields.student') }}</label>
-                <select class="form-control select2 {{ $errors->has('student') ? 'is-invalid' : '' }}" name="student_id" id="student_id">
-                    @foreach($students as $id => $entry)
-                        <option value="{{ $id }}" {{ old('student_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('student'))
+                <label class="required" for="student_efk">{{ trans('cruds.lessonTimeChange.fields.student_efk') }}</label>
+                <input class="form-control {{ $errors->has('student_efk') ? 'is-invalid' : '' }}" type="number" name="student_efk" id="student_efk" value="{{ old('student_efk', '') }}" step="1" required>
+                @if($errors->has('student_efk'))
                     <div class="invalid-feedback">
-                        {{ $errors->first('student') }}
+                        {{ $errors->first('student_efk') }}
                     </div>
                 @endif
-                <span class="help-block">{{ trans('cruds.lessonTimeChange.fields.student_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.lessonTimeChange.fields.student_efk_helper') }}</span>
             </div>
             <div class="form-group">
                 <label for="status">{{ trans('cruds.lessonTimeChange.fields.status') }}</label>
@@ -106,18 +102,14 @@
                 <span class="help-block">{{ trans('cruds.lessonTimeChange.fields.request_date_helper') }}</span>
             </div>
             <div class="form-group">
-                <label for="request_user_id">{{ trans('cruds.lessonTimeChange.fields.request_user') }}</label>
-                <select class="form-control select2 {{ $errors->has('request_user') ? 'is-invalid' : '' }}" name="request_user_id" id="request_user_id">
-                    @foreach($request_users as $id => $entry)
-                        <option value="{{ $id }}" {{ old('request_user_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('request_user'))
+                <label class="required" for="request_user_efk">{{ trans('cruds.lessonTimeChange.fields.request_user_efk') }}</label>
+                <input class="form-control {{ $errors->has('request_user_efk') ? 'is-invalid' : '' }}" type="number" name="request_user_efk" id="request_user_efk" value="{{ old('request_user_efk', '') }}" step="1" required>
+                @if($errors->has('request_user_efk'))
                     <div class="invalid-feedback">
-                        {{ $errors->first('request_user') }}
+                        {{ $errors->first('request_user_efk') }}
                     </div>
                 @endif
-                <span class="help-block">{{ trans('cruds.lessonTimeChange.fields.request_user_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.lessonTimeChange.fields.request_user_efk_helper') }}</span>
             </div>
             <div class="form-group">
                 <label for="response_date">{{ trans('cruds.lessonTimeChange.fields.response_date') }}</label>
@@ -130,18 +122,14 @@
                 <span class="help-block">{{ trans('cruds.lessonTimeChange.fields.response_date_helper') }}</span>
             </div>
             <div class="form-group">
-                <label for="response_user_id">{{ trans('cruds.lessonTimeChange.fields.response_user') }}</label>
-                <select class="form-control select2 {{ $errors->has('response_user') ? 'is-invalid' : '' }}" name="response_user_id" id="response_user_id">
-                    @foreach($response_users as $id => $entry)
-                        <option value="{{ $id }}" {{ old('response_user_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('response_user'))
+                <label for="response_user_efk">{{ trans('cruds.lessonTimeChange.fields.response_user_efk') }}</label>
+                <input class="form-control {{ $errors->has('response_user_efk') ? 'is-invalid' : '' }}" type="number" name="response_user_efk" id="response_user_efk" value="{{ old('response_user_efk', '') }}" step="1">
+                @if($errors->has('response_user_efk'))
                     <div class="invalid-feedback">
-                        {{ $errors->first('response_user') }}
+                        {{ $errors->first('response_user_efk') }}
                     </div>
                 @endif
-                <span class="help-block">{{ trans('cruds.lessonTimeChange.fields.response_user_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.lessonTimeChange.fields.response_user_efk_helper') }}</span>
             </div>
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">

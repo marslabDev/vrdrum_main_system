@@ -12,6 +12,7 @@ class CreateStudentMetaTable extends Migration
             $table->bigIncrements('id');
             $table->string('meta_key');
             $table->string('meta_value')->nullable();
+            $table->integer('student_efk');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -8,20 +8,59 @@ use App\Http\Requests\StoreStudentLessonProgressRequest;
 use App\Http\Requests\UpdateStudentLessonProgressRequest;
 use App\Models\LessonCategory;
 use App\Models\StudentLessonProgress;
-use App\Models\User;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Yajra\DataTables\Facades\DataTables;
 
 class StudentLessonProgressController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         abort_if(Gate::denies('student_lesson_progress_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $studentLessonProgresses = StudentLessonProgress::with(['lesson_category', 'student'])->get();
+        if ($request->ajax()) {
+            $query = StudentLessonProgress::with(['lesson_category', 'created_by'])->select(sprintf('%s.*', (new StudentLessonProgress())->table));
+            $table = Datatables::of($query);
 
-        return view('admin.studentLessonProgresses.index', compact('studentLessonProgresses'));
+            $table->addColumn('placeholder', '&nbsp;');
+            $table->addColumn('actions', '&nbsp;');
+
+            $table->editColumn('actions', function ($row) {
+                $viewGate = 'student_lesson_progress_show';
+                $editGate = 'student_lesson_progress_edit';
+                $deleteGate = 'student_lesson_progress_delete';
+                $crudRoutePart = 'student-lesson-progresses';
+
+                return view('partials.datatablesActions', compact(
+                'viewGate',
+                'editGate',
+                'deleteGate',
+                'crudRoutePart',
+                'row'
+            ));
+            });
+
+            $table->editColumn('id', function ($row) {
+                return $row->id ? $row->id : '';
+            });
+            $table->editColumn('progress', function ($row) {
+                return $row->progress ? $row->progress : '';
+            });
+            $table->addColumn('lesson_category_name', function ($row) {
+                return $row->lesson_category ? $row->lesson_category->name : '';
+            });
+
+            $table->editColumn('student_efk', function ($row) {
+                return $row->student_efk ? $row->student_efk : '';
+            });
+
+            $table->rawColumns(['actions', 'placeholder', 'lesson_category']);
+
+            return $table->make(true);
+        }
+
+        return view('admin.studentLessonProgresses.index');
     }
 
     public function create()
@@ -30,9 +69,7 @@ class StudentLessonProgressController extends Controller
 
         $lesson_categories = LessonCategory::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $students = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        return view('admin.studentLessonProgresses.create', compact('lesson_categories', 'students'));
+        return view('admin.studentLessonProgresses.create', compact('lesson_categories'));
     }
 
     public function store(StoreStudentLessonProgressRequest $request)
@@ -48,11 +85,9 @@ class StudentLessonProgressController extends Controller
 
         $lesson_categories = LessonCategory::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $students = User::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $studentLessonProgress->load('lesson_category', 'created_by');
 
-        $studentLessonProgress->load('lesson_category', 'student');
-
-        return view('admin.studentLessonProgresses.edit', compact('lesson_categories', 'studentLessonProgress', 'students'));
+        return view('admin.studentLessonProgresses.edit', compact('lesson_categories', 'studentLessonProgress'));
     }
 
     public function update(UpdateStudentLessonProgressRequest $request, StudentLessonProgress $studentLessonProgress)
@@ -66,7 +101,7 @@ class StudentLessonProgressController extends Controller
     {
         abort_if(Gate::denies('student_lesson_progress_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $studentLessonProgress->load('lesson_category', 'student');
+        $studentLessonProgress->load('lesson_category', 'created_by');
 
         return view('admin.studentLessonProgresses.show', compact('studentLessonProgress'));
     }

@@ -16,6 +16,13 @@ class StoreLessonTimeCoachRequest extends FormRequest
 
     public function rules()
     {
-        return [];
+        return [
+            'coach_efk' => [
+                'required',
+                'integer',
+                'min:-2147483648',
+                'max:2147483647',
+            ],
+        ];
     }
 }

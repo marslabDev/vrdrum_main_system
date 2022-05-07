@@ -15,70 +15,27 @@
     </div>
 
     <div class="card-body">
-        <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-LessonCategory">
-                <thead>
-                    <tr>
-                        <th width="10">
+        <table class=" table table-bordered table-striped table-hover ajaxTable datatable datatable-LessonCategory">
+            <thead>
+                <tr>
+                    <th width="10">
 
-                        </th>
-                        <th>
-                            {{ trans('cruds.lessonCategory.fields.id') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.lessonCategory.fields.name') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.lessonCategory.fields.desc') }}
-                        </th>
-                        <th>
-                            &nbsp;
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($lessonCategories as $key => $lessonCategory)
-                        <tr data-entry-id="{{ $lessonCategory->id }}">
-                            <td>
-
-                            </td>
-                            <td>
-                                {{ $lessonCategory->id ?? '' }}
-                            </td>
-                            <td>
-                                {{ $lessonCategory->name ?? '' }}
-                            </td>
-                            <td>
-                                {{ $lessonCategory->desc ?? '' }}
-                            </td>
-                            <td>
-                                @can('lesson_category_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.lesson-categories.show', $lessonCategory->id) }}">
-                                        {{ trans('global.view') }}
-                                    </a>
-                                @endcan
-
-                                @can('lesson_category_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.lesson-categories.edit', $lessonCategory->id) }}">
-                                        {{ trans('global.edit') }}
-                                    </a>
-                                @endcan
-
-                                @can('lesson_category_delete')
-                                    <form action="{{ route('admin.lesson-categories.destroy', $lessonCategory->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                                    </form>
-                                @endcan
-
-                            </td>
-
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+                    </th>
+                    <th>
+                        {{ trans('cruds.lessonCategory.fields.id') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.lessonCategory.fields.name') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.lessonCategory.fields.desc') }}
+                    </th>
+                    <th>
+                        &nbsp;
+                    </th>
+                </tr>
+            </thead>
+        </table>
     </div>
 </div>
 
@@ -91,14 +48,14 @@
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
 @can('lesson_category_delete')
-  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
+  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}';
   let deleteButton = {
     text: deleteButtonTrans,
     url: "{{ route('admin.lesson-categories.massDestroy') }}",
     className: 'btn-danger',
     action: function (e, dt, node, config) {
-      var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
-          return $(entry).data('entry-id')
+      var ids = $.map(dt.rows({ selected: true }).data(), function (entry) {
+          return entry.id
       });
 
       if (ids.length === 0) {
@@ -120,18 +77,31 @@
   dtButtons.push(deleteButton)
 @endcan
 
-  $.extend(true, $.fn.dataTable.defaults, {
+  let dtOverrideGlobals = {
+    buttons: dtButtons,
+    processing: true,
+    serverSide: true,
+    retrieve: true,
+    aaSorting: [],
+    ajax: "{{ route('admin.lesson-categories.index') }}",
+    columns: [
+      { data: 'placeholder', name: 'placeholder' },
+{ data: 'id', name: 'id' },
+{ data: 'name', name: 'name' },
+{ data: 'desc', name: 'desc' },
+{ data: 'actions', name: '{{ trans('global.actions') }}' }
+    ],
     orderCellsTop: true,
     order: [[ 1, 'desc' ]],
     pageLength: 100,
-  });
-  let table = $('.datatable-LessonCategory:not(.ajaxTable)').DataTable({ buttons: dtButtons })
+  };
+  let table = $('.datatable-LessonCategory').DataTable(dtOverrideGlobals);
   $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
   
-})
+});
 
 </script>
 @endsection

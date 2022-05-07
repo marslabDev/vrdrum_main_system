@@ -36,6 +36,12 @@ class UpdateStudentDetailRequest extends FormRequest
             'is_disabled' => [
                 'required',
             ],
+            'student_efk' => [
+                'required',
+                'integer',
+                'min:-2147483648',
+                'max:2147483647',
+            ],
         ];
     }
 }

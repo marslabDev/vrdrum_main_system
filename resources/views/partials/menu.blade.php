@@ -166,6 +166,38 @@
                 </ul>
             </li>
         @endcan
+        @can('coach_management_access')
+            <li class="c-sidebar-nav-dropdown {{ request()->is("admin/coach-details*") ? "c-show" : "" }} {{ request()->is("admin/coach-meta*") ? "c-show" : "" }}">
+                <a class="c-sidebar-nav-dropdown-toggle" href="#">
+                    <i class="fa-fw fas fa-cogs c-sidebar-nav-icon">
+
+                    </i>
+                    {{ trans('cruds.coachManagement.title') }}
+                </a>
+                <ul class="c-sidebar-nav-dropdown-items">
+                    @can('coach_detail_access')
+                        <li class="c-sidebar-nav-item">
+                            <a href="{{ route("admin.coach-details.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/coach-details") || request()->is("admin/coach-details/*") ? "c-active" : "" }}">
+                                <i class="fa-fw fas fa-cogs c-sidebar-nav-icon">
+
+                                </i>
+                                {{ trans('cruds.coachDetail.title') }}
+                            </a>
+                        </li>
+                    @endcan
+                    @can('coach_metum_access')
+                        <li class="c-sidebar-nav-item">
+                            <a href="{{ route("admin.coach-meta.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/coach-meta") || request()->is("admin/coach-meta/*") ? "c-active" : "" }}">
+                                <i class="fa-fw fas fa-cogs c-sidebar-nav-icon">
+
+                                </i>
+                                {{ trans('cruds.coachMetum.title') }}
+                            </a>
+                        </li>
+                    @endcan
+                </ul>
+            </li>
+        @endcan
         @can('tuition_management_access')
             <li class="c-sidebar-nav-dropdown {{ request()->is("admin/tuition-packages*") ? "c-show" : "" }} {{ request()->is("admin/tuition-gifts*") ? "c-show" : "" }} {{ request()->is("admin/student-tuitions*") ? "c-show" : "" }}">
                 <a class="c-sidebar-nav-dropdown-toggle" href="#">

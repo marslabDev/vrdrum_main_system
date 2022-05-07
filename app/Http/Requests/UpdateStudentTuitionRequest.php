@@ -21,6 +21,12 @@ class UpdateStudentTuitionRequest extends FormRequest
                 'numeric',
                 'required',
             ],
+            'student_efk' => [
+                'required',
+                'integer',
+                'min:-2147483648',
+                'max:2147483647',
+            ],
         ];
     }
 }

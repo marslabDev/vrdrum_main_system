@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use \DateTimeInterface;
+use App\Traits\Auditable;
+use App\Traits\MultiTenantModelTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,6 +13,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Submission extends Model
 {
     use SoftDeletes;
+    use MultiTenantModelTrait;
+    use Auditable;
     use HasFactory;
 
     public const STATUS_SELECT = [
@@ -39,10 +43,11 @@ class Submission extends Model
         'mark',
         'mark_at',
         'student_work_id',
-        'student_id',
+        'student_efk',
         'created_at',
         'updated_at',
         'deleted_at',
+        'created_by_id',
     ];
 
     public function getSubmitAtAttribute($value)
@@ -70,9 +75,9 @@ class Submission extends Model
         return $this->belongsTo(StudentWork::class, 'student_work_id');
     }
 
-    public function student()
+    public function created_by()
     {
-        return $this->belongsTo(User::class, 'student_id');
+        return $this->belongsTo(User::class, 'created_by_id');
     }
 
     protected function serializeDate(DateTimeInterface $date)

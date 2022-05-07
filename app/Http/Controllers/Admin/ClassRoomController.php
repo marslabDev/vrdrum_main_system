@@ -10,16 +10,55 @@ use App\Models\ClassRoom;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Yajra\DataTables\Facades\DataTables;
 
 class ClassRoomController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         abort_if(Gate::denies('class_room_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $classRooms = ClassRoom::all();
+        if ($request->ajax()) {
+            $query = ClassRoom::with(['created_by'])->select(sprintf('%s.*', (new ClassRoom())->table));
+            $table = Datatables::of($query);
 
-        return view('admin.classRooms.index', compact('classRooms'));
+            $table->addColumn('placeholder', '&nbsp;');
+            $table->addColumn('actions', '&nbsp;');
+
+            $table->editColumn('actions', function ($row) {
+                $viewGate = 'class_room_show';
+                $editGate = 'class_room_edit';
+                $deleteGate = 'class_room_delete';
+                $crudRoutePart = 'class-rooms';
+
+                return view('partials.datatablesActions', compact(
+                'viewGate',
+                'editGate',
+                'deleteGate',
+                'crudRoutePart',
+                'row'
+            ));
+            });
+
+            $table->editColumn('id', function ($row) {
+                return $row->id ? $row->id : '';
+            });
+            $table->editColumn('room_title', function ($row) {
+                return $row->room_title ? $row->room_title : '';
+            });
+            $table->editColumn('is_available', function ($row) {
+                return '<input type="checkbox" disabled ' . ($row->is_available ? 'checked' : null) . '>';
+            });
+            $table->editColumn('branch_efk', function ($row) {
+                return $row->branch_efk ? $row->branch_efk : '';
+            });
+
+            $table->rawColumns(['actions', 'placeholder', 'is_available']);
+
+            return $table->make(true);
+        }
+
+        return view('admin.classRooms.index');
     }
 
     public function create()
@@ -40,6 +79,8 @@ class ClassRoomController extends Controller
     {
         abort_if(Gate::denies('class_room_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+        $classRoom->load('created_by');
+
         return view('admin.classRooms.edit', compact('classRoom'));
     }
 
@@ -53,6 +94,8 @@ class ClassRoomController extends Controller
     public function show(ClassRoom $classRoom)
     {
         abort_if(Gate::denies('class_room_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $classRoom->load('created_by');
 
         return view('admin.classRooms.show', compact('classRoom'));
     }

@@ -65,10 +65,10 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.lessonTimeChange.fields.student') }}
+                            {{ trans('cruds.lessonTimeChange.fields.student_efk') }}
                         </th>
                         <td>
-                            {{ $lessonTimeChange->student->name ?? '' }}
+                            {{ $lessonTimeChange->student_efk }}
                         </td>
                     </tr>
                     <tr>
@@ -89,10 +89,10 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.lessonTimeChange.fields.request_user') }}
+                            {{ trans('cruds.lessonTimeChange.fields.request_user_efk') }}
                         </th>
                         <td>
-                            {{ $lessonTimeChange->request_user->name ?? '' }}
+                            {{ $lessonTimeChange->request_user_efk }}
                         </td>
                     </tr>
                     <tr>
@@ -105,10 +105,10 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.lessonTimeChange.fields.response_user') }}
+                            {{ trans('cruds.lessonTimeChange.fields.response_user_efk') }}
                         </th>
                         <td>
-                            {{ $lessonTimeChange->response_user->name ?? '' }}
+                            {{ $lessonTimeChange->response_user_efk }}
                         </td>
                     </tr>
                 </tbody>

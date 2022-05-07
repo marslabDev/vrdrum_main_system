@@ -15,124 +15,54 @@
     </div>
 
     <div class="card-body">
-        <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-LessonTimeChange">
-                <thead>
-                    <tr>
-                        <th width="10">
+        <table class=" table table-bordered table-striped table-hover ajaxTable datatable datatable-LessonTimeChange">
+            <thead>
+                <tr>
+                    <th width="10">
 
-                        </th>
-                        <th>
-                            {{ trans('cruds.lessonTimeChange.fields.id') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.lessonTimeChange.fields.old_lesson_time') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.lessonTimeChange.fields.date_from') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.lessonTimeChange.fields.date_to') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.lessonTimeChange.fields.class_room') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.lessonTimeChange.fields.lesson') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.lessonTimeChange.fields.student') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.lessonTimeChange.fields.status') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.lessonTimeChange.fields.request_date') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.lessonTimeChange.fields.request_user') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.lessonTimeChange.fields.response_date') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.lessonTimeChange.fields.response_user') }}
-                        </th>
-                        <th>
-                            &nbsp;
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($lessonTimeChanges as $key => $lessonTimeChange)
-                        <tr data-entry-id="{{ $lessonTimeChange->id }}">
-                            <td>
-
-                            </td>
-                            <td>
-                                {{ $lessonTimeChange->id ?? '' }}
-                            </td>
-                            <td>
-                                {{ $lessonTimeChange->old_lesson_time->lesson_code ?? '' }}
-                            </td>
-                            <td>
-                                {{ $lessonTimeChange->date_from ?? '' }}
-                            </td>
-                            <td>
-                                {{ $lessonTimeChange->date_to ?? '' }}
-                            </td>
-                            <td>
-                                {{ $lessonTimeChange->class_room->room_title ?? '' }}
-                            </td>
-                            <td>
-                                {{ $lessonTimeChange->lesson->name ?? '' }}
-                            </td>
-                            <td>
-                                {{ $lessonTimeChange->student->name ?? '' }}
-                            </td>
-                            <td>
-                                {{ $lessonTimeChange->status ?? '' }}
-                            </td>
-                            <td>
-                                {{ $lessonTimeChange->request_date ?? '' }}
-                            </td>
-                            <td>
-                                {{ $lessonTimeChange->request_user->name ?? '' }}
-                            </td>
-                            <td>
-                                {{ $lessonTimeChange->response_date ?? '' }}
-                            </td>
-                            <td>
-                                {{ $lessonTimeChange->response_user->name ?? '' }}
-                            </td>
-                            <td>
-                                @can('lesson_time_change_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.lesson-time-changes.show', $lessonTimeChange->id) }}">
-                                        {{ trans('global.view') }}
-                                    </a>
-                                @endcan
-
-                                @can('lesson_time_change_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.lesson-time-changes.edit', $lessonTimeChange->id) }}">
-                                        {{ trans('global.edit') }}
-                                    </a>
-                                @endcan
-
-                                @can('lesson_time_change_delete')
-                                    <form action="{{ route('admin.lesson-time-changes.destroy', $lessonTimeChange->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                                    </form>
-                                @endcan
-
-                            </td>
-
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+                    </th>
+                    <th>
+                        {{ trans('cruds.lessonTimeChange.fields.id') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.lessonTimeChange.fields.old_lesson_time') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.lessonTimeChange.fields.date_from') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.lessonTimeChange.fields.date_to') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.lessonTimeChange.fields.class_room') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.lessonTimeChange.fields.lesson') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.lessonTimeChange.fields.student_efk') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.lessonTimeChange.fields.status') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.lessonTimeChange.fields.request_date') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.lessonTimeChange.fields.request_user_efk') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.lessonTimeChange.fields.response_date') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.lessonTimeChange.fields.response_user_efk') }}
+                    </th>
+                    <th>
+                        &nbsp;
+                    </th>
+                </tr>
+            </thead>
+        </table>
     </div>
 </div>
 
@@ -145,14 +75,14 @@
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
 @can('lesson_time_change_delete')
-  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
+  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}';
   let deleteButton = {
     text: deleteButtonTrans,
     url: "{{ route('admin.lesson-time-changes.massDestroy') }}",
     className: 'btn-danger',
     action: function (e, dt, node, config) {
-      var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
-          return $(entry).data('entry-id')
+      var ids = $.map(dt.rows({ selected: true }).data(), function (entry) {
+          return entry.id
       });
 
       if (ids.length === 0) {
@@ -174,18 +104,40 @@
   dtButtons.push(deleteButton)
 @endcan
 
-  $.extend(true, $.fn.dataTable.defaults, {
+  let dtOverrideGlobals = {
+    buttons: dtButtons,
+    processing: true,
+    serverSide: true,
+    retrieve: true,
+    aaSorting: [],
+    ajax: "{{ route('admin.lesson-time-changes.index') }}",
+    columns: [
+      { data: 'placeholder', name: 'placeholder' },
+{ data: 'id', name: 'id' },
+{ data: 'old_lesson_time_lesson_code', name: 'old_lesson_time.lesson_code' },
+{ data: 'date_from', name: 'date_from' },
+{ data: 'date_to', name: 'date_to' },
+{ data: 'class_room_room_title', name: 'class_room.room_title' },
+{ data: 'lesson_name', name: 'lesson.name' },
+{ data: 'student_efk', name: 'student_efk' },
+{ data: 'status', name: 'status' },
+{ data: 'request_date', name: 'request_date' },
+{ data: 'request_user_efk', name: 'request_user_efk' },
+{ data: 'response_date', name: 'response_date' },
+{ data: 'response_user_efk', name: 'response_user_efk' },
+{ data: 'actions', name: '{{ trans('global.actions') }}' }
+    ],
     orderCellsTop: true,
     order: [[ 1, 'desc' ]],
     pageLength: 100,
-  });
-  let table = $('.datatable-LessonTimeChange:not(.ajaxTable)').DataTable({ buttons: dtButtons })
+  };
+  let table = $('.datatable-LessonTimeChange').DataTable(dtOverrideGlobals);
   $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
   
-})
+});
 
 </script>
 @endsection
