@@ -24,6 +24,8 @@ class LessonTimeChangeActionController extends Controller
 {
     public function toApproved($id)
     {
+        abort_if(Gate::denies('lesson_time_change_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
         $lesson_time_change = LessonTimeChange::find($id);
         $lesson_time = LessonTime::find($lesson_time_change->old_lesson_time_id);
 
@@ -68,6 +70,8 @@ class LessonTimeChangeActionController extends Controller
 
     public function toRejected($id)
     {
+        abort_if(Gate::denies('lesson_time_change_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        
         $lesson_time_change = LessonTimeChange::find($id);
 
         // ------------------------------ data assign ------------------------------

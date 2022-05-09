@@ -324,4 +324,6 @@ return [
     'messenger'                      => '信使',
     'approve'                        => 'Approve',
     'reject'                         => 'Reject',
+    'upgrade_level'                  => 'Upgrade Level',
+    'low_level'                      => 'Low Level',
 ];
