@@ -42,8 +42,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('tuition-gifts', 'TuitionGiftController');
 
     // Student Tuition
-    Route::delete('student-tuitions/destroy', 'StudentTuitionController@massDestroy')->name('student-tuitions.massDestroy');
-    Route::resource('student-tuitions', 'StudentTuitionController');
+    Route::delete('student-tuitions/destroy', 'StudentTuitionWithProgressController@massDestroy')->name('student-tuitions.massDestroy');
+    Route::resource('student-tuitions', 'StudentTuitionWithProgressController');
 
     // Lesson Level
     Route::delete('lesson-levels/destroy', 'LessonLevelController@massDestroy')->name('lesson-levels.massDestroy');
@@ -72,6 +72,8 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('lesson-time-changes', 'LessonTimeChangeController');
     
     // Student Lesson Progress
+    Route::post('student-lesson-progresses/{id}/toNextLevel', 'StudentLessonProgressController@toNextLevel')->name('student-lesson-progresses.toNextLevel');
+    Route::post('student-lesson-progresses/{id}/toLowLevel', 'StudentLessonProgressController@toLowLevel')->name('student-lesson-progresses.toLowLevel');
     Route::delete('student-lesson-progresses/destroy', 'StudentLessonProgressController@massDestroy')->name('student-lesson-progresses.massDestroy');
     Route::resource('student-lesson-progresses', 'StudentLessonProgressController');
 

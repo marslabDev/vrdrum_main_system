@@ -49,6 +49,34 @@
                     </tr>
                 </tbody>
             </table>
+            @if($has_next_level)
+            <div style="margin-bottom: 10px;" class="row">
+                <div class="col-lg-12">
+                    <form method="POST" action="{{ route("admin.student-lesson-progresses.toNextLevel", [$studentLessonProgress->id]) }}" enctype="multipart/form-data">
+                        @csrf
+                        <div class="form-group">
+                            <button class="btn btn-danger" type="submit">
+                                {{ trans('global.upgrade_level') }}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            @endif
+            @if($has_low_level)
+            <div style="margin-bottom: 10px;" class="row">
+                <div class="col-lg-12">
+                    <form method="POST" action="{{ route("admin.student-lesson-progresses.toLowLevel", [$studentLessonProgress->id]) }}" enctype="multipart/form-data">
+                        @csrf
+                        <div class="form-group">
+                            <button class="btn btn-danger" type="submit">
+                                {{ trans('global.low_level') }}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            @endif
             <div class="form-group">
                 <a class="btn btn-default" href="{{ route('admin.student-lesson-progresses.index') }}">
                     {{ trans('global.back_to_list') }}
