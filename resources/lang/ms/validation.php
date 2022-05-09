@@ -118,9 +118,12 @@ return [
     'exceeds_maximum_number'         => ':attribute melebihi panjang model maksimum',
     'db_column'                      => ':attribute hanya boleh mengandungi huruf abjad Latin ISO, nombor, sempang dan tidak boleh bermula dengan nombor.',
     'attributes'                     => [],
+<<<<<<< HEAD
     'lesson_category_required'       => 'The Lesson Category is required',
     'total_lesson_required'          => 'When type is lesson, The Lesson is required',
     'quantity_required'              => 'When type is product, The Quantity is required',
     'tuition_package_required'       => 'The Tuition Package is required',
     'inventory_required'             => 'When type is product, The Inventory is required',
+=======
+>>>>>>> upstream/main
 ];

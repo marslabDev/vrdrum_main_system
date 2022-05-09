@@ -108,6 +108,23 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('coach-meta/destroy', 'CoachMetaController@massDestroy')->name('coach-meta.massDestroy');
     Route::resource('coach-meta', 'CoachMetaController');
 
+<<<<<<< HEAD
+=======
+    // Content Category
+    Route::delete('content-categories/destroy', 'ContentCategoryController@massDestroy')->name('content-categories.massDestroy');
+    Route::resource('content-categories', 'ContentCategoryController');
+
+    // Content Tag
+    Route::delete('content-tags/destroy', 'ContentTagController@massDestroy')->name('content-tags.massDestroy');
+    Route::resource('content-tags', 'ContentTagController');
+
+    // Content Page
+    Route::delete('content-pages/destroy', 'ContentPageController@massDestroy')->name('content-pages.massDestroy');
+    Route::post('content-pages/media', 'ContentPageController@storeMedia')->name('content-pages.storeMedia');
+    Route::post('content-pages/ckmedia', 'ContentPageController@storeCKEditorImages')->name('content-pages.storeCKEditorImages');
+    Route::resource('content-pages', 'ContentPageController');
+
+>>>>>>> upstream/main
     Route::get('system-calendar', 'SystemCalendarController@index')->name('systemCalendar');
     Route::get('global-search', 'GlobalSearchController@search')->name('globalSearch');
 });
@@ -120,6 +137,7 @@ Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 
         Route::post('profile/destroy', 'ChangePasswordController@destroy')->name('password.destroyProfile');
     }
 });
+<<<<<<< HEAD
 
 
 Route::group(['prefix' => 'function', 'as' => 'function.', 'namespace' => 'Function\V1', 'middleware' => ['auth']], function () {
@@ -127,3 +145,5 @@ Route::group(['prefix' => 'function', 'as' => 'function.', 'namespace' => 'Funct
     Route::get('get-tuition-with-gift', 'TuitionPakageWithGiftController@index');
 
 });
+=======
+>>>>>>> upstream/main
