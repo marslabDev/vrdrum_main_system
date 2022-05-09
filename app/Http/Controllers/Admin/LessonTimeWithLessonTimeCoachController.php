@@ -19,7 +19,7 @@ use Illuminate\Support\Str;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
 
-class LessonTimeController extends Controller
+class LessonTimeWithLessonTimeCoachController extends Controller
 {
     public function index(Request $request)
     {
@@ -115,12 +115,12 @@ class LessonTimeController extends Controller
             $validated->getMessageBag()->add('lesson', trans('validation.lesson_required'));
         }
 
-        // if (!array_key_exists('coachs_efk', $request_data)){
-        //     $validated->getMessageBag()->add('lesson', trans('validation.coach_required'));
+        if (!array_key_exists('coachs_efk', $request_data)){
+            $validated->getMessageBag()->add('lesson', trans('validation.coach_required'));
 
-        // }else if ($request_data['coachs_efk'] != null && count($request_data['coachs_efk']) <= 0){
-        //     $validated->getMessageBag()->add('lesson', trans('validation.coach_required'));
-        // }
+        }else if ($request_data['coachs_efk'] != null && count($request_data['coachs_efk']) <= 0){
+            $validated->getMessageBag()->add('lesson', trans('validation.coach_required'));
+        }
 
         if($validated->errors()->count() > 0){
             return $this->create($validated->errors());
@@ -151,6 +151,18 @@ class LessonTimeController extends Controller
 
         $lessonTime = LessonTime::create($request_data);
 
+        // ------------------------------ create lesson time coach ------------------------------
+        $coachs_efk = $request_data['coachs_efk'];
+
+        foreach ($coachs_efk as $index => $value){
+            $lesson_time_coach = [
+                'lesson_time_id' => $lessonTime->id,
+                'coach_efk' => $value
+            ];
+
+            LessonTimeCoach::create($lesson_time_coach);
+        }
+        
         return redirect()->route('admin.lesson-times.index');
     }
 
@@ -186,12 +198,12 @@ class LessonTimeController extends Controller
             $validated->getMessageBag()->add('lesson', trans('validation.lesson_required'));
         }
 
-        // if (!array_key_exists('coachs_efk', $request_data)){
-        //     $validated->getMessageBag()->add('lesson', trans('validation.coach_required'));
+        if (!array_key_exists('coachs_efk', $request_data)){
+            $validated->getMessageBag()->add('lesson', trans('validation.coach_required'));
 
-        // }else if ($request_data['coachs_efk'] != null && count($request_data['coachs_efk']) <= 0){
-        //     $validated->getMessageBag()->add('lesson', trans('validation.coach_required'));
-        // }
+        }else if ($request_data['coachs_efk'] != null && count($request_data['coachs_efk']) <= 0){
+            $validated->getMessageBag()->add('lesson', trans('validation.coach_required'));
+        }
 
         if($validated->errors()->count() > 0){
             return $this->edit($lessonTime, $validated->errors());
@@ -204,6 +216,38 @@ class LessonTimeController extends Controller
         $request_data['date_to'] = $dateTo->toDateTimeString();
 
         $lessonTime->update($request_data);
+
+        // ------------------------------ create lesson time coach ------------------------------
+        $current_coachs_efk = LessonTimeCoach::where('lesson_time_id', $lessonTime->id)->get();
+
+        $coachs_efk = $request_data['coachs_efk'];
+
+        // for create new coach & pop the same coach
+        foreach ($coachs_efk as $index => $value){
+            $lesson_time_coach = [
+                'lesson_time_id' => $lessonTime->id,
+                'coach_efk' => $value
+            ];
+
+            $is_found = false;
+
+            foreach ($current_coachs_efk as $current_coach_index => $current_coach_value){
+                if ($current_coach_value->lesson_time_id == $lesson_time_coach['lesson_time_id'] && $current_coach_value->coach_efk == $lesson_time_coach['coach_efk']){
+                    unset($current_coachs_efk[$current_coach_index]);
+                    $is_found = true;
+                    break;
+                }
+            }
+
+            if($is_found == false){
+                LessonTimeCoach::create($lesson_time_coach);
+            }
+        }
+
+        // for delete coach
+        foreach ($current_coachs_efk as $index => $value){
+            LessonTimeCoach::find($value->id)->delete();
+        }
 
         return redirect()->route('admin.lesson-times.index');
     }
@@ -221,7 +265,7 @@ class LessonTimeController extends Controller
             $coachs_efk[$index] = $value->coach_efk;
         }
         $coachs_efk = implode(", ", $coachs_efk);
-        
+
         return view('admin.lessonTimes.show', compact('lessonTime', 'coachs_efk'));
     }
 

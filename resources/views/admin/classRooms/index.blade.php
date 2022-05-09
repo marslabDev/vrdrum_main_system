@@ -30,9 +30,9 @@
                     <th>
                         {{ trans('cruds.classRoom.fields.is_available') }}
                     </th>
-                    <th>
+                    <!-- <th>
                         {{ trans('cruds.classRoom.fields.branch_efk') }}
-                    </th>
+                    </th> -->
                     <th>
                         &nbsp;
                     </th>
@@ -92,7 +92,7 @@
 { data: 'id', name: 'id' },
 { data: 'room_title', name: 'room_title' },
 { data: 'is_available', name: 'is_available' },
-{ data: 'branch_efk', name: 'branch_efk' },
+// { data: 'branch_efk', name: 'branch_efk' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,

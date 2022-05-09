@@ -54,7 +54,7 @@ class TuitionPackageController extends Controller
             });
             $table->editColumn('total_lesson', function ($row) {
                 $total_lesson = $row->total_minute || $row->total_minute == 0 
-                    ? $row->total_minute / config('constants.options.lesson.one_lesson_time') 
+                    ? $row->total_minute / config('constants.lesson.one_lesson_time') 
                     : '';
 
                 $tuitionGifts = TuitionGift::where([
@@ -65,7 +65,7 @@ class TuitionPackageController extends Controller
                 $addition_lesson = 0;
 
                 foreach ($tuitionGifts as $index => $value){
-                    $addition_lesson += $tuitionGifts[$index]->total_minute / config('constants.options.lesson.one_lesson_time');
+                    $addition_lesson += $tuitionGifts[$index]->total_minute / config('constants.lesson.one_lesson_time');
                 }
 
                 return $total_lesson . ($addition_lesson == 0 ? '' : ' + ' .$addition_lesson);
@@ -109,8 +109,8 @@ class TuitionPackageController extends Controller
         }
 
         // ------------------------------ data assign ------------------------------
-        $request_data['total_minute'] = $request_data['total_lesson'] * config('constants.options.lesson.one_lesson_time') ;
-        $request_data['price'] = $request_data['total_lesson'] * config('constants.options.lesson.one_lesson_price') ;
+        $request_data['total_minute'] = $request_data['total_lesson'] * config('constants.lesson.one_lesson_time') ;
+        $request_data['price'] = $request_data['total_lesson'] * config('constants.lesson.one_lesson_price') ;
 
         $tuitionPackage = TuitionPackage::create($request_data);
 
@@ -125,7 +125,7 @@ class TuitionPackageController extends Controller
 
         $tuitionPackage->load('lesson_category', 'created_by');
 
-        $tuitionPackage->total_lesson = $tuitionPackage->total_minute / config('constants.options.lesson.one_lesson_time');
+        $tuitionPackage->total_lesson = $tuitionPackage->total_minute / config('constants.lesson.one_lesson_time');
 
         if($errors != null) return view('admin.tuitionPackages.edit', compact('lesson_categories', 'tuitionPackage', 'errors'));
 
@@ -148,8 +148,8 @@ class TuitionPackageController extends Controller
         }
 
         // ------------------------------ data assign ------------------------------
-        $request_data['total_minute'] = $request_data['total_lesson'] * config('constants.options.lesson.one_lesson_time') ;
-        $request_data['price'] = $request_data['total_lesson'] * config('constants.options.lesson.one_lesson_price') ;
+        $request_data['total_minute'] = $request_data['total_lesson'] * config('constants.lesson.one_lesson_time') ;
+        $request_data['price'] = $request_data['total_lesson'] * config('constants.lesson.one_lesson_price') ;
 
         $tuitionPackage->update($request_data);
 
@@ -162,7 +162,7 @@ class TuitionPackageController extends Controller
 
         $tuitionPackage->load('lesson_category', 'created_by');
 
-        $tuitionPackage->total_lesson = $tuitionPackage->total_minute / config('constants.options.lesson.one_lesson_time');
+        $tuitionPackage->total_lesson = $tuitionPackage->total_minute / config('constants.lesson.one_lesson_time');
 
         return view('admin.tuitionPackages.show', compact('tuitionPackage'));
     }

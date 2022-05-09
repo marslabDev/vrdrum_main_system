@@ -12,7 +12,6 @@ class CreateLessonTimeChangesTable extends Migration
             $table->bigIncrements('id');
             $table->datetime('date_from');
             $table->datetime('date_to');
-            $table->integer('student_efk');
             $table->string('status')->nullable();
             $table->datetime('request_date')->nullable();
             $table->integer('request_user_efk');

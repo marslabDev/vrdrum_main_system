@@ -48,7 +48,7 @@ class StudentTuitionController extends Controller
                 return $row->id ? $row->id : '';
             });
             $table->editColumn('lesson_left', function ($row) {
-                $lesson_left = $row->minute_left ? $row->minute_left / config('constants.options.lesson.one_lesson_time') : '';
+                $lesson_left = $row->minute_left ? $row->minute_left / config('constants.lesson.one_lesson_time') : '';
                 
                 return $lesson_left;
             });

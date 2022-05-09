@@ -322,4 +322,6 @@ return [
     'leave'                          => 'Leave',
     'calendar'                       => '日历',
     'messenger'                      => '信使',
+    'approve'                        => 'Approve',
+    'reject'                         => 'Reject',
 ];

@@ -87,6 +87,14 @@
                             {{ $lessonTime->student_efk }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.lessonTimeCoach.fields.coach_efk') }}
+                        </th>
+                        <td>
+                            {{ $coachs_efk ?? '' }}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">

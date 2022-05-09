@@ -55,6 +55,14 @@
                             {{ $lesson->lesson_level->level ?? '' }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.lessonCoach.fields.coach_efk') }}
+                        </th>
+                        <td>
+                            {{ $coachs_efk ?? '' }}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">

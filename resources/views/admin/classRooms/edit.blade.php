@@ -32,7 +32,7 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.classRoom.fields.is_available_helper') }}</span>
             </div>
-            <div class="form-group">
+            <!-- <div class="form-group">
                 <label for="branch_efk">{{ trans('cruds.classRoom.fields.branch_efk') }}</label>
                 <input class="form-control {{ $errors->has('branch_efk') ? 'is-invalid' : '' }}" type="number" name="branch_efk" id="branch_efk" value="{{ old('branch_efk', $classRoom->branch_efk) }}" step="1">
                 @if($errors->has('branch_efk'))
@@ -41,7 +41,7 @@
                     </div>
                 @endif
                 <span class="help-block">{{ trans('cruds.classRoom.fields.branch_efk_helper') }}</span>
-            </div>
+            </div> -->
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}

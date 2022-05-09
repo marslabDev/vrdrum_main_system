@@ -353,8 +353,6 @@ return [
             'lesson_helper'            => ' ',
             'created_by'               => 'Created By',
             'created_by_helper'        => ' ',
-            'student_efk'              => 'Student',
-            'student_efk_helper'       => ' ',
             'request_user_efk'         => 'Request User',
             'request_user_efk_helper'  => ' ',
             'response_user_efk'        => 'Response User',

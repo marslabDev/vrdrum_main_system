@@ -279,16 +279,6 @@
                             </a>
                         </li>
                     @endcan
-                    @can('lesson_coach_access')
-                        <li class="c-sidebar-nav-item">
-                            <a href="{{ route("admin.lesson-coaches.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/lesson-coaches") || request()->is("admin/lesson-coaches/*") ? "c-active" : "" }}">
-                                <i class="fa-fw fas fa-cogs c-sidebar-nav-icon">
-
-                                </i>
-                                {{ trans('cruds.lessonCoach.title') }}
-                            </a>
-                        </li>
-                    @endcan
                     @can('lesson_time_management_access')
                         <li class="c-sidebar-nav-dropdown {{ request()->is("admin/lesson-times*") ? "c-show" : "" }} {{ request()->is("admin/lesson-time-coaches*") ? "c-show" : "" }} {{ request()->is("admin/lesson-time-changes*") ? "c-show" : "" }}">
                             <a class="c-sidebar-nav-dropdown-toggle" href="#">
@@ -305,16 +295,6 @@
 
                                             </i>
                                             {{ trans('cruds.lessonTime.title') }}
-                                        </a>
-                                    </li>
-                                @endcan
-                                @can('lesson_time_coach_access')
-                                    <li class="c-sidebar-nav-item">
-                                        <a href="{{ route("admin.lesson-time-coaches.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/lesson-time-coaches") || request()->is("admin/lesson-time-coaches/*") ? "c-active" : "" }}">
-                                            <i class="fa-fw fas fa-cogs c-sidebar-nav-icon">
-
-                                            </i>
-                                            {{ trans('cruds.lessonTimeCoach.title') }}
                                         </a>
                                     </li>
                                 @endcan
