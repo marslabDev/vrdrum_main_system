@@ -42,34 +42,38 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('tuition-gifts', 'TuitionGiftController');
 
     // Student Tuition
-    Route::delete('student-tuitions/destroy', 'StudentTuitionController@massDestroy')->name('student-tuitions.massDestroy');
-    Route::resource('student-tuitions', 'StudentTuitionController');
+    Route::delete('student-tuitions/destroy', 'StudentTuitionWithProgressController@massDestroy')->name('student-tuitions.massDestroy');
+    Route::resource('student-tuitions', 'StudentTuitionWithProgressController');
 
     // Lesson Level
     Route::delete('lesson-levels/destroy', 'LessonLevelController@massDestroy')->name('lesson-levels.massDestroy');
     Route::resource('lesson-levels', 'LessonLevelController');
 
     // Lesson
-    Route::delete('lessons/destroy', 'LessonController@massDestroy')->name('lessons.massDestroy');
-    Route::resource('lessons', 'LessonController');
+    Route::delete('lessons/destroy', 'LessonWithLessonCoachController@massDestroy')->name('lessons.massDestroy');
+    Route::resource('lessons', 'LessonWithLessonCoachController');
 
     // Lesson Coach
-    Route::delete('lesson-coaches/destroy', 'LessonCoachController@massDestroy')->name('lesson-coaches.massDestroy');
-    Route::resource('lesson-coaches', 'LessonCoachController');
+    // Route::delete('lesson-coaches/destroy', 'LessonCoachController@massDestroy')->name('lesson-coaches.massDestroy');
+    // Route::resource('lesson-coaches', 'LessonCoachController');
 
     // Lesson Time
-    Route::delete('lesson-times/destroy', 'LessonTimeController@massDestroy')->name('lesson-times.massDestroy');
-    Route::resource('lesson-times', 'LessonTimeController');
+    Route::delete('lesson-times/destroy', 'LessonTimeWithLessonTimeCoachController@massDestroy')->name('lesson-times.massDestroy');
+    Route::resource('lesson-times', 'LessonTimeWithLessonTimeCoachController');
 
     // Lesson Time Coach
-    Route::delete('lesson-time-coaches/destroy', 'LessonTimeCoachController@massDestroy')->name('lesson-time-coaches.massDestroy');
-    Route::resource('lesson-time-coaches', 'LessonTimeCoachController');
+    // Route::delete('lesson-time-coaches/destroy', 'LessonTimeCoachController@massDestroy')->name('lesson-time-coaches.massDestroy');
+    // Route::resource('lesson-time-coaches', 'LessonTimeCoachController');
 
     // Lesson Time Change
+    Route::post('lesson-time-changes/{id}/approve', 'LessonTimeChangeActionController@toApproved')->name('lesson-time-changes.toApproved');
+    Route::post('lesson-time-changes/{id}/reject', 'LessonTimeChangeActionController@toRejected')->name('lesson-time-changes.toRejected');
     Route::delete('lesson-time-changes/destroy', 'LessonTimeChangeController@massDestroy')->name('lesson-time-changes.massDestroy');
     Route::resource('lesson-time-changes', 'LessonTimeChangeController');
-
+    
     // Student Lesson Progress
+    Route::post('student-lesson-progresses/{id}/toNextLevel', 'StudentLessonProgressController@toNextLevel')->name('student-lesson-progresses.toNextLevel');
+    Route::post('student-lesson-progresses/{id}/toLowLevel', 'StudentLessonProgressController@toLowLevel')->name('student-lesson-progresses.toLowLevel');
     Route::delete('student-lesson-progresses/destroy', 'StudentLessonProgressController@massDestroy')->name('student-lesson-progresses.massDestroy');
     Route::resource('student-lesson-progresses', 'StudentLessonProgressController');
 

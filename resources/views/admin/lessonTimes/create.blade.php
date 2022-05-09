@@ -10,16 +10,6 @@
         <form method="POST" action="{{ route("admin.lesson-times.store") }}" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
-                <label class="required" for="lesson_code">{{ trans('cruds.lessonTime.fields.lesson_code') }}</label>
-                <input class="form-control {{ $errors->has('lesson_code') ? 'is-invalid' : '' }}" type="text" name="lesson_code" id="lesson_code" value="{{ old('lesson_code', '') }}" required>
-                @if($errors->has('lesson_code'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('lesson_code') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.lessonTime.fields.lesson_code_helper') }}</span>
-            </div>
-            <div class="form-group">
                 <label class="required" for="date_from">{{ trans('cruds.lessonTime.fields.date_from') }}</label>
                 <input class="form-control datetime {{ $errors->has('date_from') ? 'is-invalid' : '' }}" type="text" name="date_from" id="date_from" value="{{ old('date_from') }}" required>
                 @if($errors->has('date_from'))
@@ -30,38 +20,8 @@
                 <span class="help-block">{{ trans('cruds.lessonTime.fields.date_from_helper') }}</span>
             </div>
             <div class="form-group">
-                <label class="required" for="date_to">{{ trans('cruds.lessonTime.fields.date_to') }}</label>
-                <input class="form-control datetime {{ $errors->has('date_to') ? 'is-invalid' : '' }}" type="text" name="date_to" id="date_to" value="{{ old('date_to') }}" required>
-                @if($errors->has('date_to'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('date_to') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.lessonTime.fields.date_to_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label for="attended_at">{{ trans('cruds.lessonTime.fields.attended_at') }}</label>
-                <input class="form-control datetime {{ $errors->has('attended_at') ? 'is-invalid' : '' }}" type="text" name="attended_at" id="attended_at" value="{{ old('attended_at') }}">
-                @if($errors->has('attended_at'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('attended_at') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.lessonTime.fields.attended_at_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label for="leaved_at">{{ trans('cruds.lessonTime.fields.leaved_at') }}</label>
-                <input class="form-control datetime {{ $errors->has('leaved_at') ? 'is-invalid' : '' }}" type="text" name="leaved_at" id="leaved_at" value="{{ old('leaved_at') }}">
-                @if($errors->has('leaved_at'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('leaved_at') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.lessonTime.fields.leaved_at_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label for="class_room_id">{{ trans('cruds.lessonTime.fields.class_room') }}</label>
-                <select class="form-control select2 {{ $errors->has('class_room') ? 'is-invalid' : '' }}" name="class_room_id" id="class_room_id">
+                <label class="required" for="class_room_id">{{ trans('cruds.lessonTime.fields.class_room') }}</label>
+                <select class="form-control select2 {{ $errors->has('class_room') ? 'is-invalid' : '' }}" name="class_room_id" id="class_room_id" required>
                     @foreach($class_rooms as $id => $entry)
                         <option value="{{ $id }}" {{ old('class_room_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
                     @endforeach
@@ -74,8 +34,8 @@
                 <span class="help-block">{{ trans('cruds.lessonTime.fields.class_room_helper') }}</span>
             </div>
             <div class="form-group">
-                <label for="lesson_id">{{ trans('cruds.lessonTime.fields.lesson') }}</label>
-                <select class="form-control select2 {{ $errors->has('lesson') ? 'is-invalid' : '' }}" name="lesson_id" id="lesson_id">
+                <label class="required" for="lesson_id">{{ trans('cruds.lessonTime.fields.lesson') }}</label>
+                <select class="form-control select2 {{ $errors->has('lesson') ? 'is-invalid' : '' }}" name="lesson_id" id="lesson_id" required>
                     @foreach($lessons as $id => $entry)
                         <option value="{{ $id }}" {{ old('lesson_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
                     @endforeach
@@ -96,6 +56,20 @@
                     </div>
                 @endif
                 <span class="help-block">{{ trans('cruds.lessonTime.fields.student_efk_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="coachs_efk[]">{{ trans('cruds.lessonTimeCoach.fields.coach_efk') }}</label>
+                <select class="form-control select2 {{ $errors->has('coachs_efk[]') ? 'is-invalid' : '' }}" name="coachs_efk[]" id="coachs_efk[]">
+                    @foreach($coachs as $id => $entry)
+                        <option value="{{ $id }}" {{ old('coachs_efk[]') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('coachs_efk[]'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('coachs_efk[]') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.lessonCoach.fields.coach_efk_helper') }}</span>
             </div>
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">

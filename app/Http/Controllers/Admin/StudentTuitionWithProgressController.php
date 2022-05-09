@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MassDestroyStudentTuitionRequest;
 use App\Http\Requests\StoreStudentTuitionRequest;
 use App\Http\Requests\UpdateStudentTuitionRequest;
+use App\Models\StudentLessonProgress;
 use App\Models\StudentTuition;
 use App\Models\TuitionGift;
 use App\Models\TuitionPackage;
@@ -15,7 +16,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
 
-class StudentTuitionController extends Controller
+class StudentTuitionWithProgressController extends Controller
 {
     public function index(Request $request)
     {
@@ -95,7 +96,7 @@ class StudentTuitionController extends Controller
         }
 
         // ------------------------------ data assign ------------------------------
-        $tuitionPackage = TuitionPackage::find($request_data['tuition_package_id']);
+        $tuition_package = TuitionPackage::find($request_data['tuition_package_id']);
 
         // check tuition gift for additional lesson (gift)
         $tuition_gifts = TuitionGift::where([
@@ -103,13 +104,22 @@ class StudentTuitionController extends Controller
             ['type', '=', 'lesson']
         ])->get();
         
-        $request_data['minute_left'] = $tuitionPackage->total_minute;
+        $request_data['minute_left'] = $tuition_package->total_minute;
 
         foreach ($tuition_gifts as $index => $value){
             $request_data['minute_left'] += $tuition_gifts[$index]->total_minute;
         }
 
-        $studentTuition = StudentTuition::create($request_data);
+        $student_tuition = StudentTuition::create($request_data);
+
+        // ------------------------------ create student lesson progress ------------------------------
+        $lesson_coach = [
+            'progress' => '1,1',
+            'lesson_category_id' => $tuition_package->lesson_category_id,
+            'student_efk' => $student_tuition->student_efk,
+        ];
+
+        StudentLessonProgress::create($lesson_coach);
 
         return redirect()->route('admin.student-tuitions.index');
     }
@@ -143,7 +153,7 @@ class StudentTuitionController extends Controller
         // }
 
         // // ------------------------------ data assign ------------------------------
-        // $tuitionPackage = TuitionPackage::find($request_data['tuition_package_id']);
+        // $tuition_package = TuitionPackage::find($request_data['tuition_package_id']);
 
         // // check tuition gift for additional lesson (gift)
         // $tuition_gifts = TuitionGift::where([
@@ -151,7 +161,7 @@ class StudentTuitionController extends Controller
         //     ['type', '=', 'lesson']
         // ])->get();
         
-        // $request_data['minute_left'] = $tuitionPackage->total_minute;
+        // $request_data['minute_left'] = $tuition_package->total_minute;
 
         // foreach ($tuition_gifts as $index => $value){
         //     $request_data['minute_left'] += $tuition_gifts[$index]->total_minute;

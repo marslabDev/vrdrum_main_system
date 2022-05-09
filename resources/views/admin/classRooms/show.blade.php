@@ -39,14 +39,14 @@
                             <input type="checkbox" disabled="disabled" {{ $classRoom->is_available ? 'checked' : '' }}>
                         </td>
                     </tr>
-                    <tr>
+                    <!-- <tr>
                         <th>
                             {{ trans('cruds.classRoom.fields.branch_efk') }}
                         </th>
                         <td>
                             {{ $classRoom->branch_efk }}
                         </td>
-                    </tr>
+                    </tr> -->
                 </tbody>
             </table>
             <div class="form-group">

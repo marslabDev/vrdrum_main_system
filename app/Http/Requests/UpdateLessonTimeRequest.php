@@ -17,26 +17,26 @@ class UpdateLessonTimeRequest extends FormRequest
     public function rules()
     {
         return [
-            'lesson_code' => [
-                'string',
-                'required',
-            ],
+            // 'lesson_code' => [
+            //     'string',
+            //     'required',
+            // ],
             'date_from' => [
                 'required',
                 'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
             ],
-            'date_to' => [
-                'required',
-                'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
-            ],
-            'attended_at' => [
-                'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
-                'nullable',
-            ],
-            'leaved_at' => [
-                'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
-                'nullable',
-            ],
+            // 'date_to' => [
+            //     'required',
+            //     'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
+            // ],
+            // 'attended_at' => [
+            //     'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
+            //     'nullable',
+            // ],
+            // 'leaved_at' => [
+            //     'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
+            //     'nullable',
+            // ],
             'student_efk' => [
                 'required',
                 'integer',

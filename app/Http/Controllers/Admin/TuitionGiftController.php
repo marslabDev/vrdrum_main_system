@@ -50,7 +50,7 @@ class TuitionGiftController extends Controller
             });
             $table->editColumn('total_lesson', function ($row) {
                 $total_lesson = $row->total_minute || $row->total_minute == 0 
-                    ? $row->total_minute / config('constants.options.lesson.one_lesson_time') 
+                    ? $row->total_minute / config('constants.lesson.one_lesson_time') 
                     : '';
 
                 return $total_lesson;
@@ -113,7 +113,7 @@ class TuitionGiftController extends Controller
         }
 
         // ------------------------------ data assign ------------------------------
-        $request_data['total_minute'] = $request_data['total_lesson'] * config('constants.options.lesson.one_lesson_time');
+        $request_data['total_minute'] = $request_data['total_lesson'] * config('constants.lesson.one_lesson_time');
 
         $tuitionGift = TuitionGift::create($request_data);
 
@@ -128,7 +128,7 @@ class TuitionGiftController extends Controller
 
         $tuitionGift->load('tuition_package', 'created_by');
 
-        $tuitionGift->total_lesson = $tuitionGift->total_minute / config('constants.options.lesson.one_lesson_time') ;
+        $tuitionGift->total_lesson = $tuitionGift->total_minute / config('constants.lesson.one_lesson_time') ;
 
         if($errors != null) return view('admin.tuitionGifts.edit', compact('tuitionGift', 'tuition_packages', 'errors'));
 
@@ -163,7 +163,7 @@ class TuitionGiftController extends Controller
         }
 
         // ------------------------------ data assign ------------------------------
-        $request_data['total_minute'] = $request_data['total_lesson'] * config('constants.options.lesson.one_lesson_time');
+        $request_data['total_minute'] = $request_data['total_lesson'] * config('constants.lesson.one_lesson_time');
 
         $tuitionGift->update($request_data);
 

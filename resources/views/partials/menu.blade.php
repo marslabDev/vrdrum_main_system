@@ -241,7 +241,7 @@
             </li>
         @endcan
         @can('lesson_management_access')
-            <li class="c-sidebar-nav-dropdown {{ request()->is("admin/lesson-categories*") ? "c-show" : "" }} {{ request()->is("admin/lesson-levels*") ? "c-show" : "" }} {{ request()->is("admin/lessons*") ? "c-show" : "" }} {{ request()->is("admin/lesson-coaches*") ? "c-show" : "" }}">
+            <li class="c-sidebar-nav-dropdown {{ request()->is("admin/lesson-categories*") ? "c-show" : "" }} {{ request()->is("admin/lesson-levels*") ? "c-show" : "" }} {{ request()->is("admin/lessons*") ? "c-show" : "" }} {{ request()->is("admin/lesson-coaches*") ? "c-show" : "" }} {{ request()->is("admin/*") ? "c-show" : "" }}">
                 <a class="c-sidebar-nav-dropdown-toggle" href="#">
                     <i class="fa-fw fas fa-cogs c-sidebar-nav-icon">
 
@@ -262,7 +262,7 @@
                     @can('lesson_level_access')
                         <li class="c-sidebar-nav-item">
                             <a href="{{ route("admin.lesson-levels.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/lesson-levels") || request()->is("admin/lesson-levels/*") ? "c-active" : "" }}">
-                                <i class="fa-fw fas fa-shoe-prints c-sidebar-nav-icon">
+                                <i class="fa-fw fas fa-cogs c-sidebar-nav-icon">
 
                                 </i>
                                 {{ trans('cruds.lessonLevel.title') }}
@@ -279,56 +279,36 @@
                             </a>
                         </li>
                     @endcan
-                    @can('lesson_coach_access')
-                        <li class="c-sidebar-nav-item">
-                            <a href="{{ route("admin.lesson-coaches.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/lesson-coaches") || request()->is("admin/lesson-coaches/*") ? "c-active" : "" }}">
+                    @can('lesson_time_management_access')
+                        <li class="c-sidebar-nav-dropdown {{ request()->is("admin/lesson-times*") ? "c-show" : "" }} {{ request()->is("admin/lesson-time-coaches*") ? "c-show" : "" }} {{ request()->is("admin/lesson-time-changes*") ? "c-show" : "" }}">
+                            <a class="c-sidebar-nav-dropdown-toggle" href="#">
                                 <i class="fa-fw fas fa-cogs c-sidebar-nav-icon">
 
                                 </i>
-                                {{ trans('cruds.lessonCoach.title') }}
+                                {{ trans('cruds.lessonTimeManagement.title') }}
                             </a>
-                        </li>
-                    @endcan
-                </ul>
-            </li>
-        @endcan
-        @can('lesson_time_management_access')
-            <li class="c-sidebar-nav-dropdown {{ request()->is("admin/lesson-times*") ? "c-show" : "" }} {{ request()->is("admin/lesson-time-coaches*") ? "c-show" : "" }} {{ request()->is("admin/lesson-time-changes*") ? "c-show" : "" }}">
-                <a class="c-sidebar-nav-dropdown-toggle" href="#">
-                    <i class="fa-fw far fa-calendar-alt c-sidebar-nav-icon">
+                            <ul class="c-sidebar-nav-dropdown-items">
+                                @can('lesson_time_access')
+                                    <li class="c-sidebar-nav-item">
+                                        <a href="{{ route("admin.lesson-times.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/lesson-times") || request()->is("admin/lesson-times/*") ? "c-active" : "" }}">
+                                            <i class="fa-fw fas fa-cogs c-sidebar-nav-icon">
 
-                    </i>
-                    {{ trans('cruds.lessonTimeManagement.title') }}
-                </a>
-                <ul class="c-sidebar-nav-dropdown-items">
-                    @can('lesson_time_access')
-                        <li class="c-sidebar-nav-item">
-                            <a href="{{ route("admin.lesson-times.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/lesson-times") || request()->is("admin/lesson-times/*") ? "c-active" : "" }}">
-                                <i class="fa-fw far fa-clock c-sidebar-nav-icon">
+                                            </i>
+                                            {{ trans('cruds.lessonTime.title') }}
+                                        </a>
+                                    </li>
+                                @endcan
+                                @can('lesson_time_change_access')
+                                    <li class="c-sidebar-nav-item">
+                                        <a href="{{ route("admin.lesson-time-changes.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/lesson-time-changes") || request()->is("admin/lesson-time-changes/*") ? "c-active" : "" }}">
+                                            <i class="fa-fw fas fa-cogs c-sidebar-nav-icon">
 
-                                </i>
-                                {{ trans('cruds.lessonTime.title') }}
-                            </a>
-                        </li>
-                    @endcan
-                    @can('lesson_time_coach_access')
-                        <li class="c-sidebar-nav-item">
-                            <a href="{{ route("admin.lesson-time-coaches.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/lesson-time-coaches") || request()->is("admin/lesson-time-coaches/*") ? "c-active" : "" }}">
-                                <i class="fa-fw fas fa-user-clock c-sidebar-nav-icon">
-
-                                </i>
-                                {{ trans('cruds.lessonTimeCoach.title') }}
-                            </a>
-                        </li>
-                    @endcan
-                    @can('lesson_time_change_access')
-                        <li class="c-sidebar-nav-item">
-                            <a href="{{ route("admin.lesson-time-changes.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/lesson-time-changes") || request()->is("admin/lesson-time-changes/*") ? "c-active" : "" }}">
-                                <i class="fa-fw fas fa-stopwatch c-sidebar-nav-icon">
-
-                                </i>
-                                {{ trans('cruds.lessonTimeChange.title') }}
-                            </a>
+                                            </i>
+                                            {{ trans('cruds.lessonTimeChange.title') }}
+                                        </a>
+                                    </li>
+                                @endcan
+                            </ul>
                         </li>
                     @endcan
                 </ul>

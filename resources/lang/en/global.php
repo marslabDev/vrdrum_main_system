@@ -322,4 +322,8 @@ return [
     'leave'                          => 'Leave',
     'calendar'                       => 'Calendar',
     'messenger'                      => 'Messenger',
+    'approve'                        => 'Approve',
+    'reject'                         => 'Reject',
+    'upgrade_level'                  => 'Upgrade Level',
+    'low_level'                      => 'Low Level',
 ];
