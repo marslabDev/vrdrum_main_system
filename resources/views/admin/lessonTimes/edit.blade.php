@@ -59,8 +59,8 @@
                 <span class="help-block">{{ trans('cruds.lessonTime.fields.student_efk_helper') }}</span>
             </div>
             <div class="form-group">
-                <label for="coachs_efk[]">{{ trans('cruds.lessonTimeCoach.fields.coach_efk') }}</label>
-                <select class="form-control select2 {{ $errors->has('coachs_efk[]') ? 'is-invalid' : '' }}" name="coachs_efk[]" id="coachs_efk[]">
+                <label class="required" for="coachs_efk[]">{{ trans('cruds.lessonTimeCoach.fields.coach_efk') }}</label>
+                <select class="form-control select2 {{ $errors->has('coachs_efk[]') ? 'is-invalid' : '' }}" name="coachs_efk[]" id="coachs_efk[]" required>
                     @foreach($coachs as $id => $entry)
                         <option value="{{ $id }}" {{ old('coachs_efk[]') == $id ? 'selected' : '' }}>{{ $entry }}</option>
                     @endforeach
@@ -83,4 +83,9 @@
 
 
 
+@endsection
+@section('scripts')
+<script>
+
+</script>
 @endsection
