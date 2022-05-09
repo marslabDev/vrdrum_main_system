@@ -49,6 +49,9 @@
                         {{ trans('cruds.lessonTime.fields.student_efk') }}
                     </th>
                     <th>
+                        {{ trans('cruds.lessonTimeCoach.fields.coach_efk') }}
+                    </th>
+                    <th>
                         &nbsp;
                     </th>
                 </tr>
@@ -113,6 +116,7 @@
 { data: 'class_room_room_title', name: 'class_room.room_title' },
 { data: 'lesson_name', name: 'lesson.name' },
 { data: 'student_efk', name: 'student_efk' },
+{ data: 'coachs_efk', name: 'coachs_efk' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,

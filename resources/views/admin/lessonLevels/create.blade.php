@@ -10,6 +10,20 @@
         <form method="POST" action="{{ route("admin.lesson-levels.store") }}" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
+                <label class="required" for="lesson_category_id">{{ trans('cruds.lessonLevel.fields.lesson_category') }}</label>
+                <select class="form-control select2 {{ $errors->has('lesson_category') ? 'is-invalid' : '' }}" name="lesson_category_id" id="lesson_category_id" required>
+                    @foreach($lesson_categories as $id => $entry)
+                        <option value="{{ $id }}" {{ old('lesson_category_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('lesson_category'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('lesson_category') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.lessonLevel.fields.lesson_category_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <label class="required" for="level">{{ trans('cruds.lessonLevel.fields.level') }}</label>
                 <input class="form-control {{ $errors->has('level') ? 'is-invalid' : '' }}" type="number" name="level" id="level" value="{{ old('level', '') }}" step="1" required>
                 @if($errors->has('level'))
@@ -28,20 +42,6 @@
                     </div>
                 @endif
                 <span class="help-block">{{ trans('cruds.lessonLevel.fields.name_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label for="lesson_category_id">{{ trans('cruds.lessonLevel.fields.lesson_category') }}</label>
-                <select class="form-control select2 {{ $errors->has('lesson_category') ? 'is-invalid' : '' }}" name="lesson_category_id" id="lesson_category_id">
-                    @foreach($lesson_categories as $id => $entry)
-                        <option value="{{ $id }}" {{ old('lesson_category_id') == $id ? 'selected' : '' }}>{{ $entry }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('lesson_category'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('lesson_category') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.lessonLevel.fields.lesson_category_helper') }}</span>
             </div>
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">

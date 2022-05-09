@@ -40,9 +40,6 @@
                         {{ trans('cruds.lessonTimeChange.fields.lesson') }}
                     </th>
                     <th>
-                        {{ trans('cruds.lessonTimeChange.fields.student_efk') }}
-                    </th>
-                    <th>
                         {{ trans('cruds.lessonTimeChange.fields.status') }}
                     </th>
                     <th>
@@ -119,7 +116,6 @@
 { data: 'date_to', name: 'date_to' },
 { data: 'class_room_room_title', name: 'class_room.room_title' },
 { data: 'lesson_name', name: 'lesson.name' },
-{ data: 'student_efk', name: 'student_efk' },
 { data: 'status', name: 'status' },
 { data: 'request_date', name: 'request_date' },
 { data: 'request_user_efk', name: 'request_user_efk' },

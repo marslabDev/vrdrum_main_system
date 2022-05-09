@@ -49,9 +49,9 @@ class ClassRoomController extends Controller
             $table->editColumn('is_available', function ($row) {
                 return '<input type="checkbox" disabled ' . ($row->is_available ? 'checked' : null) . '>';
             });
-            $table->editColumn('branch_efk', function ($row) {
-                return $row->branch_efk ? $row->branch_efk : '';
-            });
+            // $table->editColumn('branch_efk', function ($row) {
+            //     return $row->branch_efk ? $row->branch_efk : '';
+            // });
 
             $table->rawColumns(['actions', 'placeholder', 'is_available']);
 

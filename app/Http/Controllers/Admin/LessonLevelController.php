@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateLessonLevelRequest;
 use App\Models\LessonCategory;
 use App\Models\LessonLevel;
 use Gate;
+use Validator;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
@@ -62,23 +63,42 @@ class LessonLevelController extends Controller
         return view('admin.lessonLevels.index');
     }
 
-    public function create()
+    public function create($errors = null)
     {
         abort_if(Gate::denies('lesson_level_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $lesson_categories = LessonCategory::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        if($errors != null) return view('admin.lessonLevels.create', compact('lesson_categories', 'errors'));
 
         return view('admin.lessonLevels.create', compact('lesson_categories'));
     }
 
     public function store(StoreLessonLevelRequest $request)
     {
-        $lessonLevel = LessonLevel::create($request->all());
+        $request_data = $request->all();
+
+        // ------------------------------ validation ------------------------------
+        $validated = Validator::make([],[]);
+
+        if ($request_data['lesson_category_id'] == null){
+            $validated->getMessageBag()->add('lesson_category', trans('validation.lesson_category_required'));
+        }
+ 
+        if ($request_data['lesson_category_id'] != null && LessonLevel::where('level', $request_data['level'])->get()->first() != null){
+            $validated->getMessageBag()->add('level', sprintf(trans('validation.lesson_level_exist'), $request_data['level']));
+        }
+
+        if($validated->errors()->count() > 0){
+            return $this->create($validated->errors());
+        }
+
+        $lessonLevel = LessonLevel::create($request_data);
 
         return redirect()->route('admin.lesson-levels.index');
     }
 
-    public function edit(LessonLevel $lessonLevel)
+    public function edit(LessonLevel $lessonLevel, $errors = null)
     {
         abort_if(Gate::denies('lesson_level_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -86,12 +106,31 @@ class LessonLevelController extends Controller
 
         $lessonLevel->load('lesson_category', 'created_by');
 
+        if($errors != null) return view('admin.lessonLevels.edit', compact('lessonLevel', 'lesson_categories', 'errors'));
+
         return view('admin.lessonLevels.edit', compact('lessonLevel', 'lesson_categories'));
     }
 
     public function update(UpdateLessonLevelRequest $request, LessonLevel $lessonLevel)
     {
-        $lessonLevel->update($request->all());
+        $request_data = $request->all();
+
+        // ------------------------------ validation ------------------------------
+        $validated = Validator::make([],[]);
+
+        if ($request_data['lesson_category_id'] == null){
+            $validated->getMessageBag()->add('lesson_category', trans('validation.lesson_category_required'));
+        }
+
+        if ($request_data['lesson_category_id'] != null && $request_data['level'] != $lessonLevel->level && LessonLevel::where('level', $request_data['level'])->get()->first() != null){
+            $validated->getMessageBag()->add('level', sprintf(trans('validation.lesson_level_exist'), $request_data['level']));
+        }
+
+        if($validated->errors()->count() > 0){
+            return $this->edit($lessonLevel, $validated->errors());
+        }
+
+        $lessonLevel->update($request_data);
 
         return redirect()->route('admin.lesson-levels.index');
     }

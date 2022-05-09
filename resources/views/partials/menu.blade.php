@@ -279,32 +279,10 @@
                             </a>
                         </li>
                     @endcan
-                    @can('lesson_coach_access')
-                        <li class="c-sidebar-nav-item">
-                            <a href="{{ route("admin.lesson-coaches.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/lesson-coaches") || request()->is("admin/lesson-coaches/*") ? "c-active" : "" }}">
+                    @can('lesson_time_management_access')
+                        <li class="c-sidebar-nav-dropdown {{ request()->is("admin/lesson-times*") ? "c-show" : "" }} {{ request()->is("admin/lesson-time-coaches*") ? "c-show" : "" }} {{ request()->is("admin/lesson-time-changes*") ? "c-show" : "" }}">
+                            <a class="c-sidebar-nav-dropdown-toggle" href="#">
                                 <i class="fa-fw fas fa-cogs c-sidebar-nav-icon">
-
-                                </i>
-                                {{ trans('cruds.lessonCoach.title') }}
-                            </a>
-                        </li>
-                    @endcan
-                </ul>
-            </li>
-        @endcan
-        @can('lesson_time_management_access')
-            <li class="c-sidebar-nav-dropdown {{ request()->is("admin/lesson-times*") ? "c-show" : "" }} {{ request()->is("admin/lesson-time-coaches*") ? "c-show" : "" }} {{ request()->is("admin/lesson-time-changes*") ? "c-show" : "" }}">
-                <a class="c-sidebar-nav-dropdown-toggle" href="#">
-                    <i class="fa-fw far fa-calendar-alt c-sidebar-nav-icon">
-
-                    </i>
-                    {{ trans('cruds.lessonTimeManagement.title') }}
-                </a>
-                <ul class="c-sidebar-nav-dropdown-items">
-                    @can('lesson_time_access')
-                        <li class="c-sidebar-nav-item">
-                            <a href="{{ route("admin.lesson-times.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/lesson-times") || request()->is("admin/lesson-times/*") ? "c-active" : "" }}">
-                                <i class="fa-fw far fa-clock c-sidebar-nav-icon">
 
                                 </i>
                                 {{ trans('cruds.lessonTime.title') }}
@@ -329,6 +307,28 @@
                                 </i>
                                 {{ trans('cruds.lessonTimeChange.title') }}
                             </a>
+                            <ul class="c-sidebar-nav-dropdown-items">
+                                @can('lesson_time_access')
+                                    <li class="c-sidebar-nav-item">
+                                        <a href="{{ route("admin.lesson-times.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/lesson-times") || request()->is("admin/lesson-times/*") ? "c-active" : "" }}">
+                                            <i class="fa-fw fas fa-cogs c-sidebar-nav-icon">
+
+                                            </i>
+                                            {{ trans('cruds.lessonTime.title') }}
+                                        </a>
+                                    </li>
+                                @endcan
+                                @can('lesson_time_change_access')
+                                    <li class="c-sidebar-nav-item">
+                                        <a href="{{ route("admin.lesson-time-changes.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/lesson-time-changes") || request()->is("admin/lesson-time-changes/*") ? "c-active" : "" }}">
+                                            <i class="fa-fw fas fa-cogs c-sidebar-nav-icon">
+
+                                            </i>
+                                            {{ trans('cruds.lessonTimeChange.title') }}
+                                        </a>
+                                    </li>
+                                @endcan
+                            </ul>
                         </li>
                     @endcan
                 </ul>

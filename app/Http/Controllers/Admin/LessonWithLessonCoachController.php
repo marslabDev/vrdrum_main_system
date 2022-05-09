@@ -19,7 +19,7 @@ use Yajra\DataTables\Facades\DataTables;
 use App\Http\Controllers\Admin\LessonCoachController;
 use App\Http\Requests\StoreLessonCoachRequest;
 
-class LessonController extends Controller
+class LessonWithLessonCoachController extends Controller
 {
     public function index(Request $request)
     {
@@ -69,6 +69,7 @@ class LessonController extends Controller
                 foreach ($coachs_efk as $index => $value){
                     $coachs_efk_str[$index] = $value->coach_efk;
                 }
+                $coachs_efk_str = implode(", ", $coachs_efk_str);
 
                 return $coachs_efk_str;
             });
@@ -113,7 +114,19 @@ class LessonController extends Controller
         $request_data['no_of_class'] = Lesson::where('lesson_level_id', $request_data['lesson_level_id'])->get()->count() + 1;
 
         $lesson = Lesson::create($request_data);
-        
+
+        // ------------------------------ create lesson coach ------------------------------
+        $coachs_efk = $request_data['coachs_efk'];
+
+        foreach ($coachs_efk as $index => $value){
+            $lesson_coach = [
+                'lesson_id' => $lesson->id,
+                'coach_efk' => $value
+            ];
+
+            LessonCoach::create($lesson_coach);
+        }
+
         return redirect()->route('admin.lessons.index');
     }
 
@@ -160,6 +173,38 @@ class LessonController extends Controller
         }
 
         $lesson->update($request_data);
+
+        // ------------------------------ create lesson coach ------------------------------
+        $current_coachs_efk = LessonCoach::where('lesson_id', $lesson->id)->get();
+
+        $coachs_efk = $request_data['coachs_efk'];
+
+        // for create new coach & pop the same coach
+        foreach ($coachs_efk as $index => $value){
+            $lesson_coach = [
+                'lesson_id' => $lesson->id,
+                'coach_efk' => $value
+            ];
+
+            $is_found = false;
+
+            foreach ($current_coachs_efk as $current_coach_index => $current_coach_value){
+                if ($current_coach_value->lesson_id == $lesson_coach['lesson_id'] && $current_coach_value->coach_efk == $lesson_coach['coach_efk']){
+                    unset($current_coachs_efk[$current_coach_index]);
+                    $is_found = true;
+                    break;
+                }
+            }
+
+            if($is_found == false){
+                LessonCoach::create($lesson_coach);
+            }
+        }
+
+        // for delete coach
+        foreach ($current_coachs_efk as $index => $value){
+            LessonCoach::find($value->id)->delete();
+        }
 
         return redirect()->route('admin.lessons.index');
     }

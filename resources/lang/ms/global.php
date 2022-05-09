@@ -322,4 +322,6 @@ return [
     'leave'                          => 'Cuti',
     'calendar'                       => 'Kalendar',
     'messenger'                      => 'Utusan',
+    'approve'                        => 'Approve',
+    'reject'                         => 'Reject',
 ];

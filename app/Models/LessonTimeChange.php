@@ -35,7 +35,6 @@ class LessonTimeChange extends Model
         'date_to',
         'class_room_id',
         'lesson_id',
-        'student_efk',
         'status',
         'request_date',
         'request_user_efk',

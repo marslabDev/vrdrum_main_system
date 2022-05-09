@@ -10,7 +10,9 @@ use App\Models\ClassRoom;
 use App\Models\Lesson;
 use App\Models\LessonTime;
 use App\Models\LessonTimeChange;
+use Carbon\Carbon;
 use Gate;
+use Validator;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
@@ -58,9 +60,6 @@ class LessonTimeChangeController extends Controller
                 return $row->lesson ? $row->lesson->name : '';
             });
 
-            $table->editColumn('student_efk', function ($row) {
-                return $row->student_efk ? $row->student_efk : '';
-            });
             $table->editColumn('status', function ($row) {
                 return $row->status ? $row->status : '';
             });
@@ -81,7 +80,7 @@ class LessonTimeChangeController extends Controller
         return view('admin.lessonTimeChanges.index');
     }
 
-    public function create()
+    public function create($errors = null)
     {
         abort_if(Gate::denies('lesson_time_change_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -91,17 +90,52 @@ class LessonTimeChangeController extends Controller
 
         $lessons = Lesson::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
+        if($errors != null) return view('admin.lessonTimeChanges.create', compact('class_rooms', 'lessons', 'old_lesson_times', 'errors'));
+
         return view('admin.lessonTimeChanges.create', compact('class_rooms', 'lessons', 'old_lesson_times'));
     }
 
     public function store(StoreLessonTimeChangeRequest $request)
     {
-        $lessonTimeChange = LessonTimeChange::create($request->all());
+        $request_data = $request->all();
+
+        // ------------------------------ validation ------------------------------
+        $validated = Validator::make([],[]);
+        
+        if ($request_data['old_lesson_time_id'] == null){
+            $validated->getMessageBag()->add('old_lesson_time', trans('validation.lesson_time_required'));
+        }
+
+        if ($request_data['class_room_id'] == null){
+            $validated->getMessageBag()->add('class_room', trans('validation.class_room_required'));
+        }
+
+        if ($request_data['lesson_id'] == null){
+            $validated->getMessageBag()->add('lesson', trans('validation.lesson_required'));
+        }
+
+        if($validated->errors()->count() > 0){
+            return $this->create($validated->errors());
+        }
+
+        // ------------------------------ data assign ------------------------------
+        $date_to = Carbon::parse($request_data['date_from']);
+        $date_to->addMinute(30);
+
+        date_default_timezone_set("Asia/Kuala_Lumpur");
+        $date_now = Carbon::now()->toDateTimeString();
+
+        $request_data['date_to'] = $date_to->toDateTimeString();
+        $request_data['status'] = config('constants.lesson_time_change.status.pending');
+        $request_data['request_user_efk'] = '5555';
+        $request_data['request_date'] = $date_now;
+
+        $lessonTimeChange = LessonTimeChange::create($request_data);
 
         return redirect()->route('admin.lesson-time-changes.index');
     }
 
-    public function edit(LessonTimeChange $lessonTimeChange)
+    public function edit(LessonTimeChange $lessonTimeChange, $errors = null)
     {
         abort_if(Gate::denies('lesson_time_change_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -113,12 +147,51 @@ class LessonTimeChangeController extends Controller
 
         $lessonTimeChange->load('old_lesson_time', 'class_room', 'lesson', 'created_by');
 
+        if($errors != null) return view('admin.lessonTimeChanges.edit', compact('class_rooms', 'lessonTimeChange', 'lessons', 'old_lesson_times', 'errors'));
+
         return view('admin.lessonTimeChanges.edit', compact('class_rooms', 'lessonTimeChange', 'lessons', 'old_lesson_times'));
     }
 
     public function update(UpdateLessonTimeChangeRequest $request, LessonTimeChange $lessonTimeChange)
     {
-        $lessonTimeChange->update($request->all());
+        $request_data = $request->all();
+
+        // ------------------------------ validation ------------------------------
+        $validated = Validator::make([],[]);
+        
+        if($lessonTimeChange->status != config('constants.lesson_time_change.status.pending')){
+            $validated->getMessageBag()->add('not_allow_edit', trans('validation.lesson_time_change_not_allow_edit'));
+        }
+
+        if ($request_data['old_lesson_time_id'] == null){
+            $validated->getMessageBag()->add('old_lesson_time', trans('validation.lesson_time_required'));
+        }
+
+        if ($request_data['class_room_id'] == null){
+            $validated->getMessageBag()->add('class_room', trans('validation.class_room_required'));
+        }
+
+        if ($request_data['lesson_id'] == null){
+            $validated->getMessageBag()->add('lesson', trans('validation.lesson_required'));
+        }
+
+        if($validated->errors()->count() > 0){
+            return $this->edit($lessonTimeChange, $validated->errors());
+        }
+
+        // ------------------------------ data assign ------------------------------
+        $date_to = Carbon::parse($request_data['date_from']);
+        $date_to->addMinute(30);
+
+        date_default_timezone_set("Asia/Kuala_Lumpur");
+        $date_now = Carbon::now()->toDateTimeString();
+
+        $request_data['date_to'] = $date_to->toDateTimeString();
+        $request_data['status'] = config('constants.lesson_time_change.status.pending');
+        $request_data['request_user_efk'] = '5555';
+        $request_data['request_date'] = $date_now;
+
+        $lessonTimeChange->update($request_data);
 
         return redirect()->route('admin.lesson-time-changes.index');
     }
@@ -128,7 +201,7 @@ class LessonTimeChangeController extends Controller
         abort_if(Gate::denies('lesson_time_change_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $lessonTimeChange->load('old_lesson_time', 'class_room', 'lesson', 'created_by');
-
+        
         return view('admin.lessonTimeChanges.show', compact('lessonTimeChange'));
     }
 
