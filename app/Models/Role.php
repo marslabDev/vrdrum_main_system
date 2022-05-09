@@ -13,6 +13,7 @@ class Role extends Model
     use HasFactory;
 
     public $table = 'roles';
+    protected $connection = 'sso_db';
 
     protected $dates = [
         'created_at',

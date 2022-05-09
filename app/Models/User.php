@@ -19,7 +19,7 @@ class User extends Authenticatable
     use HasFactory;
 
     public $table = 'users';
-
+    protected $connection = 'sso_db';
     protected $hidden = [
         'remember_token',
         'password',
