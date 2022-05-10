@@ -93,11 +93,14 @@ class LessonTimeController extends Controller
 
         $lessons = Lesson::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $coachs = CoachDetail::pluck('coach_efk', 'coach_efk');
+        $lesson_coachs = [];
+        foreach ($lessons as $id => $value){
+            $lesson_coachs[$id] = LessonCoach::where('lesson_id', $id)->get();
+        }
 
-        if($errors != null) return view('admin.lessonTimes.create', compact('class_rooms', 'lessons', 'coachs', 'errors'));
+        if($errors != null) return view('admin.lessonTimes.create', compact('class_rooms', 'lessons', 'lesson_coachs', 'errors'));
         
-        return view('admin.lessonTimes.create', compact('class_rooms', 'lessons', 'coachs'));
+        return view('admin.lessonTimes.create', compact('class_rooms', 'lessons', 'lesson_coachs'));
     }
 
     public function store(StoreLessonTimeRequest $request)
@@ -164,11 +167,14 @@ class LessonTimeController extends Controller
 
         $lessonTime->load('class_room', 'lesson', 'created_by');
 
-        $coachs = CoachDetail::pluck('coach_efk', 'coach_efk');
+        $lesson_coachs = [];
+        foreach ($lessons as $id => $value){
+            $lesson_coachs[$id] = LessonCoach::where('lesson_id', $id)->get();
+        }
 
-        if($errors != null) return view('admin.lessonTimes.edit', compact('class_rooms', 'lessonTime', 'lessons', 'coachs', 'errors'));
+        if($errors != null) return view('admin.lessonTimes.edit', compact('class_rooms', 'lessonTime', 'lessons', 'lesson_coachs', 'errors'));
 
-        return view('admin.lessonTimes.edit', compact('class_rooms', 'lessonTime', 'lessons', 'coachs'));
+        return view('admin.lessonTimes.edit', compact('class_rooms', 'lessonTime', 'lessons', 'lesson_coachs'));
     }
 
     public function update(UpdateLessonTimeRequest $request, LessonTime $lessonTime)
