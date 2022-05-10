@@ -73,12 +73,12 @@ class LessonTimeChange extends Model
 
     public function class_room()
     {
-        return $this->belongsTo(ClassRoom::class, 'class_room_id');
+        return $this->belongsTo(ClassRoom::class, 'class_room_id')->withTrashed();
     }
 
     public function lesson()
     {
-        return $this->belongsTo(Lesson::class, 'lesson_id');
+        return $this->belongsTo(Lesson::class, 'lesson_id')->withTrashed();
     }
 
     public function getRequestDateAttribute($value)

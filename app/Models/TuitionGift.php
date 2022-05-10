@@ -43,7 +43,7 @@ class TuitionGift extends Model
 
     public function tuition_package()
     {
-        return $this->belongsTo(TuitionPackage::class, 'tuition_package_id');
+        return $this->belongsTo(TuitionPackage::class, 'tuition_package_id')->withTrashed();
     }
 
     public function created_by()

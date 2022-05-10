@@ -35,7 +35,7 @@ class LessonTimeCoach extends Model
 
     public function lesson_time()
     {
-        return $this->belongsTo(LessonTime::class, 'lesson_time_id');
+        return $this->belongsTo(LessonTime::class, 'lesson_time_id')->withTrashed();
     }
 
     public function created_by()

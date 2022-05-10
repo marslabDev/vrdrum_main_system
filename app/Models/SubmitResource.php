@@ -37,7 +37,7 @@ class SubmitResource extends Model
 
     public function student_work()
     {
-        return $this->belongsTo(StudentWork::class, 'student_work_id');
+        return $this->belongsTo(StudentWork::class, 'student_work_id')->withTrashed();
     }
 
     public function created_by()
