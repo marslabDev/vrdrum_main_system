@@ -35,7 +35,7 @@ class LessonCoach extends Model
 
     public function lesson()
     {
-        return $this->belongsTo(Lesson::class, 'lesson_id');
+        return $this->belongsTo(Lesson::class, 'lesson_id')->withTrashed();
     }
 
     public function created_by()
