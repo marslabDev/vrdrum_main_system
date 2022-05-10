@@ -94,14 +94,32 @@ class LessonTimeWithLessonTimeCoachController extends Controller
 
         $lessons = Lesson::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $lesson_coachs = [];
+        $lesson_coachs = [ "" => trans('cruds.lessonTimeCoach.fields.please_select') ];
         foreach ($lessons as $id => $value){
-            $lesson_coachs[$id] = LessonCoach::where('lesson_id', $id)->get();
+            if($id != ""){
+                $lesson_coachs[$id] = LessonCoach::where('lesson_id', $id)->get();
+            }
         }
 
-        if($errors != null) return view('admin.lessonTimes.create', compact('class_rooms', 'lessons', 'lesson_coachs', 'errors'));
+        date_default_timezone_set("Asia/Kuala_Lumpur");
+        $dateNow = Carbon::now()->toDateTimeString();
+
+        $lesson_time_used = LessonTime::where('date_from', '>', $dateNow)->get();
+        foreach ($lesson_time_used as $time_index => $time_value){
+            $lesson_time_coach = LessonTimeCoach::where('lesson_time_id', $time_value->id)->get();
+            
+            $coachs_efk = [];
+
+            foreach ($lesson_time_coach as $index => $value){
+                $coachs_efk[$index] = $value->coach_efk;
+            }
+
+            $lesson_time_used[$time_index]->coachs_efk = $coachs_efk;
+        }
+
+        if($errors != null) return view('admin.lessonTimes.create', compact('class_rooms', 'lessons', 'lesson_coachs', 'lesson_time_used', 'errors'));
         
-        return view('admin.lessonTimes.create', compact('class_rooms', 'lessons', 'lesson_coachs'));
+        return view('admin.lessonTimes.create', compact('class_rooms', 'lessons', 'lesson_coachs', 'lesson_time_used'));
     }
 
     public function store(StoreLessonTimeRequest $request)
@@ -180,14 +198,32 @@ class LessonTimeWithLessonTimeCoachController extends Controller
 
         $lessonTime->load('class_room', 'lesson', 'created_by');
 
-        $lesson_coachs = [];
+        $lesson_coachs = [ "" => trans('cruds.lessonTimeCoach.fields.please_select') ];
         foreach ($lessons as $id => $value){
-            $lesson_coachs[$id] = LessonCoach::where('lesson_id', $id)->get();
+            if($id != ""){
+                $lesson_coachs[$id] = LessonCoach::where('lesson_id', $id)->get();
+            }
         }
 
-        if($errors != null) return view('admin.lessonTimes.edit', compact('class_rooms', 'lessonTime', 'lessons', 'lesson_coachs', 'errors'));
+        date_default_timezone_set("Asia/Kuala_Lumpur");
+        $dateNow = Carbon::now()->toDateTimeString();
 
-        return view('admin.lessonTimes.edit', compact('class_rooms', 'lessonTime', 'lessons', 'lesson_coachs'));
+        $lesson_time_used = LessonTime::where('date_from', '>', $dateNow)->get();
+        foreach ($lesson_time_used as $time_index => $time_value){
+            $lesson_time_coach = LessonTimeCoach::where('lesson_time_id', $time_value->id)->get();
+            
+            $coachs_efk = [];
+
+            foreach ($lesson_time_coach as $index => $value){
+                $coachs_efk[$index] = $value->coach_efk;
+            }
+
+            $lesson_time_used[$time_index]->coachs_efk = $coachs_efk;
+        }
+
+        if($errors != null) return view('admin.lessonTimes.edit', compact('class_rooms', 'lessonTime', 'lessons', 'lesson_coachs', 'lesson_time_used', 'errors'));
+
+        return view('admin.lessonTimes.edit', compact('class_rooms', 'lessonTime', 'lessons', 'lesson_coachs', 'lesson_time_used'));
     }
 
     public function update(UpdateLessonTimeRequest $request, LessonTime $lessonTime)
