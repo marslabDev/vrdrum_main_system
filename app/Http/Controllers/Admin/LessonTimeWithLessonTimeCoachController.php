@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateLessonTimeRequest;
 use App\Models\CoachDetail;
 use App\Models\ClassRoom;
 use App\Models\Lesson;
+use App\Models\LessonCoach;
 use App\Models\LessonTime;
 use App\Models\LessonTimeCoach;
 use Carbon\Carbon;
@@ -93,11 +94,14 @@ class LessonTimeWithLessonTimeCoachController extends Controller
 
         $lessons = Lesson::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $coachs = CoachDetail::pluck('coach_efk', 'coach_efk');
+        $lesson_coachs = [];
+        foreach ($lessons as $id => $value){
+            $lesson_coachs[$id] = LessonCoach::where('lesson_id', $id)->get();
+        }
 
-        if($errors != null) return view('admin.lessonTimes.create', compact('class_rooms', 'lessons', 'coachs', 'errors'));
+        if($errors != null) return view('admin.lessonTimes.create', compact('class_rooms', 'lessons', 'lesson_coachs', 'errors'));
         
-        return view('admin.lessonTimes.create', compact('class_rooms', 'lessons', 'coachs'));
+        return view('admin.lessonTimes.create', compact('class_rooms', 'lessons', 'lesson_coachs'));
     }
 
     public function store(StoreLessonTimeRequest $request)
@@ -176,11 +180,14 @@ class LessonTimeWithLessonTimeCoachController extends Controller
 
         $lessonTime->load('class_room', 'lesson', 'created_by');
 
-        $coachs = CoachDetail::pluck('coach_efk', 'coach_efk');
+        $lesson_coachs = [];
+        foreach ($lessons as $id => $value){
+            $lesson_coachs[$id] = LessonCoach::where('lesson_id', $id)->get();
+        }
 
-        if($errors != null) return view('admin.lessonTimes.edit', compact('class_rooms', 'lessonTime', 'lessons', 'coachs', 'errors'));
+        if($errors != null) return view('admin.lessonTimes.edit', compact('class_rooms', 'lessonTime', 'lessons', 'lesson_coachs', 'errors'));
 
-        return view('admin.lessonTimes.edit', compact('class_rooms', 'lessonTime', 'lessons', 'coachs'));
+        return view('admin.lessonTimes.edit', compact('class_rooms', 'lessonTime', 'lessons', 'lesson_coachs'));
     }
 
     public function update(UpdateLessonTimeRequest $request, LessonTime $lessonTime)

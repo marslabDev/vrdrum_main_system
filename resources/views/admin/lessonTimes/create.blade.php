@@ -48,20 +48,12 @@
                 <span class="help-block">{{ trans('cruds.lessonTime.fields.lesson_helper') }}</span>
             </div>
             <div class="form-group">
-                <label class="required" for="student_efk">{{ trans('cruds.lessonTime.fields.student_efk') }}</label>
-                <input class="form-control {{ $errors->has('student_efk') ? 'is-invalid' : '' }}" type="number" name="student_efk" id="student_efk" value="{{ old('student_efk', '') }}" step="1" required>
-                @if($errors->has('student_efk'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('student_efk') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.lessonTime.fields.student_efk_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label for="coachs_efk[]">{{ trans('cruds.lessonTimeCoach.fields.coach_efk') }}</label>
-                <select class="form-control select2 {{ $errors->has('coachs_efk[]') ? 'is-invalid' : '' }}" name="coachs_efk[]" id="coachs_efk[]">
-                    @foreach($coachs as $id => $entry)
-                        <option value="{{ $id }}" {{ old('coachs_efk[]') == $id ? 'selected' : '' }}>{{ $entry }}</option>
+                <label class="required" for="coachs_efk[]">{{ trans('cruds.lessonTimeCoach.fields.coach_efk') }}</label>
+                <select class="form-control select2 {{ $errors->has('coachs_efk[]') ? 'is-invalid' : '' }}" name="coachs_efk[]" id="coachs_efk" required>
+                    @foreach($lesson_coachs as $lesson_id => $this_lesson_coachs)
+                        @foreach($this_lesson_coachs as $index => $value)
+                            <option value="{{ $value->coach_efk }}" parentLesson="{{ $value->lesson_id }}" {{ old('coachs_efk[]') == $id ? 'selected' : '' }}>{{ $value->coach_efk }}</option>
+                        @endforeach
                     @endforeach
                 </select>
                 @if($errors->has('coachs_efk[]'))
@@ -70,6 +62,16 @@
                     </div>
                 @endif
                 <span class="help-block">{{ trans('cruds.lessonCoach.fields.coach_efk_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label class="required" for="student_efk">{{ trans('cruds.lessonTime.fields.student_efk') }}</label>
+                <input class="form-control {{ $errors->has('student_efk') ? 'is-invalid' : '' }}" type="number" name="student_efk" id="student_efk" value="{{ old('student_efk', '') }}" step="1" required>
+                @if($errors->has('student_efk'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('student_efk') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.lessonTime.fields.student_efk_helper') }}</span>
             </div>
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">
@@ -82,4 +84,18 @@
 
 
 
+@endsection
+@section('scripts')
+<script>
+$(function () {
+    var $lesson_select = $('#lesson_id')
+    var $coach_select = $('#coachs_efk')
+    var $options = $coach_select.find('option')
+
+    $lesson_select.on('change', function(){
+        $coach_select.html($options.filter('[parentLesson="'+ this.value + '"]'))
+    }).trigger('change');
+});
+    
+</script>
 @endsection
