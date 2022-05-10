@@ -321,6 +321,7 @@ return [
             'created_by_helper'  => ' ',
             'coach_efk'          => 'Coach',
             'coach_efk_helper'   => ' ',
+            'please_select'      => 'Please Select Date and Lesson first'
         ],
     ],
     'lessonTimeChange' => [

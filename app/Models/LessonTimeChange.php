@@ -48,7 +48,7 @@ class LessonTimeChange extends Model
 
     public function old_lesson_time()
     {
-        return $this->belongsTo(LessonTime::class, 'old_lesson_time_id');
+        return $this->belongsTo(LessonTime::class, 'old_lesson_time_id')->withTrashed();
     }
 
     public function getDateFromAttribute($value)

@@ -52,9 +52,13 @@
                 <label class="required" for="coachs_efk[]">{{ trans('cruds.lessonTimeCoach.fields.coach_efk') }}</label>
                 <select class="form-control select2 {{ $errors->has('coachs_efk[]') ? 'is-invalid' : '' }}" name="coachs_efk[]" id="coachs_efk" required>
                     @foreach($lesson_coachs as $lesson_id => $this_lesson_coachs)
-                        @foreach($this_lesson_coachs as $index => $value)
-                            <option value="{{ $value->coach_efk }}" parentLesson="{{ $value->lesson_id }}" {{ old('coachs_efk[]') == $id ? 'selected' : '' }}>{{ $value->coach_efk }}</option>
-                        @endforeach
+                        @if($lesson_id == "")
+                            <option value="{{ $this_lesson_coachs }}" parentLesson="" {{ old('coachs_efk[]') == $id ? 'selected' : '' }}>{{ $this_lesson_coachs }}</option>
+                        @else    
+                            @foreach($this_lesson_coachs as $index => $value)
+                                <option value="{{ $value->coach_efk }}" parentLesson="{{ $value->lesson_id }}" {{ old('coachs_efk[]') == $id ? 'selected' : '' }}>{{ $value->coach_efk }}</option>
+                            @endforeach
+                        @endif
                     @endforeach
                 </select>
                 @if($errors->has('coachs_efk[]'))
@@ -89,14 +93,64 @@
 @section('scripts')
 <script>
 $(function () {
+    var $date_select = $('#date_from')
     var $lesson_select = $('#lesson_id')
     var $coach_select = $('#coachs_efk')
-    var $options = $coach_select.find('option')
+    var $coach_options = $coach_select.find('option')
+    
 
     $lesson_select.on('change', function(){
-        $coach_select.html($options.filter('[parentLesson="'+ this.value + '"]'))
+        coachOptionController()
     }).trigger('change');
-});
+
     
+    $date_select.on('dp.change', function(e){
+        coachOptionController()
+    }).trigger('change');
+
+
+    function coachOptionController(){
+        enableAllCoachOption()
+        disableCoachOption()
+
+        var $options = $coach_options.filter('[parentLesson="'+ $lesson_select.val() + '"]')
+
+        if($options.length == 0){
+            $coach_select.val("")
+            $coach_select.html($coach_options.filter('[parentLesson=""]'))
+        }else{
+            $coach_select.val("")
+            $coach_select.html($options)
+        }
+    }
+    
+    function disableCoachOption(){
+        var $lesson_time_used = <?php echo $lesson_time_used ?>;
+
+        var $time_used = $lesson_time_used.filter((e) => {
+            return e['date_from'] <= $date_select.val() && $date_select.val() <= e['date_to']
+        })
+
+        $time_used.forEach(($value) => {
+            if($value['coachs_efk'] != null){
+                $value['coachs_efk'].forEach(($coach_id) => {
+                    var $options = $coach_options.filter('[value="'+ $coach_id + '"]')
+
+                    $options.each(($index, $option) => {
+                        $option.disabled = true;
+                    })
+                })
+            }
+        })
+    }
+
+    function enableAllCoachOption(){
+        var $options = $coach_options.filter('[disabled="disabled"]')
+
+        $options.each(($index, $option) => {
+            $option.disabled = false;
+        })
+    }
+});
 </script>
 @endsection
