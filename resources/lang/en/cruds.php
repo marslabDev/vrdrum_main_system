@@ -262,8 +262,8 @@ return [
         ],
     ],
     'lessonTimeManagement' => [
-        'title'          => 'Lesson Time Management',
-        'title_singular' => 'Lesson Time Management',
+        'title'          => 'Lesson Time Mgmt',
+        'title_singular' => 'Lesson Time Mgmt',
     ],
     'lessonTime' => [
         'title'          => 'Lesson Time',
@@ -376,8 +376,8 @@ return [
         ],
     ],
     'studentWorkManagement' => [
-        'title'          => 'Student Work Management',
-        'title_singular' => 'Student Work Management',
+        'title'          => 'Student Work Mgmt',
+        'title_singular' => 'Student Work Mgmt',
     ],
     'studentDetail' => [
         'title'          => 'Student Detail',
@@ -665,6 +665,28 @@ return [
             'updated_at_helper'     => ' ',
             'deleted_at'            => 'Deleted At',
             'deleted_at_helper'     => ' ',
+        ],
+    ],
+    'branchManagement' => [
+        'title'          => 'Branch Management',
+        'title_singular' => 'Branch Management',
+    ],
+    'branch' => [
+        'title'          => 'Branch',
+        'title_singular' => 'Branch',
+        'fields'         => [
+            'id'                => 'ID',
+            'id_helper'         => ' ',
+            'name'              => 'Name',
+            'name_helper'       => ' ',
+            'created_at'        => 'Created at',
+            'created_at_helper' => ' ',
+            'updated_at'        => 'Updated at',
+            'updated_at_helper' => ' ',
+            'deleted_at'        => 'Deleted at',
+            'deleted_at_helper' => ' ',
+            'created_by'        => 'Created By',
+            'created_by_helper' => ' ',
         ],
     ],
 ];
