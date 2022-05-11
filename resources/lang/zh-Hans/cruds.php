@@ -262,8 +262,8 @@ return [
         ],
     ],
     'lessonTimeManagement' => [
-        'title'          => 'Lesson Time Management',
-        'title_singular' => 'Lesson Time Management',
+        'title'          => 'Lesson Time Mgmt',
+        'title_singular' => 'Lesson Time Mgmt',
     ],
     'lessonTime' => [
         'title'          => 'Lesson Time',
@@ -376,8 +376,8 @@ return [
         ],
     ],
     'studentWorkManagement' => [
-        'title'          => 'Student Work Management',
-        'title_singular' => 'Student Work Management',
+        'title'          => 'Student Work Mgmt',
+        'title_singular' => 'Student Work Mgmt',
     ],
     'studentDetail' => [
         'title'          => 'Student Detail',
