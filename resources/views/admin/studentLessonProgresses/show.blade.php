@@ -52,7 +52,7 @@
             @if($has_next_level)
             <div style="margin-bottom: 10px;" class="row">
                 <div class="col-lg-12">
-                    <form method="POST" action="{{ route("admin.student-lesson-progresses.toNextLevel", [$studentLessonProgress->id]) }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route("function.student-lesson-progresses.toNextLevel", [$studentLessonProgress->id]) }}" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
                             <button class="btn btn-danger" type="submit">
@@ -66,7 +66,7 @@
             @if($has_low_level)
             <div style="margin-bottom: 10px;" class="row">
                 <div class="col-lg-12">
-                    <form method="POST" action="{{ route("admin.student-lesson-progresses.toLowLevel", [$studentLessonProgress->id]) }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route("function.student-lesson-progresses.toLowLevel", [$studentLessonProgress->id]) }}" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
                             <button class="btn btn-danger" type="submit">

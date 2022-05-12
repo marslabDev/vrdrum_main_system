@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Function;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\MassDestroyLessonTimeChangeRequest;
@@ -24,7 +24,7 @@ class LessonTimeChangeActionController extends Controller
 {
     public function toApproved($id)
     {
-        abort_if(Gate::denies('lesson_time_change_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('lesson_time_change_approve'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $lesson_time_change = LessonTimeChange::find($id);
         $lesson_time = LessonTime::find($lesson_time_change->old_lesson_time_id);
@@ -70,7 +70,7 @@ class LessonTimeChangeActionController extends Controller
 
     public function toRejected($id)
     {
-        abort_if(Gate::denies('lesson_time_change_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('lesson_time_change_reject'), Response::HTTP_FORBIDDEN, '403 Forbidden');
         
         $lesson_time_change = LessonTimeChange::find($id);
 

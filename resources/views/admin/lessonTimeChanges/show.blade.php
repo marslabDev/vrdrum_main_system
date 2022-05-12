@@ -108,7 +108,7 @@
             @if($lessonTimeChange->status == config('constants.lesson_time_change.status.pending'))
                 <div style="margin-bottom: 10px;" class="row">
                     <div class="col-lg-12">
-                        <form method="POST" action="{{ route("admin.lesson-time-changes.toApproved", [$lessonTimeChange->id]) }}" enctype="multipart/form-data">
+                        <form method="POST" action="{{ route("function.lesson-time-changes.toApproved", [$lessonTimeChange->id]) }}" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
                                 <button class="btn btn-success" type="submit">
@@ -116,7 +116,7 @@
                                 </button>
                             </div>
                         </form>
-                        <form method="POST" action="{{ route("admin.lesson-time-changes.toRejected", [$lessonTimeChange->id]) }}" enctype="multipart/form-data">
+                        <form method="POST" action="{{ route("function.lesson-time-changes.toRejected", [$lessonTimeChange->id]) }}" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
                                 <button class="btn btn-danger" type="submit">

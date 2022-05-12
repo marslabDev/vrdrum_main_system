@@ -66,14 +66,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Route::resource('lesson-time-coaches', 'LessonTimeCoachController');
 
     // Lesson Time Change
-    Route::post('lesson-time-changes/{id}/approve', 'LessonTimeChangeActionController@toApproved')->name('lesson-time-changes.toApproved');
-    Route::post('lesson-time-changes/{id}/reject', 'LessonTimeChangeActionController@toRejected')->name('lesson-time-changes.toRejected');
     Route::delete('lesson-time-changes/destroy', 'LessonTimeChangeController@massDestroy')->name('lesson-time-changes.massDestroy');
     Route::resource('lesson-time-changes', 'LessonTimeChangeController');
     
     // Student Lesson Progress
-    Route::post('student-lesson-progresses/{id}/toNextLevel', 'StudentLessonProgressController@toNextLevel')->name('student-lesson-progresses.toNextLevel');
-    Route::post('student-lesson-progresses/{id}/toLowLevel', 'StudentLessonProgressController@toLowLevel')->name('student-lesson-progresses.toLowLevel');
     Route::delete('student-lesson-progresses/destroy', 'StudentLessonProgressController@massDestroy')->name('student-lesson-progresses.massDestroy');
     Route::resource('student-lesson-progresses', 'StudentLessonProgressController');
 
@@ -199,8 +195,10 @@ Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 
 });
 
 
-// Route::group(['prefix' => 'function', 'as' => 'function.', 'namespace' => 'Function\V1', 'middleware' => ['auth']], function () {
-//     // get tuition package with lesson category & tuition gift
-//     Route::get('get-tuition-with-gift', 'TuitionPakageWithGiftController@index');
+Route::group(['prefix' => 'function', 'as' => 'function.', 'namespace' => 'Function', 'middleware' => ['auth']], function () {
+    Route::post('lesson-time-changes/{id}/approve', 'LessonTimeChangeActionController@toApproved')->name('lesson-time-changes.toApproved');
+    Route::post('lesson-time-changes/{id}/reject', 'LessonTimeChangeActionController@toRejected')->name('lesson-time-changes.toRejected');
 
-// });
+    Route::post('student-lesson-progresses/{id}/toNextLevel', 'StudentLessonProgressControlController@toNextLevel')->name('student-lesson-progresses.toNextLevel');
+    Route::post('student-lesson-progresses/{id}/toLowLevel', 'StudentLessonProgressControlController@toLowLevel')->name('student-lesson-progresses.toLowLevel');
+});
