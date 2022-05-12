@@ -101,7 +101,7 @@
                             </a>
                         </li>
                     @endcan
-                    @can('student_metum_access')
+                    <!-- @can('student_metum_access')
                         <li class="c-sidebar-nav-item">
                             <a href="{{ route("admin.student-meta.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/student-meta") || request()->is("admin/student-meta/*") ? "c-active" : "" }}">
                                 <i class="fa-fw fas fa-th c-sidebar-nav-icon">
@@ -110,7 +110,7 @@
                                 {{ trans('cruds.studentMetum.title') }}
                             </a>
                         </li>
-                    @endcan
+                    @endcan -->
                 </ul>
             </li>
         @endcan

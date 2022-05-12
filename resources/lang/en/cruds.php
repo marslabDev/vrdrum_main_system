@@ -392,7 +392,7 @@ return [
         'fields'         => [
             'id'                  => 'ID',
             'id_helper'           => ' ',
-            'full_name'           => 'Full Name',
+            'full_name'           => 'Student Full Name',
             'full_name_helper'    => ' ',
             'parent_name'         => 'Parent Name',
             'parent_name_helper'  => ' ',

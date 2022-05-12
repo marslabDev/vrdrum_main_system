@@ -96,11 +96,19 @@ class StudentDetailController extends Controller
                     }
                 },
             ],
+            'parent_name' => [
+                function ($attribute, $value, $fail) use ($request) {
+                    if ($value == $request->input('full_name')) {
+                        $fail(trans('validation.parent_cannot_same_with_student'));
+                        return;
+                    }
+                },
+            ],
         ]);
         $request->merge([
             "name"=>$request->input('full_name', ''),
             "is_disabled"=>$request->input('is_disabled', 0),
-            "group"=>$request->input('lesson_group', '')
+            "group"=>$request->input('lesson_group', '')//TODO: Add update db group
         ]);
 
         var_dump($request->all());
@@ -114,12 +122,12 @@ class StudentDetailController extends Controller
                 $prefix = 'secondary_';
                 break;
         }
-        if(Role::exist($prefix.'student')) {
+        if(Role::where('title', $prefix.'student')->exists()) {
             $user->roles()->sync([$prefix.'Student']);
-        } else if (Role::exist('student')) {
+        } else if (Role::where('title', 'student')->exists()) {
             $user->roles()->sync(['Student']);
         } else {
-            $user->roles()->sync([Role::first()->name]);
+            $user->roles()->sync([Role::first()->id]);
         }
         $request->merge([
             "student_efk"=>$user->id,

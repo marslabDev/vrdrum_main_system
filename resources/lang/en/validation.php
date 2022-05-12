@@ -131,5 +131,6 @@ return [
     'lesson_level_exist'             => 'This Lesson Category is already has level %s',
     'lesson_time_change_not_allow_edit'       => 'This lesson time change is not pending status is not allow to edit',
     'follow_phone_number_format' => 'Invalid Phone Number, please follow format like 011-2345 6789',
-    'name_cannot_same_with_email' => 'The :attribute cannot same with you email.'
+    'name_cannot_same_with_email' => 'The :attribute cannot same with you email.',
+    'parent_cannot_same_with_student' => 'The :attribute cannot same with student name.'
 ];
