@@ -9,6 +9,7 @@ use App\Http\Requests\UpdateLessonRequest;
 use App\Models\CoachDetail;
 use App\Models\LessonCoach;
 use App\Models\Lesson;
+use App\Models\LessonCategory;
 use App\Models\LessonLevel;
 use Gate;
 use Validator;
@@ -86,7 +87,13 @@ class LessonWithLessonCoachController extends Controller
     {
         abort_if(Gate::denies('lesson_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $lesson_levels = LessonLevel::pluck('level', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $lesson_levels = [ '' => trans('global.pleaseSelect') ];
+
+        $all_lesson_level = LessonLevel::all();
+        foreach ($all_lesson_level as $index => $value){
+            $lesson_category = LessonCategory::find($value->lesson_category_id);
+            $lesson_levels[$value->id] = $lesson_category->name . ' - ' . $value->level;
+        }
 
         $coachs = CoachDetail::pluck('coach_efk', 'coach_efk');
 
@@ -136,9 +143,15 @@ class LessonWithLessonCoachController extends Controller
     {
         abort_if(Gate::denies('lesson_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $lesson_levels = LessonLevel::pluck('level', 'id')->prepend(trans('global.pleaseSelect'), '');
-
         $lesson->load('lesson_level', 'created_by');
+
+        $lesson_levels = [ '' => trans('global.pleaseSelect') ];
+
+        $all_lesson_level = LessonLevel::all();
+        foreach ($all_lesson_level as $index => $value){
+            $lesson_category = LessonCategory::find($value->lesson_category_id);
+            $lesson_levels[$value->id] = $lesson_category->name . ' - ' . $value->level;
+        }
 
         $coachs = CoachDetail::pluck('coach_efk', 'coach_efk');
 
