@@ -16,6 +16,12 @@ class LessonCategory extends Model
     use Auditable;
     use HasFactory;
 
+    public const GROUP_SELECT = [
+        'primary_class'   => 'Primary Class',
+        'secondary_class' => 'Secondary Class',
+        'public_class'    => 'Public Class',
+    ];
+
     public $table = 'lesson_categories';
 
     protected $dates = [
@@ -27,6 +33,7 @@ class LessonCategory extends Model
     protected $fillable = [
         'name',
         'desc',
+        'group',
         'created_at',
         'updated_at',
         'deleted_at',

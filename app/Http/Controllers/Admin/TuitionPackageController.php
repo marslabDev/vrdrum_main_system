@@ -88,7 +88,7 @@ class TuitionPackageController extends Controller
 
         $lesson_categories = LessonCategory::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        if($errors != null) return view('admin.tuitionPackages.create', compact('lesson_categories', 'errors'));
+        if($errors != null) return view('admin.tuitionPackages.create', compact('lesson_categories'))->withErrors($errors);
 
         return view('admin.tuitionPackages.create', compact('lesson_categories'));
     }
@@ -98,14 +98,14 @@ class TuitionPackageController extends Controller
         $request_data = $request->all();
 
         // ------------------------------ validation ------------------------------
-        $validated = Validator::make([],[]);
+        $errros = [];
 
         if ($request_data['lesson_category_id'] == null){
-            $validated->getMessageBag()->add('lesson_category', trans('validation.lesson_category_required'));
+            $errros['lesson_category'] = trans('validation.lesson_category_required');
         }
 
-        if($validated->errors()->count() > 0){
-            return $this->create($validated->errors());
+        if(count($errors) > 0){
+            return $this->create($errros);
         }
 
         // ------------------------------ data assign ------------------------------
@@ -127,7 +127,7 @@ class TuitionPackageController extends Controller
 
         $tuitionPackage->total_lesson = $tuitionPackage->total_minute / config('constants.lesson.one_lesson_time');
 
-        if($errors != null) return view('admin.tuitionPackages.edit', compact('lesson_categories', 'tuitionPackage', 'errors'));
+        if($errors != null) return view('admin.tuitionPackages.edit', compact('lesson_categories', 'tuitionPackage'))->withErrors($errors);
 
         return view('admin.tuitionPackages.edit', compact('lesson_categories', 'tuitionPackage'));
     }
@@ -137,14 +137,14 @@ class TuitionPackageController extends Controller
         $request_data = $request->all();
 
         // ------------------------------ validation ------------------------------
-        $validated = Validator::make([],[]);
+        $errros = [];
 
         if ($request_data['lesson_category_id'] == null){
-            $validated->getMessageBag()->add('lesson_category', trans('validation.lesson_category_required'));
+            $errros['lesson_category'] = trans('validation.lesson_category_required');
         }
 
-        if($validated->errors()->count() > 0){
-            return $this->edit($tuitionPackage, $validated->errors());
+        if(count($errors) > 0){
+            return $this->edit($tuitionPackage, $errros);
         }
 
         // ------------------------------ data assign ------------------------------

@@ -806,6 +806,24 @@ class PermissionsTableSeeder extends Seeder
                 'id'    => 199,
                 'title' => 'profile_password_edit',
             ],
+            // ------------------------------ custom permission ------------------------------
+            [
+                'id'    => 200,
+                'title' => 'student_lesson_progress_upgrade'
+            ],
+            [
+                'id'    => 201,
+                'title' => 'student_lesson_progress_downgrade'
+            ],
+            [
+                'id'    => 202,
+                'title' => 'lesson_time_change_approve'
+            ],
+            [
+                'id'    => 203,
+                'title' => 'lesson_time_change_reject'
+            ],
+            // ------------------------------ custom permission ------------------------------
         ];
 
         Permission::upsert($permissions, ['title'], ['id']);

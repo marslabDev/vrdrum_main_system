@@ -49,6 +49,9 @@ class LessonCategoryController extends Controller
             $table->editColumn('desc', function ($row) {
                 return $row->desc ? $row->desc : '';
             });
+            $table->editColumn('group', function ($row) {
+                return $row->group ? LessonCategory::GROUP_SELECT[$row->group] : '';
+            });
 
             $table->rawColumns(['actions', 'placeholder']);
 

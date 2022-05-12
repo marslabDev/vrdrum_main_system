@@ -129,5 +129,6 @@ return [
     'coach_required'                 => 'The Coach is required',
     'lesson_time_required'           => 'The Lesson Time is required',
     'lesson_level_exist'             => 'This Lesson Category is already has level %s',
+    'lesson_level_delete_last'       => 'You only can delete last lesson class in this lesson level',
     'lesson_time_change_not_allow_edit'       => 'This lesson time change is not pending status is not allow to edit',
 ];

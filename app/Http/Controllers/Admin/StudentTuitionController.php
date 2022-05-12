@@ -74,7 +74,7 @@ class StudentTuitionController extends Controller
 
         $tuition_packages = TuitionPackage::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        if($errors != null) return view('admin.studentTuitions.create', compact('tuition_packages', 'errors'));
+        if($errors != null) return view('admin.studentTuitions.create', compact('tuition_packages'))->withErrors($errors);
 
         return view('admin.studentTuitions.create', compact('tuition_packages'));
     }
@@ -84,14 +84,14 @@ class StudentTuitionController extends Controller
         $request_data = $request->all();
 
         // ------------------------------ validation ------------------------------
-        $validated = Validator::make([],[]);
+        $errros = [];
 
         if ($request_data['tuition_package_id'] == null){
-            $validated->getMessageBag()->add('tuition_package', trans('validation.tuition_package_required'));
+            $errros['tuition_package'] = trans('validation.tuition_package_required');
         }
 
-        if($validated->errors()->count() > 0){
-            return $this->create($validated->errors());
+        if(count($errors) > 0){
+            return $this->create($errros);
         }
 
         // ------------------------------ data assign ------------------------------
@@ -122,7 +122,7 @@ class StudentTuitionController extends Controller
 
         $studentTuition->load('tuition_package', 'created_by');
 
-        if($errors != null) return view('admin.studentTuitions.edit', compact('studentTuition', 'tuition_packages', 'errors'));
+        if($errors != null) return view('admin.studentTuitions.edit', compact('studentTuition', 'tuition_packages'))->withErrors($errors);
 
         return view('admin.studentTuitions.edit', compact('studentTuition', 'tuition_packages'));
     }
@@ -132,14 +132,14 @@ class StudentTuitionController extends Controller
         // $request_data = $request->all();
 
         // // ------------------------------ validation ------------------------------
-        // $validated = Validator::make([],[]);
+        // $errros = [];
 
         // if ($request_data['tuition_package_id'] == null){
-        //     $validated->getMessageBag()->add('tuition_package', trans('validation.tuition_package_required'));
+        //     $errros['tuition_package'] = trans('validation.tuition_package_required');
         // }
 
-        // if($validated->errors()->count() > 0){
-        //     return $this->edit($studentTuition, $validated->errors());
+        // if(count($errors) > 0){
+        //     return $this->edit($studentTuition, $errros);
         // }
 
         // // ------------------------------ data assign ------------------------------

@@ -69,7 +69,7 @@ class LessonLevelController extends Controller
 
         $lesson_categories = LessonCategory::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        if($errors != null) return view('admin.lessonLevels.create', compact('lesson_categories', 'errors'));
+        if($errors != null) return view('admin.lessonLevels.create', compact('lesson_categories'))->withErrors($errors);
 
         return view('admin.lessonLevels.create', compact('lesson_categories'));
     }
@@ -79,18 +79,18 @@ class LessonLevelController extends Controller
         $request_data = $request->all();
 
         // ------------------------------ validation ------------------------------
-        $validated = Validator::make([],[]);
+        $errors = [];
 
         if ($request_data['lesson_category_id'] == null){
-            $validated->getMessageBag()->add('lesson_category', trans('validation.lesson_category_required'));
+            $errors['lesson_category'] = trans('validation.lesson_category_required');
         }
  
         if ($request_data['lesson_category_id'] != null && LessonLevel::where('level', $request_data['level'])->get()->first() != null){
-            $validated->getMessageBag()->add('level', sprintf(trans('validation.lesson_level_exist'), $request_data['level']));
+            $errors['level'] = sprintf(trans('validation.lesson_level_exist'), $request_data['level']);
         }
 
-        if($validated->errors()->count() > 0){
-            return $this->create($validated->errors());
+        if(count($errors) > 0){
+            return $this->create($errors);
         }
 
         $lessonLevel = LessonLevel::create($request_data);
@@ -106,7 +106,7 @@ class LessonLevelController extends Controller
 
         $lessonLevel->load('lesson_category', 'created_by');
 
-        if($errors != null) return view('admin.lessonLevels.edit', compact('lessonLevel', 'lesson_categories', 'errors'));
+        if($errors != null) return view('admin.lessonLevels.edit', compact('lessonLevel', 'lesson_categories'))->withErrors($errors);
 
         return view('admin.lessonLevels.edit', compact('lessonLevel', 'lesson_categories'));
     }
@@ -116,18 +116,18 @@ class LessonLevelController extends Controller
         $request_data = $request->all();
 
         // ------------------------------ validation ------------------------------
-        $validated = Validator::make([],[]);
+        $errors = [];
 
         if ($request_data['lesson_category_id'] == null){
-            $validated->getMessageBag()->add('lesson_category', trans('validation.lesson_category_required'));
+            $errors['lesson_category'] = trans('validation.lesson_category_required');
         }
 
         if ($request_data['lesson_category_id'] != null && $request_data['level'] != $lessonLevel->level && LessonLevel::where('level', $request_data['level'])->get()->first() != null){
-            $validated->getMessageBag()->add('level', sprintf(trans('validation.lesson_level_exist'), $request_data['level']));
+            $errors['level'] = sprintf(trans('validation.lesson_level_exist'), $request_data['level']);
         }
 
-        if($validated->errors()->count() > 0){
-            return $this->edit($lessonLevel, $validated->errors());
+        if(count($errors) > 0){
+            return $this->edit($lessonLevel, $errors);
         }
 
         $lessonLevel->update($request_data);

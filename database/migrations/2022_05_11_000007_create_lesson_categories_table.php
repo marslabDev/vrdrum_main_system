@@ -12,6 +12,7 @@ class CreateLessonCategoriesTable extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('desc')->nullable();
+            $table->string('group');
             $table->timestamps();
             $table->softDeletes();
         });
