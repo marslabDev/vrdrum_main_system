@@ -25,6 +25,10 @@ class StoreLessonCategoryRequest extends FormRequest
                 'string',
                 'nullable',
             ],
+            'group' => [
+                'string',
+                'required',
+            ],
         ];
     }
 }

@@ -113,6 +113,8 @@ return [
             'name_helper'       => ' ',
             'desc'              => 'Desc',
             'desc_helper'       => ' ',
+            'group'             => 'Group',
+            'group_helper'      => ' ',
             'created_at'        => 'Created at',
             'created_at_helper' => ' ',
             'updated_at'        => 'Updated at',

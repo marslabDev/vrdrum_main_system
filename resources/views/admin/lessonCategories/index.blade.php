@@ -31,6 +31,9 @@
                         {{ trans('cruds.lessonCategory.fields.desc') }}
                     </th>
                     <th>
+                        {{ trans('cruds.lessonCategory.fields.group') }}
+                    </th>
+                    <th>
                         &nbsp;
                     </th>
                 </tr>
@@ -89,6 +92,7 @@
 { data: 'id', name: 'id' },
 { data: 'name', name: 'name' },
 { data: 'desc', name: 'desc' },
+{ data: 'group', name: 'group' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,
