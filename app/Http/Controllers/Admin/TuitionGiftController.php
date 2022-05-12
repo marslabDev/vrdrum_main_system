@@ -80,7 +80,7 @@ class TuitionGiftController extends Controller
 
         $tuition_packages = TuitionPackage::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        if($errors != null) return view('admin.tuitionGifts.create', compact('tuition_packages', 'errors'));
+        if($errors != null) return view('admin.tuitionGifts.create', compact('tuition_packages'))->withErrors($errors);
 
         return view('admin.tuitionGifts.create', compact('tuition_packages'));
     }
@@ -90,26 +90,26 @@ class TuitionGiftController extends Controller
         $request_data = $request->all();
         
         // ------------------------------ validation ------------------------------
-        $validated = Validator::make([],[]);
+        $errros = [];
 
         if ($request_data['type'] == 'lesson' && $request_data['total_lesson'] == '0'){
-            $validated->getMessageBag()->add('total_lesson', trans('validation.total_lesson_required'));
+            $errros['total_lesson'] = trans('validation.total_lesson_required');
         }
 
         if ($request_data['type'] == 'product' && $request_data['quantity'] == '0'){
-            $validated->getMessageBag()->add('quantity', trans('validation.quantity_required'));
+            $errros['quantity'] = trans('validation.quantity_required');
         }
 
         if ($request_data['type'] == 'product' && $request_data['inventory_efk'] == null){
-            $validated->getMessageBag()->add('inventory_efk', trans('validation.inventory_required'));
+            $errros['inventory_efk'] = trans('validation.inventory_required');
         }
 
         if ($request_data['tuition_package_id'] == null){
-            $validated->getMessageBag()->add('tuition_package', trans('validation.tuition_package_required'));
+            $errros['tuition_package'] = trans('validation.tuition_package_required');
         }
 
-        if($validated->errors()->count() > 0){
-            return $this->create($validated->errors());
+        if(count($errors) > 0){
+            return $this->create($errros);
         }
 
         // ------------------------------ data assign ------------------------------
@@ -130,7 +130,7 @@ class TuitionGiftController extends Controller
 
         $tuitionGift->total_lesson = $tuitionGift->total_minute / config('constants.lesson.one_lesson_time') ;
 
-        if($errors != null) return view('admin.tuitionGifts.edit', compact('tuitionGift', 'tuition_packages', 'errors'));
+        if($errors != null) return view('admin.tuitionGifts.edit', compact('tuitionGift', 'tuition_packages'))->withErrors($errors);
 
         return view('admin.tuitionGifts.edit', compact('tuitionGift', 'tuition_packages'));
     }
@@ -140,26 +140,26 @@ class TuitionGiftController extends Controller
         $request_data = $request->all();
         
         // ------------------------------ validation ------------------------------
-        $validated = Validator::make([],[]);
+        $errros = [];
 
         if ($request_data['type'] == 'lesson' && $request_data['total_lesson'] == '0'){
-            $validated->getMessageBag()->add('total_lesson', trans('validation.total_lesson_required'));
+            $errros['total_lesson'] = trans('validation.total_lesson_required');
         }
 
         if ($request_data['type'] == 'product' && $request_data['quantity'] == '0'){
-            $validated->getMessageBag()->add('quantity', trans('validation.quantity_required'));
+            $errros['quantity'] = trans('validation.quantity_required');
         }
 
         if ($request_data['type'] == 'product' && $request_data['inventory_efk'] == null){
-            $validated->getMessageBag()->add('inventory_efk', trans('validation.inventory_required'));
+            $errros['inventory_efk'] = trans('validation.inventory_required');
         }
 
         if ($request_data['tuition_package_id'] == null){
-            $validated->getMessageBag()->add('tuition_package', trans('validation.tuition_package_required'));
+            $errros['tuition_package'] = trans('validation.tuition_package_required');
         }
 
-        if($validated->errors()->count() > 0){
-            return $this->edit($tuitionGift, $validated->errors());
+        if(count($errors) > 0){
+            return $this->edit($tuitionGift, $errros);
         }
 
         // ------------------------------ data assign ------------------------------

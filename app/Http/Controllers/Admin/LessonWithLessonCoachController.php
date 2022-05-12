@@ -97,7 +97,7 @@ class LessonWithLessonCoachController extends Controller
 
         $coachs = CoachDetail::pluck('coach_efk', 'coach_efk');
 
-        if($errors != null) return view('admin.lessons.create', compact('lesson_levels', 'coachs', 'errors'));
+        if($errors != null) return view('admin.lessons.create', compact('lesson_levels', 'coachs'))->withErrors($errors);
 
         return view('admin.lessons.create', compact('lesson_levels', 'coachs'));
     }
@@ -107,14 +107,14 @@ class LessonWithLessonCoachController extends Controller
         $request_data = $request->all();
 
         // ------------------------------ validation ------------------------------
-        $validated = Validator::make([],[]);
+        $errors = [];
 
         if ($request_data['lesson_level_id'] == null){
-            $validated->getMessageBag()->add('lesson_level', trans('validation.lesson_level_required'));
+            $errors['lesson_level'] = trans('validation.lesson_level_required');
         }
 
-        if($validated->errors()->count() > 0){
-            return $this->create($validated->errors());
+        if(count($errors) > 0){
+            return $this->create($errors);
         }
 
         // ------------------------------ data assign ------------------------------
@@ -162,7 +162,7 @@ class LessonWithLessonCoachController extends Controller
             $old_coachs_efk[$value->coach_efk] = $value->coach_efk;
         }
         
-        if($errors != null) return view('admin.lessons.edit', compact('lesson', 'lesson_levels', 'coachs', 'old_coachs_efk', 'errors'));
+        if($errors != null) return view('admin.lessons.edit', compact('lesson', 'lesson_levels', 'coachs', 'old_coachs_efk'))->withErrors($errors);
 
         return view('admin.lessons.edit', compact('lesson', 'lesson_levels', 'coachs', 'old_coachs_efk'));
     }
@@ -172,14 +172,14 @@ class LessonWithLessonCoachController extends Controller
         $request_data = $request->all();
 
         // ------------------------------ validation ------------------------------
-        $validated = Validator::make([],[]);
+        $errors = [];
 
         if ($request_data['lesson_level_id'] == null){
-            $validated->getMessageBag()->add('lesson_level', trans('validation.lesson_level_required'));
+            $errors['lesson_level'] = trans('validation.lesson_level_required');
         }
 
-        if($validated->errors()->count() > 0){
-            return $this->edit($lesson, $validated->errors());
+        if(count($errors) > 0){
+            return $this->edit($lesson, $errors);
         }
 
         // ------------------------------ data assign ------------------------------
@@ -246,6 +246,13 @@ class LessonWithLessonCoachController extends Controller
     public function destroy(Lesson $lesson)
     {
         abort_if(Gate::denies('lesson_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        
+        // ------------------------------ validation ------------------------------
+        $last_lesson = Lesson::where('lesson_level_id', $lesson->lesson_level_id)->orderBy('no_of_class', 'DESC')->get()->first();
+
+        if($last_lesson != null && $lesson->id != $last_lesson->id){
+            return back()->withErrors(['lesson_level' => trans('validation.lesson_level_delete_last')]);
+        }
 
         $lesson->delete();
 
@@ -254,7 +261,9 @@ class LessonWithLessonCoachController extends Controller
 
     public function massDestroy(MassDestroyLessonRequest $request)
     {
-        Lesson::whereIn('id', request('ids'))->delete();
+        // Lesson::whereIn('id', request('ids'))->delete();
+        // $lesson = Lesson::whereIn('id', request('ids'))->get();
+        // return response()->json($lesson);
 
         return response(null, Response::HTTP_NO_CONTENT);
     }

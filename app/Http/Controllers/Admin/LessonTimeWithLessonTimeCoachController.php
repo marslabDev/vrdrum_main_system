@@ -117,7 +117,7 @@ class LessonTimeWithLessonTimeCoachController extends Controller
             $lesson_time_used[$time_index]->coachs_efk = $coachs_efk;
         }
 
-        if($errors != null) return view('admin.lessonTimes.create', compact('class_rooms', 'lessons', 'lesson_coachs', 'lesson_time_used', 'errors'));
+        if($errors != null) return view('admin.lessonTimes.create', compact('class_rooms', 'lessons', 'lesson_coachs', 'lesson_time_used'))->withErrors($errors);
         
         return view('admin.lessonTimes.create', compact('class_rooms', 'lessons', 'lesson_coachs', 'lesson_time_used'));
     }
@@ -127,25 +127,25 @@ class LessonTimeWithLessonTimeCoachController extends Controller
         $request_data = $request->all();
 
         // ------------------------------ validation ------------------------------
-        $validated = Validator::make([],[]);
+        $errros = [];
         
         if ($request_data['class_room_id'] == null){
-            $validated->getMessageBag()->add('class_room', trans('validation.class_room_required'));
+            $errros['class_room'] = trans('validation.class_room_required');
         }
 
         if ($request_data['lesson_id'] == null){
-            $validated->getMessageBag()->add('lesson', trans('validation.lesson_required'));
+            $errros['lesson'] = trans('validation.lesson_required');
         }
 
         if (!array_key_exists('coachs_efk', $request_data)){
-            $validated->getMessageBag()->add('lesson', trans('validation.coach_required'));
+            $errros['lesson'] = trans('validation.coach_required');
 
         }else if ($request_data['coachs_efk'] != null && count($request_data['coachs_efk']) <= 0){
-            $validated->getMessageBag()->add('lesson', trans('validation.coach_required'));
+            $errros['lesson'] = trans('validation.coach_required');
         }
 
-        if($validated->errors()->count() > 0){
-            return $this->create($validated->errors());
+        if(count($errors) > 0){
+            return $this->create($errros);
         }
 
         // ------------------------------ data assign ------------------------------
@@ -221,7 +221,7 @@ class LessonTimeWithLessonTimeCoachController extends Controller
             $lesson_time_used[$time_index]->coachs_efk = $coachs_efk;
         }
 
-        if($errors != null) return view('admin.lessonTimes.edit', compact('class_rooms', 'lessonTime', 'lessons', 'lesson_coachs', 'lesson_time_used', 'errors'));
+        if($errors != null) return view('admin.lessonTimes.edit', compact('class_rooms', 'lessonTime', 'lessons', 'lesson_coachs', 'lesson_time_used'))->withErrors($errors);
 
         return view('admin.lessonTimes.edit', compact('class_rooms', 'lessonTime', 'lessons', 'lesson_coachs', 'lesson_time_used'));
     }
@@ -231,25 +231,25 @@ class LessonTimeWithLessonTimeCoachController extends Controller
         $request_data = $request->all();
 
         // ------------------------------ validation ------------------------------
-        $validated = Validator::make([],[]);
+        $errros = [];
         
         if ($request_data['class_room_id'] == null){
-            $validated->getMessageBag()->add('class_room', trans('validation.class_room_required'));
+            $errros['class_room'] = trans('validation.class_room_required');
         }
 
         if ($request_data['lesson_id'] == null){
-            $validated->getMessageBag()->add('lesson', trans('validation.lesson_required'));
+            $errros['lesson'] = trans('validation.lesson_required');
         }
 
         if (!array_key_exists('coachs_efk', $request_data)){
-            $validated->getMessageBag()->add('lesson', trans('validation.coach_required'));
+            $errros['lesson'] = trans('validation.coach_required');
 
         }else if ($request_data['coachs_efk'] != null && count($request_data['coachs_efk']) <= 0){
-            $validated->getMessageBag()->add('lesson', trans('validation.coach_required'));
+            $errros['lesson'] = trans('validation.coach_required');
         }
 
-        if($validated->errors()->count() > 0){
-            return $this->edit($lessonTime, $validated->errors());
+        if(count($errors) > 0){
+            return $this->edit($lessonTime, $errros);
         }
 
         // ------------------------------ data assign ------------------------------

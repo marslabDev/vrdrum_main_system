@@ -90,7 +90,7 @@ class LessonTimeChangeController extends Controller
 
         $lessons = Lesson::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        if($errors != null) return view('admin.lessonTimeChanges.create', compact('class_rooms', 'lessons', 'old_lesson_times', 'errors'));
+        if($errors != null) return view('admin.lessonTimeChanges.create', compact('class_rooms', 'lessons', 'old_lesson_times'))->withErrors($errors);
 
         return view('admin.lessonTimeChanges.create', compact('class_rooms', 'lessons', 'old_lesson_times'));
     }
@@ -100,22 +100,22 @@ class LessonTimeChangeController extends Controller
         $request_data = $request->all();
 
         // ------------------------------ validation ------------------------------
-        $validated = Validator::make([],[]);
+        $errros = [];
         
         if ($request_data['old_lesson_time_id'] == null){
-            $validated->getMessageBag()->add('old_lesson_time', trans('validation.lesson_time_required'));
+            $errros['old_lesson_time'] = trans('validation.lesson_time_required');
         }
 
         if ($request_data['class_room_id'] == null){
-            $validated->getMessageBag()->add('class_room', trans('validation.class_room_required'));
+            $errros['class_room'] = trans('validation.class_room_required');
         }
 
         if ($request_data['lesson_id'] == null){
-            $validated->getMessageBag()->add('lesson', trans('validation.lesson_required'));
+            $errros['lesson'] = trans('validation.lesson_required');
         }
 
-        if($validated->errors()->count() > 0){
-            return $this->create($validated->errors());
+        if(count($errros) > 0){
+            return $this->create($errros);
         }
 
         // ------------------------------ data assign ------------------------------
@@ -147,7 +147,7 @@ class LessonTimeChangeController extends Controller
 
         $lessonTimeChange->load('old_lesson_time', 'class_room', 'lesson', 'created_by');
 
-        if($errors != null) return view('admin.lessonTimeChanges.edit', compact('class_rooms', 'lessonTimeChange', 'lessons', 'old_lesson_times', 'errors'));
+        if($errors != null) return view('admin.lessonTimeChanges.edit', compact('class_rooms', 'lessonTimeChange', 'lessons', 'old_lesson_times'))->withErrors($errors);
 
         return view('admin.lessonTimeChanges.edit', compact('class_rooms', 'lessonTimeChange', 'lessons', 'old_lesson_times'));
     }
@@ -157,26 +157,26 @@ class LessonTimeChangeController extends Controller
         $request_data = $request->all();
 
         // ------------------------------ validation ------------------------------
-        $validated = Validator::make([],[]);
+        $errros = [];
         
         if($lessonTimeChange->status != config('constants.lesson_time_change.status.pending')){
-            $validated->getMessageBag()->add('not_allow_edit', trans('validation.lesson_time_change_not_allow_edit'));
+            $errros['not_allow_edit'] = trans('validation.lesson_time_change_not_allow_edit');
         }
 
         if ($request_data['old_lesson_time_id'] == null){
-            $validated->getMessageBag()->add('old_lesson_time', trans('validation.lesson_time_required'));
+            $errros['old_lesson_time'] = trans('validation.lesson_time_required');
         }
 
         if ($request_data['class_room_id'] == null){
-            $validated->getMessageBag()->add('class_room', trans('validation.class_room_required'));
+            $errros['class_room'] = trans('validation.class_room_required');
         }
 
         if ($request_data['lesson_id'] == null){
-            $validated->getMessageBag()->add('lesson', trans('validation.lesson_required'));
+            $errros['lesson'] = trans('validation.lesson_required');
         }
 
-        if($validated->errors()->count() > 0){
-            return $this->edit($lessonTimeChange, $validated->errors());
+        if(count($errros) > 0){
+            return $this->edit($lessonTimeChange, $errros);
         }
 
         // ------------------------------ data assign ------------------------------

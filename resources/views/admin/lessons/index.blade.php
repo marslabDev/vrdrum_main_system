@@ -79,11 +79,11 @@
           method: 'POST',
           url: config.url,
           data: { ids: ids, _method: 'DELETE' }})
-          .done(function () { location.reload() })
+        //   .done(function () { location.reload() })
       }
     }
   }
-  dtButtons.push(deleteButton)
+//   dtButtons.push(deleteButton)
 @endcan
 
   let dtOverrideGlobals = {
