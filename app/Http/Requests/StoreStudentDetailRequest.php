@@ -19,7 +19,7 @@ class StoreStudentDetailRequest extends FormRequest
         return [
             'full_name' => [
                 'string',
-                'required',
+                'required'
             ],
             'parent_name' => [
                 'string',
@@ -27,20 +27,15 @@ class StoreStudentDetailRequest extends FormRequest
             ],
             'parent_phone' => [
                 'string',
+                //'min:10',
                 'nullable',
             ],
-            'group' => [
+            'email' => [
+                'required',
                 'string',
-                'required',
-            ],
-            'is_disabled' => [
-                'required',
-            ],
-            'student_efk' => [
-                'required',
-                'integer',
-                'min:-2147483648',
-                'max:2147483647',
+                'email',
+                'max:255',
+                'unique:sso_db.users,email'
             ],
         ];
     }
