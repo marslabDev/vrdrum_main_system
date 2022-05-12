@@ -6,7 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MassDestroyStudentDetailRequest;
 use App\Http\Requests\StoreStudentDetailRequest;
 use App\Http\Requests\UpdateStudentDetailRequest;
+use App\Models\LessonCategory;
+use App\Models\Role;
 use App\Models\StudentDetail;
+use App\Models\User;
+// use App\Models\User;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -73,12 +77,54 @@ class StudentDetailController extends Controller
     public function create()
     {
         abort_if(Gate::denies('student_detail_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
-
-        return view('admin.studentDetails.create');
+        
+        $lessonCategories = LessonCategory::pluck('name')->toArray();
+        /* TODO: Add Lesson Group
+        * $lessonGroup = LessonGroup::pluck('name')->toArray(); 
+        */    
+        return view('admin.studentDetails.create', compact('lessonCategories'));
     }
 
     public function store(StoreStudentDetailRequest $request)
     {
+        $request->validate([
+            'full_name' => [
+                function ($attribute, $value, $fail) use ($request) {
+                    if ($value == $request->input('email')) {
+                        $fail(trans('validation.name_cannot_same_with_email'));
+                        return;
+                    }
+                },
+            ],
+        ]);
+        $request->merge([
+            "name"=>$request->input('full_name', ''),
+            "is_disabled"=>$request->input('is_disabled', 0),
+            "group"=>$request->input('lesson_group', '')
+        ]);
+
+        var_dump($request->all());
+        $user = User::create($request->all());
+        $prefix = '';
+        switch (trim(strtoupper($request->input('lesson_group', '')))) {
+            case 'PRIMARY':
+                $prefix = 'primary_';
+                break;
+            case 'SECONDARY':
+                $prefix = 'secondary_';
+                break;
+        }
+        if(Role::exist($prefix.'student')) {
+            $user->roles()->sync([$prefix.'Student']);
+        } else if (Role::exist('student')) {
+            $user->roles()->sync(['Student']);
+        } else {
+            $user->roles()->sync([Role::first()->name]);
+        }
+        $request->merge([
+            "student_efk"=>$user->id,
+        ]);
+        var_dump($request->all());
         $studentDetail = StudentDetail::create($request->all());
 
         return redirect()->route('admin.student-details.index');

@@ -400,7 +400,7 @@ return [
             'parent_phone_helper' => ' ',
             'group'               => 'Group',
             'group_helper'        => ' ',
-            'is_disabled'         => 'Is Disabled',
+            'is_disabled'         => 'Is Disabled Student (OKU)',
             'is_disabled_helper'  => ' ',
             'created_at'          => 'Created at',
             'created_at_helper'   => ' ',
