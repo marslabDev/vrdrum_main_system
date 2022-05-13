@@ -394,7 +394,7 @@ return [
         'fields'         => [
             'id'                  => 'ID',
             'id_helper'           => ' ',
-            'full_name'           => 'Full Name',
+            'full_name'           => 'Student Full Name',
             'full_name_helper'    => ' ',
             'parent_name'         => 'Parent Name',
             'parent_name_helper'  => ' ',
@@ -402,7 +402,7 @@ return [
             'parent_phone_helper' => ' ',
             'group'               => 'Group',
             'group_helper'        => ' ',
-            'is_disabled'         => 'Is Disabled',
+            'is_disabled'         => 'Is Disabled Student (OKU)',
             'is_disabled_helper'  => ' ',
             'created_at'          => 'Created at',
             'created_at_helper'   => ' ',

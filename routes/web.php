@@ -202,3 +202,8 @@ Route::group(['prefix' => 'function', 'as' => 'function.', 'namespace' => 'Funct
     Route::post('student-lesson-progresses/{id}/toNextLevel', 'StudentLessonProgressControlController@toNextLevel')->name('student-lesson-progresses.toNextLevel');
     Route::post('student-lesson-progresses/{id}/toLowLevel', 'StudentLessonProgressControlController@toLowLevel')->name('student-lesson-progresses.toLowLevel');
 });
+// Route::group(['prefix' => 'function', 'as' => 'function.', 'namespace' => 'Function\V1', 'middleware' => ['auth']], function () {
+//     // get tuition package with lesson category & tuition gift
+//     Route::get('get-tuition-with-gift', 'TuitionPakageWithGiftController@index');
+
+// });
