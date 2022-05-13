@@ -12,7 +12,6 @@ class CreateClassRoomsTable extends Migration
             $table->bigIncrements('id');
             $table->string('room_title');
             $table->boolean('is_available')->default(0);
-            $table->integer('branch_efk')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

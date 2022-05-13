@@ -41,10 +41,10 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.classRoom.fields.branch_efk') }}
+                            {{ trans('cruds.classRoom.fields.branch') }}
                         </th>
                         <td>
-                            {{ $classRoom->branch_efk }}
+                            {{ $classRoom->branch->name ?? '' }}
                         </td>
                     </tr>
                 </tbody>

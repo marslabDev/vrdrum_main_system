@@ -744,7 +744,6 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'id'    => 184,
-
                 'title' => 'profile_password_edit',
             ],
         ];

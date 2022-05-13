@@ -27,12 +27,17 @@ class ClassRoom extends Model
     protected $fillable = [
         'room_title',
         'is_available',
-        'branch_efk',
+        'branch_id',
         'created_at',
         'updated_at',
         'deleted_at',
         'created_by_id',
     ];
+
+    public function branch()
+    {
+        return $this->belongsTo(Branch::class, 'branch_id');
+    }
 
     public function created_by()
     {

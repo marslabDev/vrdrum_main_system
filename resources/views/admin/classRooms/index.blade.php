@@ -35,7 +35,7 @@
                         {{ trans('cruds.classRoom.fields.is_available') }}
                     </th>
                     <th>
-                        {{ trans('cruds.classRoom.fields.branch_efk') }}
+                        {{ trans('cruds.classRoom.fields.branch') }}
                     </th>
                     <th>
                         &nbsp;
@@ -96,7 +96,7 @@
 { data: 'id', name: 'id' },
 { data: 'room_title', name: 'room_title' },
 { data: 'is_available', name: 'is_available' },
-{ data: 'branch_efk', name: 'branch_efk' },
+{ data: 'branch_name', name: 'branch.name' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,
