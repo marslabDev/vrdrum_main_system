@@ -572,6 +572,30 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'id'    => 141,
+                'title' => 'branch_management_access',
+            ],
+            [
+                'id'    => 142,
+                'title' => 'branch_create',
+            ],
+            [
+                'id'    => 143,
+                'title' => 'branch_edit',
+            ],
+            [
+                'id'    => 144,
+                'title' => 'branch_show',
+            ],
+            [
+                'id'    => 145,
+                'title' => 'branch_delete',
+            ],
+            [
+                'id'    => 146,
+                'title' => 'branch_access',
+            ],
+            [
+                'id'    => 147,
                 'title' => 'profile_password_edit',
             ],
         ];

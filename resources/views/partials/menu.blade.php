@@ -21,7 +21,7 @@
             </a>
         </li>
         @can('user_management_access')
-            <li class="c-sidebar-nav-dropdown {{ request()->is("admin/permissions*") ? "c-show" : "" }} {{ request()->is("admin/roles*") ? "c-show" : "" }} {{ request()->is("admin/users*") ? "c-show" : "" }} {{ request()->is("admin/audit-logs*") ? "c-show" : "" }}">
+            <li class="c-sidebar-nav-dropdown {{ request()->is("admin/permissions*") ? "c-show" : "" }} {{ request()->is("admin/roles*") ? "c-show" : "" }} {{ request()->is("admin/users*") ? "c-show" : "" }}">
                 <a class="c-sidebar-nav-dropdown-toggle" href="#">
                     <i class="fa-fw fas fa-users c-sidebar-nav-icon">
 
@@ -56,16 +56,6 @@
 
                                 </i>
                                 {{ trans('cruds.user.title') }}
-                            </a>
-                        </li>
-                    @endcan
-                    @can('audit_log_access')
-                        <li class="c-sidebar-nav-item">
-                            <a href="{{ route("admin.audit-logs.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/audit-logs") || request()->is("admin/audit-logs/*") ? "c-active" : "" }}">
-                                <i class="fa-fw fas fa-file-alt c-sidebar-nav-icon">
-
-                                </i>
-                                {{ trans('cruds.auditLog.title') }}
                             </a>
                         </li>
                     @endcan
@@ -147,7 +137,6 @@
                         <li class="c-sidebar-nav-item">
                             <a href="{{ route("admin.work-resources.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/work-resources") || request()->is("admin/work-resources/*") ? "c-active" : "" }}">
                                 <i class="fa-fw far fa-file-alt c-sidebar-nav-icon">
-
                                 </i>
                                 {{ trans('cruds.workResource.title') }}
                             </a>
@@ -157,7 +146,6 @@
                         <li class="c-sidebar-nav-item">
                             <a href="{{ route("admin.submit-resources.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/submit-resources") || request()->is("admin/submit-resources/*") ? "c-active" : "" }}">
                                 <i class="fa-fw far fa-file-archive c-sidebar-nav-icon">
-
                                 </i>
                                 {{ trans('cruds.submitResource.title') }}
                             </a>
@@ -327,6 +315,7 @@
                                 <i class="fa-fw fas fa-stopwatch c-sidebar-nav-icon">
 
                                 </i>
+
                                 {{ trans('cruds.lessonTimeChange.title') }}
                             </a>
                         </li>
@@ -341,6 +330,16 @@
 
                     </i>
                     {{ trans('cruds.classRoom.title') }}
+                </a>
+            </li>
+        @endcan
+        @can('audit_log_access')
+            <li class="c-sidebar-nav-item">
+                <a href="{{ route("admin.audit-logs.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/audit-logs") || request()->is("admin/audit-logs/*") ? "c-active" : "" }}">
+                    <i class="fa-fw fas fa-file-alt c-sidebar-nav-icon">
+
+                    </i>
+                    {{ trans('cruds.auditLog.title') }}
                 </a>
             </li>
         @endcan
@@ -380,6 +379,28 @@
 
                                 </i>
                                 {{ trans('cruds.contentPage.title') }}
+                            </a>
+                        </li>
+                    @endcan
+                </ul>
+            </li>
+        @endcan
+        @can('branch_management_access')
+            <li class="c-sidebar-nav-dropdown {{ request()->is("admin/branches*") ? "c-show" : "" }}">
+                <a class="c-sidebar-nav-dropdown-toggle" href="#">
+                    <i class="fa-fw fas fa-code-branch c-sidebar-nav-icon">
+
+                    </i>
+                    {{ trans('cruds.branchManagement.title') }}
+                </a>
+                <ul class="c-sidebar-nav-dropdown-items">
+                    @can('branch_access')
+                        <li class="c-sidebar-nav-item">
+                            <a href="{{ route("admin.branches.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/branches") || request()->is("admin/branches/*") ? "c-active" : "" }}">
+                                <i class="fa-fw fas fa-school c-sidebar-nav-icon">
+
+                                </i>
+                                {{ trans('cruds.branch.title') }}
                             </a>
                         </li>
                     @endcan

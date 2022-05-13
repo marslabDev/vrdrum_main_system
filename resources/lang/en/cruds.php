@@ -667,4 +667,26 @@ return [
             'deleted_at_helper'     => ' ',
         ],
     ],
+    'branchManagement' => [
+        'title'          => 'Branch Management',
+        'title_singular' => 'Branch Management',
+    ],
+    'branch' => [
+        'title'          => 'Branch',
+        'title_singular' => 'Branch',
+        'fields'         => [
+            'id'                => 'ID',
+            'id_helper'         => ' ',
+            'name'              => 'Name',
+            'name_helper'       => ' ',
+            'created_at'        => 'Created at',
+            'created_at_helper' => ' ',
+            'updated_at'        => 'Updated at',
+            'updated_at_helper' => ' ',
+            'deleted_at'        => 'Deleted at',
+            'deleted_at_helper' => ' ',
+            'created_by'        => 'Created By',
+            'created_by_helper' => ' ',
+        ],
+    ],
 ];
