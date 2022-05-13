@@ -137,7 +137,6 @@
                         <li class="c-sidebar-nav-item">
                             <a href="{{ route("admin.work-resources.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/work-resources") || request()->is("admin/work-resources/*") ? "c-active" : "" }}">
                                 <i class="fa-fw far fa-file-alt c-sidebar-nav-icon">
-
                                 </i>
                                 {{ trans('cruds.workResource.title') }}
                             </a>
@@ -147,7 +146,6 @@
                         <li class="c-sidebar-nav-item">
                             <a href="{{ route("admin.submit-resources.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/submit-resources") || request()->is("admin/submit-resources/*") ? "c-active" : "" }}">
                                 <i class="fa-fw far fa-file-archive c-sidebar-nav-icon">
-
                                 </i>
                                 {{ trans('cruds.submitResource.title') }}
                             </a>
@@ -317,6 +315,7 @@
                                 <i class="fa-fw fas fa-stopwatch c-sidebar-nav-icon">
 
                                 </i>
+
                                 {{ trans('cruds.lessonTimeChange.title') }}
                             </a>
                         </li>
