@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\CsvImportTrait;
 use App\Http\Requests\MassDestroyCoachMetumRequest;
 use App\Http\Requests\StoreCoachMetumRequest;
 use App\Http\Requests\UpdateCoachMetumRequest;
@@ -14,6 +15,8 @@ use Yajra\DataTables\Facades\DataTables;
 
 class CoachMetaController extends Controller
 {
+    use CsvImportTrait;
+
     public function index(Request $request)
     {
         abort_if(Gate::denies('coach_metum_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');

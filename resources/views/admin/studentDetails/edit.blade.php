@@ -41,14 +41,34 @@
                 <span class="help-block">{{ trans('cruds.studentDetail.fields.parent_phone_helper') }}</span>
             </div>
             <div class="form-group">
-                <label class="required" for="group">{{ trans('cruds.studentDetail.fields.group') }}</label>
-                <input class="form-control {{ $errors->has('group') ? 'is-invalid' : '' }}" type="text" name="group" id="group" value="{{ old('group', $studentDetail->group) }}" required>
-                @if($errors->has('group'))
+                <label class="required">{{ trans('cruds.studentDetail.fields.lesson_categories') }}</label>
+                <select class="form-control {{ $errors->has('lesson_categories') ? 'is-invalid' : '' }}" name="lesson_categories" id="lesson_categories" required>
+                    <option value disabled {{ old('lesson_categories', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
+                    @foreach(App\Models\StudentDetail::LESSON_CATEGORIES_SELECT as $key => $label)
+                        <option value="{{ $key }}" {{ old('lesson_categories', $studentDetail->lesson_categories) === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('lesson_categories'))
                     <div class="invalid-feedback">
-                        {{ $errors->first('group') }}
+                        {{ $errors->first('lesson_categories') }}
                     </div>
                 @endif
-                <span class="help-block">{{ trans('cruds.studentDetail.fields.group_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.studentDetail.fields.lesson_categories_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label class="required">{{ trans('cruds.studentDetail.fields.lesson_group') }}</label>
+                <select class="form-control {{ $errors->has('lesson_group') ? 'is-invalid' : '' }}" name="lesson_group" id="lesson_group" required>
+                    <option value disabled {{ old('lesson_group', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
+                    @foreach(App\Models\StudentDetail::LESSON_GROUP_SELECT as $key => $label)
+                        <option value="{{ $key }}" {{ old('lesson_group', $studentDetail->lesson_group) === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('lesson_group'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('lesson_group') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.studentDetail.fields.lesson_group_helper') }}</span>
             </div>
             <div class="form-group">
                 <div class="form-check {{ $errors->has('is_disabled') ? 'is-invalid' : '' }}">

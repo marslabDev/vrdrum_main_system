@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\CsvImportTrait;
 use App\Http\Requests\MassDestroyLessonCategoryRequest;
 use App\Http\Requests\StoreLessonCategoryRequest;
 use App\Http\Requests\UpdateLessonCategoryRequest;
@@ -14,6 +15,8 @@ use Yajra\DataTables\Facades\DataTables;
 
 class LessonCategoryController extends Controller
 {
+    use CsvImportTrait;
+
     public function index(Request $request)
     {
         abort_if(Gate::denies('lesson_category_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -48,6 +51,9 @@ class LessonCategoryController extends Controller
             });
             $table->editColumn('desc', function ($row) {
                 return $row->desc ? $row->desc : '';
+            });
+            $table->editColumn('group', function ($row) {
+                return $row->group ? LessonCategory::GROUP_SELECT[$row->group] : '';
             });
 
             $table->rawColumns(['actions', 'placeholder']);

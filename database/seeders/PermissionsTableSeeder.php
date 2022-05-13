@@ -508,70 +508,242 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'id'    => 125,
-                'title' => 'content_management_access',
+                'title' => 'branch_management_access',
             ],
             [
                 'id'    => 126,
-                'title' => 'content_category_create',
+                'title' => 'branch_create',
             ],
             [
                 'id'    => 127,
-                'title' => 'content_category_edit',
+                'title' => 'branch_edit',
             ],
             [
                 'id'    => 128,
-                'title' => 'content_category_show',
+                'title' => 'branch_show',
             ],
             [
                 'id'    => 129,
-                'title' => 'content_category_delete',
+                'title' => 'branch_delete',
             ],
             [
                 'id'    => 130,
-                'title' => 'content_category_access',
+                'title' => 'branch_access',
             ],
             [
                 'id'    => 131,
-                'title' => 'content_tag_create',
+                'title' => 'user_alert_create',
             ],
             [
                 'id'    => 132,
-                'title' => 'content_tag_edit',
+                'title' => 'user_alert_edit',
             ],
             [
                 'id'    => 133,
-                'title' => 'content_tag_show',
+                'title' => 'user_alert_show',
             ],
             [
                 'id'    => 134,
-                'title' => 'content_tag_delete',
+                'title' => 'user_alert_delete',
             ],
             [
                 'id'    => 135,
-                'title' => 'content_tag_access',
+                'title' => 'user_alert_access',
             ],
             [
                 'id'    => 136,
-                'title' => 'content_page_create',
+                'title' => 'asset_management_access',
             ],
             [
                 'id'    => 137,
-                'title' => 'content_page_edit',
+                'title' => 'asset_category_create',
             ],
             [
                 'id'    => 138,
-                'title' => 'content_page_show',
+                'title' => 'asset_category_edit',
             ],
             [
                 'id'    => 139,
-                'title' => 'content_page_delete',
+                'title' => 'asset_category_show',
             ],
             [
                 'id'    => 140,
-                'title' => 'content_page_access',
+                'title' => 'asset_category_delete',
             ],
             [
                 'id'    => 141,
+                'title' => 'asset_category_access',
+            ],
+            [
+                'id'    => 142,
+                'title' => 'asset_location_create',
+            ],
+            [
+                'id'    => 143,
+                'title' => 'asset_location_edit',
+            ],
+            [
+                'id'    => 144,
+                'title' => 'asset_location_show',
+            ],
+            [
+                'id'    => 145,
+                'title' => 'asset_location_delete',
+            ],
+            [
+                'id'    => 146,
+                'title' => 'asset_location_access',
+            ],
+            [
+                'id'    => 147,
+                'title' => 'asset_status_create',
+            ],
+            [
+                'id'    => 148,
+                'title' => 'asset_status_edit',
+            ],
+            [
+                'id'    => 149,
+                'title' => 'asset_status_show',
+            ],
+            [
+                'id'    => 150,
+                'title' => 'asset_status_delete',
+            ],
+            [
+                'id'    => 151,
+                'title' => 'asset_status_access',
+            ],
+            [
+                'id'    => 152,
+                'title' => 'asset_create',
+            ],
+            [
+                'id'    => 153,
+                'title' => 'asset_edit',
+            ],
+            [
+                'id'    => 154,
+                'title' => 'asset_show',
+            ],
+            [
+                'id'    => 155,
+                'title' => 'asset_delete',
+            ],
+            [
+                'id'    => 156,
+                'title' => 'asset_access',
+            ],
+            [
+                'id'    => 157,
+                'title' => 'assets_history_access',
+            ],
+            [
+                'id'    => 158,
+                'title' => 'expense_management_access',
+            ],
+            [
+                'id'    => 159,
+                'title' => 'expense_category_create',
+            ],
+            [
+                'id'    => 160,
+                'title' => 'expense_category_edit',
+            ],
+            [
+                'id'    => 161,
+                'title' => 'expense_category_show',
+            ],
+            [
+                'id'    => 162,
+                'title' => 'expense_category_delete',
+            ],
+            [
+                'id'    => 163,
+                'title' => 'expense_category_access',
+            ],
+            [
+                'id'    => 164,
+                'title' => 'income_category_create',
+            ],
+            [
+                'id'    => 165,
+                'title' => 'income_category_edit',
+            ],
+            [
+                'id'    => 166,
+                'title' => 'income_category_show',
+            ],
+            [
+                'id'    => 167,
+                'title' => 'income_category_delete',
+            ],
+            [
+                'id'    => 168,
+                'title' => 'income_category_access',
+            ],
+            [
+                'id'    => 169,
+                'title' => 'expense_create',
+            ],
+            [
+                'id'    => 170,
+                'title' => 'expense_edit',
+            ],
+            [
+                'id'    => 171,
+                'title' => 'expense_show',
+            ],
+            [
+                'id'    => 172,
+                'title' => 'expense_delete',
+            ],
+            [
+                'id'    => 173,
+                'title' => 'expense_access',
+            ],
+            [
+                'id'    => 174,
+                'title' => 'income_create',
+            ],
+            [
+                'id'    => 175,
+                'title' => 'income_edit',
+            ],
+            [
+                'id'    => 176,
+                'title' => 'income_show',
+            ],
+            [
+                'id'    => 177,
+                'title' => 'income_delete',
+            ],
+            [
+                'id'    => 178,
+                'title' => 'income_access',
+            ],
+            [
+                'id'    => 179,
+                'title' => 'expense_report_create',
+            ],
+            [
+                'id'    => 180,
+                'title' => 'expense_report_edit',
+            ],
+            [
+                'id'    => 181,
+                'title' => 'expense_report_show',
+            ],
+            [
+                'id'    => 182,
+                'title' => 'expense_report_delete',
+            ],
+            [
+                'id'    => 183,
+                'title' => 'expense_report_access',
+            ],
+            [
+                'id'    => 184,
                 'title' => 'profile_password_edit',
             ],
         ];

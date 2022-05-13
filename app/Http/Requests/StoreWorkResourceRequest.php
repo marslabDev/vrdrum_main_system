@@ -25,10 +25,6 @@ class StoreWorkResourceRequest extends FormRequest
                 'string',
                 'nullable',
             ],
-            'url' => [
-                'string',
-                'nullable',
-            ],
         ];
     }
 }
