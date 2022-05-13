@@ -6,6 +6,10 @@
             <a class="btn btn-success" href="{{ route('admin.coach-meta.create') }}">
                 {{ trans('global.add') }} {{ trans('cruds.coachMetum.title_singular') }}
             </a>
+            <button class="btn btn-warning" data-toggle="modal" data-target="#csvImportModal">
+                {{ trans('global.app_csvImport') }}
+            </button>
+            @include('csvImport.modal', ['model' => 'CoachMetum', 'route' => 'admin.coach-meta.parseCsvImport'])
         </div>
     </div>
 @endcan

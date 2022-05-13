@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\CsvImportTrait;
 use App\Http\Requests\MassDestroyStudentMetumRequest;
 use App\Http\Requests\StoreStudentMetumRequest;
 use App\Http\Requests\UpdateStudentMetumRequest;
@@ -14,6 +15,8 @@ use Yajra\DataTables\Facades\DataTables;
 
 class StudentMetaController extends Controller
 {
+    use CsvImportTrait;
+
     public function index(Request $request)
     {
         abort_if(Gate::denies('student_metum_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\CsvImportTrait;
 use App\Http\Requests\MassDestroyClassRoomRequest;
 use App\Http\Requests\StoreClassRoomRequest;
 use App\Http\Requests\UpdateClassRoomRequest;
@@ -14,6 +15,8 @@ use Yajra\DataTables\Facades\DataTables;
 
 class ClassRoomController extends Controller
 {
+    use CsvImportTrait;
+
     public function index(Request $request)
     {
         abort_if(Gate::denies('class_room_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');

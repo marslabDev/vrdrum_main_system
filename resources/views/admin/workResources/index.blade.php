@@ -6,6 +6,10 @@
             <a class="btn btn-success" href="{{ route('admin.work-resources.create') }}">
                 {{ trans('global.add') }} {{ trans('cruds.workResource.title_singular') }}
             </a>
+            <button class="btn btn-warning" data-toggle="modal" data-target="#csvImportModal">
+                {{ trans('global.app_csvImport') }}
+            </button>
+            @include('csvImport.modal', ['model' => 'WorkResource', 'route' => 'admin.work-resources.parseCsvImport'])
         </div>
     </div>
 @endcan
@@ -31,7 +35,7 @@
                         {{ trans('cruds.workResource.fields.question_text') }}
                     </th>
                     <th>
-                        {{ trans('cruds.workResource.fields.url') }}
+                        {{ trans('cruds.workResource.fields.attachment') }}
                     </th>
                     <th>
                         {{ trans('cruds.workResource.fields.student_work') }}
@@ -98,7 +102,7 @@
 { data: 'id', name: 'id' },
 { data: 'title', name: 'title' },
 { data: 'question_text', name: 'question_text' },
-{ data: 'url', name: 'url' },
+{ data: 'attachment', name: 'attachment', sortable: false, searchable: false },
 { data: 'student_work_title', name: 'student_work.title' },
 { data: 'student_work.title', name: 'student_work.title' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }

@@ -39,6 +39,14 @@
                             {{ $lessonCategory->desc }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.lessonCategory.fields.group') }}
+                        </th>
+                        <td>
+                            {{ App\Models\LessonCategory::GROUP_SELECT[$lessonCategory->group] ?? '' }}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">

@@ -6,6 +6,10 @@
             <a class="btn btn-success" href="{{ route('admin.lesson-categories.create') }}">
                 {{ trans('global.add') }} {{ trans('cruds.lessonCategory.title_singular') }}
             </a>
+            <button class="btn btn-warning" data-toggle="modal" data-target="#csvImportModal">
+                {{ trans('global.app_csvImport') }}
+            </button>
+            @include('csvImport.modal', ['model' => 'LessonCategory', 'route' => 'admin.lesson-categories.parseCsvImport'])
         </div>
     </div>
 @endcan
@@ -29,6 +33,9 @@
                     </th>
                     <th>
                         {{ trans('cruds.lessonCategory.fields.desc') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.lessonCategory.fields.group') }}
                     </th>
                     <th>
                         &nbsp;
@@ -89,6 +96,7 @@
 { data: 'id', name: 'id' },
 { data: 'name', name: 'name' },
 { data: 'desc', name: 'desc' },
+{ data: 'group', name: 'group' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,

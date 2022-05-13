@@ -41,10 +41,14 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.workResource.fields.url') }}
+                            {{ trans('cruds.workResource.fields.attachment') }}
                         </th>
                         <td>
-                            {{ $workResource->url }}
+                            @if($workResource->attachment)
+                                <a href="{{ $workResource->attachment->getUrl() }}" target="_blank">
+                                    {{ trans('global.view_file') }}
+                                </a>
+                            @endif
                         </td>
                     </tr>
                     <tr>

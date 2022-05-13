@@ -6,6 +6,10 @@
             <a class="btn btn-success" href="{{ route('admin.student-details.create') }}">
                 {{ trans('global.add') }} {{ trans('cruds.studentDetail.title_singular') }}
             </a>
+            <button class="btn btn-warning" data-toggle="modal" data-target="#csvImportModal">
+                {{ trans('global.app_csvImport') }}
+            </button>
+            @include('csvImport.modal', ['model' => 'StudentDetail', 'route' => 'admin.student-details.parseCsvImport'])
         </div>
     </div>
 @endcan
@@ -34,7 +38,10 @@
                         {{ trans('cruds.studentDetail.fields.parent_phone') }}
                     </th>
                     <th>
-                        {{ trans('cruds.studentDetail.fields.group') }}
+                        {{ trans('cruds.studentDetail.fields.lesson_categories') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.studentDetail.fields.lesson_group') }}
                     </th>
                     <th>
                         {{ trans('cruds.studentDetail.fields.is_disabled') }}
@@ -102,7 +109,8 @@
 { data: 'full_name', name: 'full_name' },
 { data: 'parent_name', name: 'parent_name' },
 { data: 'parent_phone', name: 'parent_phone' },
-{ data: 'group', name: 'group' },
+{ data: 'lesson_categories', name: 'lesson_categories' },
+{ data: 'lesson_group', name: 'lesson_group' },
 { data: 'is_disabled', name: 'is_disabled' },
 { data: 'student_efk', name: 'student_efk' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }

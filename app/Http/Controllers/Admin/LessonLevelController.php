@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\CsvImportTrait;
 use App\Http\Requests\MassDestroyLessonLevelRequest;
 use App\Http\Requests\StoreLessonLevelRequest;
 use App\Http\Requests\UpdateLessonLevelRequest;
@@ -15,6 +16,8 @@ use Yajra\DataTables\Facades\DataTables;
 
 class LessonLevelController extends Controller
 {
+    use CsvImportTrait;
+
     public function index(Request $request)
     {
         abort_if(Gate::denies('lesson_level_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');

@@ -25,10 +25,6 @@ class UpdateWorkResourceRequest extends FormRequest
                 'string',
                 'nullable',
             ],
-            'url' => [
-                'string',
-                'nullable',
-            ],
         ];
     }
 }

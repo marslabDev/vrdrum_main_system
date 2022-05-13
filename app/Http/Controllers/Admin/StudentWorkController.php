@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\CsvImportTrait;
 use App\Http\Requests\MassDestroyStudentWorkRequest;
 use App\Http\Requests\StoreStudentWorkRequest;
 use App\Http\Requests\UpdateStudentWorkRequest;
@@ -15,6 +16,8 @@ use Yajra\DataTables\Facades\DataTables;
 
 class StudentWorkController extends Controller
 {
+    use CsvImportTrait;
+
     public function index(Request $request)
     {
         abort_if(Gate::denies('student_work_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');

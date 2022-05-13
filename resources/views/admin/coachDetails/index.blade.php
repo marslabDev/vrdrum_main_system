@@ -6,6 +6,10 @@
             <a class="btn btn-success" href="{{ route('admin.coach-details.create') }}">
                 {{ trans('global.add') }} {{ trans('cruds.coachDetail.title_singular') }}
             </a>
+            <button class="btn btn-warning" data-toggle="modal" data-target="#csvImportModal">
+                {{ trans('global.app_csvImport') }}
+            </button>
+            @include('csvImport.modal', ['model' => 'CoachDetail', 'route' => 'admin.coach-details.parseCsvImport'])
         </div>
     </div>
 @endcan

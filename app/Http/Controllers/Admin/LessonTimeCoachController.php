@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\CsvImportTrait;
 use App\Http\Requests\MassDestroyLessonTimeCoachRequest;
 use App\Http\Requests\StoreLessonTimeCoachRequest;
 use App\Http\Requests\UpdateLessonTimeCoachRequest;
@@ -15,6 +16,8 @@ use Yajra\DataTables\Facades\DataTables;
 
 class LessonTimeCoachController extends Controller
 {
+    use CsvImportTrait;
+
     public function index(Request $request)
     {
         abort_if(Gate::denies('lesson_time_coach_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
