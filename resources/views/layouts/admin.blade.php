@@ -53,7 +53,6 @@
                     </li>
                 @endif
 
-
             </ul>
         </header>
 
@@ -224,6 +223,17 @@
   });
 
   $.fn.dataTable.ext.classes.sPageButton = '';
+});
+
+    </script>
+    <script>
+        $(document).ready(function () {
+    $(".notifications-menu").on('click', function () {
+        if (!$(this).hasClass('open')) {
+            $('.notifications-menu .label-warning').hide();
+            $.get('/admin/user-alerts/read');
+        }
+    });
 });
 
     </script>
