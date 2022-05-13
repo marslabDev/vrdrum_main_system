@@ -17,7 +17,7 @@ class ClassRoomApiController extends Controller
     {
         abort_if(Gate::denies('class_room_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new ClassRoomResource(ClassRoom::with(['created_by'])->get());
+        return new ClassRoomResource(ClassRoom::with(['branch', 'created_by'])->get());
     }
 
     public function store(StoreClassRoomRequest $request)
@@ -33,7 +33,7 @@ class ClassRoomApiController extends Controller
     {
         abort_if(Gate::denies('class_room_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new ClassRoomResource($classRoom->load(['created_by']));
+        return new ClassRoomResource($classRoom->load(['branch', 'created_by']));
     }
 
     public function update(UpdateClassRoomRequest $request, ClassRoom $classRoom)
