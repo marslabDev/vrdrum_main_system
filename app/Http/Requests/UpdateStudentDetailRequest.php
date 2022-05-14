@@ -29,8 +29,10 @@ class UpdateStudentDetailRequest extends FormRequest
                 'string',
                 'nullable',
             ],
-            'group' => [
-                'string',
+            'lesson_categories' => [
+                'required',
+            ],
+            'lesson_group' => [
                 'required',
             ],
             'is_disabled' => [

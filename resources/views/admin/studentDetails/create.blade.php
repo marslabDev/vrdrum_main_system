@@ -43,10 +43,11 @@
                 <span class="help-block">{{ trans('cruds.studentDetail.fields.parent_phone_helper') }}</span>
             </div>
             <div class="form-group">
-                <label class="required" for="lesson_categories">{{ trans('cruds.studentDetail.fields.lesson_categories') }}</label>
-                <select class="form-control select2 {{ $errors->has('lesson_category') ? 'is-invalid' : '' }}" name="lesson_categories[]" id="lesson_categories" required>
-                    @foreach($lessonCategories as $id => $lessonCategory)
-                        <option value="{{ $id }}" {{ in_array($id, old('lessonCategory', [])) ? 'selected' : '' }}>{{ $lessonCategory }}</option>
+            <label class="required">{{ trans('cruds.studentDetail.fields.lesson_categories') }}</label>
+                <select class="form-control {{ $errors->has('lesson_categories') ? 'is-invalid' : '' }}" name="lesson_categories" id="lesson_categories" required>
+                    <option value disabled {{ old('lesson_categories', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
+                    @foreach(App\Models\StudentDetail::LESSON_CATEGORIES_SELECT as $key => $label)
+                        <option value="{{ $key }}" {{ old('lesson_categories', '') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('lesson_categories'))
@@ -57,11 +58,11 @@
                 <span class="help-block">{{ trans('cruds.studentDetail.fields.lesson_categories_helper') }}</span>
             </div>
             <div class="form-group">
-                <label class="required" for="lesson_group">{{ trans('cruds.studentDetail.fields.lesson_group') }}</label>
-                <!-- <input class="form-control {{ $errors->has('group') ? 'is-invalid' : '' }}" type="text" name="group" id="group" value="{{ old('group', '') }}" required> -->
-                <select class="form-control select2 {{ $errors->has('lesson_group') ? 'is-invalid' : '' }}" name="lesson_group" id="lesson_group" required>
-                    @foreach($lessonCategories as $id => $lessonGroup)
-                        <option value="{{ $id }}" {{ in_array($id, old('lessonGroup', [])) ? 'selected' : '' }}>{{ $lessonGroup }}</option>
+            <label class="required">{{ trans('cruds.studentDetail.fields.lesson_group') }}</label>
+                <select class="form-control {{ $errors->has('lesson_group') ? 'is-invalid' : '' }}" name="lesson_group" id="lesson_group" required>
+                    <option value disabled {{ old('lesson_group', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
+                    @foreach(App\Models\StudentDetail::LESSON_GROUP_SELECT as $key => $label)
+                        <option value="{{ $key }}" {{ old('lesson_group', '') === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
                     @endforeach
                 </select>
                 @if($errors->has('lesson_group'))
@@ -73,8 +74,8 @@
             </div>
             <div class="form-group">
                 <div class="form-check {{ $errors->has('is_disabled') ? 'is-invalid' : '' }}">
-                    <input class="form-check-input" type="checkbox" name="is_disabled" id="is_disabled" value="{{ old('is_disabled', 0) }}" {{ old('is_disabled', 0) == 1 ? 'checked' : '' }}>
-                    <label class="form-check-label" for="is_disabled">{{ trans('cruds.studentDetail.fields.is_disabled') }}</label>
+                <input class="form-check-input" type="checkbox" name="is_disabled" id="is_disabled" value="1" required {{ old('is_disabled', 0) == 1 ? 'checked' : '' }}>
+                    <label class="required form-check-label" for="is_disabled">{{ trans('cruds.studentDetail.fields.is_disabled') }}</label>
                 </div>
                 @if($errors->has('is_disabled'))
                 <div class="invalid-feedback">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\CsvImportTrait;
 use App\Http\Requests\MassDestroyUserAlertRequest;
 use App\Http\Requests\StoreUserAlertRequest;
 use App\Models\User;
@@ -14,6 +15,8 @@ use Yajra\DataTables\Facades\DataTables;
 
 class UserAlertsController extends Controller
 {
+    use CsvImportTrait;
+
     public function index(Request $request)
     {
         abort_if(Gate::denies('user_alert_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');

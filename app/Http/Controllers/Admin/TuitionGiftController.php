@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\CsvImportTrait;
 use App\Http\Requests\MassDestroyTuitionGiftRequest;
 use App\Http\Requests\StoreTuitionGiftRequest;
 use App\Http\Requests\UpdateTuitionGiftRequest;
@@ -16,6 +17,8 @@ use Yajra\DataTables\Facades\DataTables;
 
 class TuitionGiftController extends Controller
 {
+    use CsvImportTrait;
+
     public function index(Request $request)
     {
         abort_if(Gate::denies('tuition_gift_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');

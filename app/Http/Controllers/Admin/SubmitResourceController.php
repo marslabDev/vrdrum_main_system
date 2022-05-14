@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\CsvImportTrait;
 use App\Http\Requests\MassDestroySubmitResourceRequest;
 use App\Http\Requests\StoreSubmitResourceRequest;
 use App\Http\Requests\UpdateSubmitResourceRequest;
@@ -15,6 +16,8 @@ use Yajra\DataTables\Facades\DataTables;
 
 class SubmitResourceController extends Controller
 {
+    use CsvImportTrait;
+
     public function index(Request $request)
     {
         abort_if(Gate::denies('submit_resource_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');

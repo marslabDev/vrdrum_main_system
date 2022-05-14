@@ -8,15 +8,23 @@ use App\Traits\MultiTenantModelTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class SubmitResource extends Model
+class SubmitResource extends Model implements HasMedia
 {
     use SoftDeletes;
     use MultiTenantModelTrait;
+    use InteractsWithMedia;
     use Auditable;
     use HasFactory;
 
     public $table = 'submit_resources';
+
+    protected $appends = [
+        'attachment',
+    ];
 
     protected $dates = [
         'created_at',
@@ -27,7 +35,6 @@ class SubmitResource extends Model
     protected $fillable = [
         'title',
         'answer_text',
-        'url',
         'student_work_id',
         'created_at',
         'updated_at',
@@ -35,6 +42,17 @@ class SubmitResource extends Model
         'created_by_id',
     ];
 
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this->addMediaConversion('thumb')->fit('crop', 50, 50);
+        $this->addMediaConversion('preview')->fit('crop', 120, 120);
+    }
+
+    public function getAttachmentAttribute()
+    {
+        return $this->getMedia('attachment')->last();
+    }
+    
     public function student_work()
     {
         return $this->belongsTo(StudentWork::class, 'student_work_id')->withTrashed();

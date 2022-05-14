@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\CsvImportTrait;
 use App\Http\Requests\MassDestroyCoachDetailRequest;
 use App\Http\Requests\StoreCoachDetailRequest;
 use App\Http\Requests\UpdateCoachDetailRequest;
@@ -14,6 +15,8 @@ use Yajra\DataTables\Facades\DataTables;
 
 class CoachDetailController extends Controller
 {
+    use CsvImportTrait;
+    
     public function index(Request $request)
     {
         abort_if(Gate::denies('coach_detail_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');

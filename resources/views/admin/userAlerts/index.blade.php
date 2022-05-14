@@ -6,6 +6,10 @@
             <a class="btn btn-success" href="{{ route('admin.user-alerts.create') }}">
                 {{ trans('global.add') }} {{ trans('cruds.userAlert.title_singular') }}
             </a>
+            <button class="btn btn-warning" data-toggle="modal" data-target="#csvImportModal">
+                {{ trans('global.app_csvImport') }}
+            </button>
+            @include('csvImport.modal', ['model' => 'UserAlert', 'route' => 'admin.user-alerts.parseCsvImport'])
         </div>
     </div>
 @endcan

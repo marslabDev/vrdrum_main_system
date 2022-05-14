@@ -24,12 +24,6 @@ class StoreClassRoomRequest extends FormRequest
             'is_available' => [
                 'required',
             ],
-            'branch_efk' => [
-                'nullable',
-                'integer',
-                'min:-2147483648',
-                'max:2147483647',
-            ],
         ];
     }
 }

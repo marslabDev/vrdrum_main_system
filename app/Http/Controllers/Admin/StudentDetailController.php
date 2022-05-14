@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\CsvImportTrait;
 use App\Http\Requests\MassDestroyStudentDetailRequest;
 use App\Http\Requests\StoreStudentDetailRequest;
 use App\Http\Requests\UpdateStudentDetailRequest;
@@ -10,7 +11,6 @@ use App\Models\LessonCategory;
 use App\Models\Role;
 use App\Models\StudentDetail;
 use App\Models\User;
-// use App\Models\User;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,6 +18,8 @@ use Yajra\DataTables\Facades\DataTables;
 
 class StudentDetailController extends Controller
 {
+    use CsvImportTrait;
+
     public function index(Request $request)
     {
         abort_if(Gate::denies('student_detail_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
@@ -56,8 +58,11 @@ class StudentDetailController extends Controller
             $table->editColumn('parent_phone', function ($row) {
                 return $row->parent_phone ? $row->parent_phone : '';
             });
-            $table->editColumn('group', function ($row) {
-                return $row->group ? $row->group : '';
+            $table->editColumn('lesson_categories', function ($row) {
+                return $row->lesson_categories ? StudentDetail::LESSON_CATEGORIES_SELECT[$row->lesson_categories] : '';
+            });
+            $table->editColumn('lesson_group', function ($row) {
+                return $row->lesson_group ? StudentDetail::LESSON_GROUP_SELECT[$row->lesson_group] : '';
             });
             $table->editColumn('is_disabled', function ($row) {
                 return '<input type="checkbox" disabled ' . ($row->is_disabled ? 'checked' : null) . '>';

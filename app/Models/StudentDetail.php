@@ -16,6 +16,12 @@ class StudentDetail extends Model
     use Auditable;
     use HasFactory;
 
+    public const LESSON_GROUP_SELECT = [
+    ];
+
+    public const LESSON_CATEGORIES_SELECT = [
+    ];
+
     public $table = 'student_details';
 
     protected $dates = [
@@ -28,7 +34,8 @@ class StudentDetail extends Model
         'full_name',
         'parent_name',
         'parent_phone',
-        'group',
+        'lesson_categories',
+        'lesson_group',
         'is_disabled',
         'student_efk',
         'created_at',

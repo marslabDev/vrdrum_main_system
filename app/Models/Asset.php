@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use \DateTimeInterface;
+use App\Traits\Auditable;
+use App\Traits\MultiTenantModelTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -13,7 +15,9 @@ use Spatie\MediaLibrary\MediaCollections\Models\Media;
 class Asset extends Model implements HasMedia
 {
     use SoftDeletes;
+    use MultiTenantModelTrait;
     use InteractsWithMedia;
+    use Auditable;
     use HasFactory;
 
     public $table = 'assets';
@@ -39,6 +43,7 @@ class Asset extends Model implements HasMedia
         'created_at',
         'updated_at',
         'deleted_at',
+        'created_by_id',
     ];
 
     public static function boot()
@@ -76,6 +81,11 @@ class Asset extends Model implements HasMedia
     public function assigned_to()
     {
         return $this->belongsTo(User::class, 'assigned_to_id');
+    }
+
+    public function created_by()
+    {
+        return $this->belongsTo(User::class, 'created_by_id');
     }
 
     protected function serializeDate(DateTimeInterface $date)

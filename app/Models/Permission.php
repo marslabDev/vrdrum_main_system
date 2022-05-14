@@ -14,6 +14,7 @@ class Permission extends Model
 
     public $table = 'permissions';
     protected $connection = 'sso_db';
+    
     protected $dates = [
         'created_at',
         'updated_at',

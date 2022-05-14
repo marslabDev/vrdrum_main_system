@@ -49,10 +49,18 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.studentDetail.fields.group') }}
+                            {{ trans('cruds.studentDetail.fields.lesson_categories') }}
                         </th>
                         <td>
-                            {{ $studentDetail->group }}
+                            {{ App\Models\StudentDetail::LESSON_CATEGORIES_SELECT[$studentDetail->lesson_categories] ?? '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.studentDetail.fields.lesson_group') }}
+                        </th>
+                        <td>
+                            {{ App\Models\StudentDetail::LESSON_GROUP_SELECT[$studentDetail->lesson_group] ?? '' }}
                         </td>
                     </tr>
                     <tr>

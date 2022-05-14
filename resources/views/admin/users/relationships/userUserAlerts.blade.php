@@ -71,6 +71,10 @@
                                     </a>
                                 @endcan
 
+                                @can('user_alert_edit')
+                                    <a class="btn btn-xs btn-info" href="{{ route('admin.user-alerts.edit', $userAlert->id) }}">
+                                        {{ trans('global.edit') }}
+                                    </a>
 
                                 @can('user_alert_delete')
                                     <form action="{{ route('admin.user-alerts.destroy', $userAlert->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">

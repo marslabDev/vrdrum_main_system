@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use \DateTimeInterface;
+use App\Traits\Auditable;
+use App\Traits\MultiTenantModelTrait;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -11,6 +13,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Income extends Model
 {
     use SoftDeletes;
+    use MultiTenantModelTrait;
+    use Auditable;
     use HasFactory;
 
     public $table = 'incomes';
@@ -30,6 +34,7 @@ class Income extends Model
         'created_at',
         'updated_at',
         'deleted_at',
+        'created_by_id',
     ];
 
     public function income_category()
@@ -45,6 +50,11 @@ class Income extends Model
     public function setEntryDateAttribute($value)
     {
         $this->attributes['entry_date'] = $value ? Carbon::createFromFormat(config('panel.date_format'), $value)->format('Y-m-d') : null;
+    }
+
+    public function created_by()
+    {
+        return $this->belongsTo(User::class, 'created_by_id');
     }
 
     protected function serializeDate(DateTimeInterface $date)

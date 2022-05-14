@@ -6,6 +6,10 @@
             <a class="btn btn-success" href="{{ route('admin.class-rooms.create') }}">
                 {{ trans('global.add') }} {{ trans('cruds.classRoom.title_singular') }}
             </a>
+            <button class="btn btn-warning" data-toggle="modal" data-target="#csvImportModal">
+                {{ trans('global.app_csvImport') }}
+            </button>
+            @include('csvImport.modal', ['model' => 'ClassRoom', 'route' => 'admin.class-rooms.parseCsvImport'])
         </div>
     </div>
 @endcan
@@ -30,9 +34,9 @@
                     <th>
                         {{ trans('cruds.classRoom.fields.is_available') }}
                     </th>
-                    <!-- <th>
-                        {{ trans('cruds.classRoom.fields.branch_efk') }}
-                    </th> -->
+                    <th>
+                        {{ trans('cruds.classRoom.fields.branch') }}
+                    </th>
                     <th>
                         &nbsp;
                     </th>

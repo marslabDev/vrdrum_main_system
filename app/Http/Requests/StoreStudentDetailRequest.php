@@ -27,15 +27,16 @@ class StoreStudentDetailRequest extends FormRequest
             ],
             'parent_phone' => [
                 'string',
-                //'min:10',
                 'nullable',
             ],
-            'email' => [
+            'lesson_categories' => [
                 'required',
-                'string',
-                'email',
-                'max:255',
-                'unique:sso_db.users,email'
+            ],
+            'lesson_group' => [
+                'required',
+            ],
+            'is_disabled' => [
+                'required',
             ],
         ];
     }

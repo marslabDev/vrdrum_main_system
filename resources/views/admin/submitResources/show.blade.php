@@ -41,10 +41,14 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.submitResource.fields.url') }}
+                            {{ trans('cruds.submitResource.fields.attachment') }}
                         </th>
                         <td>
-                            {{ $submitResource->url }}
+                            @if($submitResource->attachment)
+                                <a href="{{ $submitResource->attachment->getUrl() }}" target="_blank">
+                                    {{ trans('global.view_file') }}
+                                </a>
+                            @endif
                         </td>
                     </tr>
                     <tr>

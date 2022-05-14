@@ -20,6 +20,7 @@ class User extends Authenticatable
 
     public $table = 'users';
     protected $connection = 'sso_db';
+    
     protected $hidden = [
         'remember_token',
         'password',

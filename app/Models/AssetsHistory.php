@@ -3,11 +3,13 @@
 namespace App\Models;
 
 use \DateTimeInterface;
+use App\Traits\MultiTenantModelTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class AssetsHistory extends Model
 {
+    use MultiTenantModelTrait;
     use HasFactory;
 
     public $table = 'assets_histories';
@@ -24,6 +26,7 @@ class AssetsHistory extends Model
         'assigned_user_id',
         'created_at',
         'updated_at',
+        'created_by_id',
     ];
 
     public function asset()
@@ -44,6 +47,11 @@ class AssetsHistory extends Model
     public function assigned_user()
     {
         return $this->belongsTo(User::class, 'assigned_user_id');
+    }
+
+    public function created_by()
+    {
+        return $this->belongsTo(User::class, 'created_by_id');
     }
 
     protected function serializeDate(DateTimeInterface $date)

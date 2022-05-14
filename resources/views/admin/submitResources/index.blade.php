@@ -6,6 +6,10 @@
             <a class="btn btn-success" href="{{ route('admin.submit-resources.create') }}">
                 {{ trans('global.add') }} {{ trans('cruds.submitResource.title_singular') }}
             </a>
+            <button class="btn btn-warning" data-toggle="modal" data-target="#csvImportModal">
+                {{ trans('global.app_csvImport') }}
+            </button>
+            @include('csvImport.modal', ['model' => 'SubmitResource', 'route' => 'admin.submit-resources.parseCsvImport'])
         </div>
     </div>
 @endcan
@@ -31,7 +35,7 @@
                         {{ trans('cruds.submitResource.fields.answer_text') }}
                     </th>
                     <th>
-                        {{ trans('cruds.submitResource.fields.url') }}
+                        {{ trans('cruds.submitResource.fields.attachment') }}
                     </th>
                     <th>
                         {{ trans('cruds.submitResource.fields.student_work') }}
@@ -95,7 +99,7 @@
 { data: 'id', name: 'id' },
 { data: 'title', name: 'title' },
 { data: 'answer_text', name: 'answer_text' },
-{ data: 'url', name: 'url' },
+{ data: 'attachment', name: 'attachment', sortable: false, searchable: false },
 { data: 'student_work_title', name: 'student_work.title' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],

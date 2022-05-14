@@ -6,6 +6,10 @@
             <a class="btn btn-success" href="{{ route('admin.branches.create') }}">
                 {{ trans('global.add') }} {{ trans('cruds.branch.title_singular') }}
             </a>
+            <button class="btn btn-warning" data-toggle="modal" data-target="#csvImportModal">
+                {{ trans('global.app_csvImport') }}
+            </button>
+            @include('csvImport.modal', ['model' => 'Branch', 'route' => 'admin.branches.parseCsvImport'])
         </div>
     </div>
 @endcan

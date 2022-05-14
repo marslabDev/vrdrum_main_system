@@ -15,6 +15,13 @@ class AssetsHistoryApiController extends Controller
     {
         abort_if(Gate::denies('assets_history_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new AssetsHistoryResource(AssetsHistory::with(['asset', 'status', 'location', 'assigned_user'])->get());
+        return new AssetsHistoryResource(AssetsHistory::with(['asset', 'status', 'location', 'assigned_user', 'created_by'])->get());
+    }
+
+    public function show(AssetsHistory $assetsHistory)
+    {
+        abort_if(Gate::denies('assets_history_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        return new AssetsHistoryResource($assetsHistory->load(['asset', 'status', 'location', 'assigned_user', 'created_by']));
     }
 }

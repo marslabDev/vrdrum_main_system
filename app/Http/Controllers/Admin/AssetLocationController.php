@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Traits\CsvImportTrait;
 use App\Http\Requests\MassDestroyAssetLocationRequest;
 use App\Http\Requests\StoreAssetLocationRequest;
 use App\Http\Requests\UpdateAssetLocationRequest;
@@ -10,16 +11,51 @@ use App\Models\AssetLocation;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Yajra\DataTables\Facades\DataTables;
 
 class AssetLocationController extends Controller
 {
-    public function index()
+    use CsvImportTrait;
+
+    public function index(Request $request)
     {
         abort_if(Gate::denies('asset_location_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $assetLocations = AssetLocation::all();
+        if ($request->ajax()) {
+            $query = AssetLocation::with(['created_by'])->select(sprintf('%s.*', (new AssetLocation())->table));
+            $table = Datatables::of($query);
 
-        return view('admin.assetLocations.index', compact('assetLocations'));
+            $table->addColumn('placeholder', '&nbsp;');
+            $table->addColumn('actions', '&nbsp;');
+
+            $table->editColumn('actions', function ($row) {
+                $viewGate = 'asset_location_show';
+                $editGate = 'asset_location_edit';
+                $deleteGate = 'asset_location_delete';
+                $crudRoutePart = 'asset-locations';
+
+                return view('partials.datatablesActions', compact(
+                'viewGate',
+                'editGate',
+                'deleteGate',
+                'crudRoutePart',
+                'row'
+            ));
+            });
+
+            $table->editColumn('id', function ($row) {
+                return $row->id ? $row->id : '';
+            });
+            $table->editColumn('name', function ($row) {
+                return $row->name ? $row->name : '';
+            });
+
+            $table->rawColumns(['actions', 'placeholder']);
+
+            return $table->make(true);
+        }
+
+        return view('admin.assetLocations.index');
     }
 
     public function create()
@@ -40,6 +76,8 @@ class AssetLocationController extends Controller
     {
         abort_if(Gate::denies('asset_location_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+        $assetLocation->load('created_by');
+
         return view('admin.assetLocations.edit', compact('assetLocation'));
     }
 
@@ -53,6 +91,8 @@ class AssetLocationController extends Controller
     public function show(AssetLocation $assetLocation)
     {
         abort_if(Gate::denies('asset_location_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+
+        $assetLocation->load('created_by');
 
         return view('admin.assetLocations.show', compact('assetLocation'));
     }

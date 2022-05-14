@@ -25,10 +25,6 @@ class UpdateSubmitResourceRequest extends FormRequest
                 'string',
                 'nullable',
             ],
-            'url' => [
-                'string',
-                'nullable',
-            ],
         ];
     }
 }

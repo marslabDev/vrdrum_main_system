@@ -22,8 +22,6 @@ class LessonTime extends Model
     protected $dates = [
         'date_from',
         'date_to',
-        'attended_at',
-        'leaved_at',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -33,11 +31,8 @@ class LessonTime extends Model
         'lesson_code',
         'date_from',
         'date_to',
-        'attended_at',
-        'leaved_at',
         'class_room_id',
         'lesson_id',
-        'student_efk',
         'created_at',
         'updated_at',
         'deleted_at',
@@ -62,26 +57,6 @@ class LessonTime extends Model
     public function setDateToAttribute($value)
     {
         $this->attributes['date_to'] = $value ? Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $value)->format('Y-m-d H:i:s') : null;
-    }
-
-    public function getAttendedAtAttribute($value)
-    {
-        return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format(config('panel.date_format') . ' ' . config('panel.time_format')) : null;
-    }
-
-    public function setAttendedAtAttribute($value)
-    {
-        $this->attributes['attended_at'] = $value ? Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $value)->format('Y-m-d H:i:s') : null;
-    }
-
-    public function getLeavedAtAttribute($value)
-    {
-        return $value ? Carbon::createFromFormat('Y-m-d H:i:s', $value)->format(config('panel.date_format') . ' ' . config('panel.time_format')) : null;
-    }
-
-    public function setLeavedAtAttribute($value)
-    {
-        $this->attributes['leaved_at'] = $value ? Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $value)->format('Y-m-d H:i:s') : null;
     }
 
     public function class_room()
