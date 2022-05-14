@@ -105,4 +105,11 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
 
     // Income
     Route::apiResource('incomes', 'IncomeApiController');
+
+    // Work Comment
+    Route::post('work-comments/media', 'WorkCommentApiController@storeMedia')->name('work-comments.storeMedia');
+    Route::apiResource('work-comments', 'WorkCommentApiController');
+
+    // Lesson Time Student
+    Route::apiResource('lesson-time-students', 'LessonTimeStudentApiController');
 });

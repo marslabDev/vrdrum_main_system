@@ -25,6 +25,9 @@ class UpdateLessonCategoryRequest extends FormRequest
                 'string',
                 'nullable',
             ],
+            'group' => [
+                'required',
+            ],
         ];
     }
 }

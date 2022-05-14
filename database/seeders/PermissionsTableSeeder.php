@@ -748,70 +748,46 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'id'    => 185,
-                'title' => 'content_management_access',
+                'title' => 'work_comment_create',
             ],
             [
                 'id'    => 186,
-                'title' => 'content_category_create',
+                'title' => 'work_comment_edit',
             ],
             [
                 'id'    => 187,
-                'title' => 'content_category_edit',
+                'title' => 'work_comment_show',
             ],
             [
                 'id'    => 188,
-                'title' => 'content_category_show',
+                'title' => 'work_comment_delete',
             ],
             [
                 'id'    => 189,
-                'title' => 'content_category_delete',
+                'title' => 'work_comment_access',
             ],
             [
                 'id'    => 190,
-                'title' => 'content_category_access',
+                'title' => 'lesson_time_student_create',
             ],
             [
                 'id'    => 191,
-                'title' => 'content_tag_create',
+                'title' => 'lesson_time_student_edit',
             ],
             [
                 'id'    => 192,
-                'title' => 'content_tag_edit',
+                'title' => 'lesson_time_student_show',
             ],
             [
                 'id'    => 193,
-                'title' => 'content_tag_show',
+                'title' => 'lesson_time_student_delete',
             ],
             [
                 'id'    => 194,
-                'title' => 'content_tag_delete',
+                'title' => 'lesson_time_student_access',
             ],
             [
                 'id'    => 195,
-                'title' => 'content_tag_access',
-            ],
-            [
-                'id'    => 196,
-                'title' => 'content_page_create',
-            ],
-            [
-                'id'    => 197,
-                'title' => 'content_page_edit',
-            ],
-            [
-                'id'    => 198,
-                'title' => 'content_page_show',
-            ],
-            [
-                'id'    => 199,
-                'title' => 'content_page_delete',
-            ],
-            [
-                'id'    => 200,
-                'title' => 'content_page_access',
-            ],
-            [
-                'id'    => 201,
                 'title' => 'profile_password_edit',
             ],
         ];

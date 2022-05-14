@@ -4,14 +4,15 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateContentTagsTable extends Migration
+class CreateLessonCategoriesTable extends Migration
 {
     public function up()
     {
-        Schema::create('content_tags', function (Blueprint $table) {
+        Schema::create('lesson_categories', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name')->nullable();
-            $table->string('slug')->nullable();
+            $table->string('name');
+            $table->string('desc')->nullable();
+            $table->string('group');
             $table->timestamps();
             $table->softDeletes();
         });

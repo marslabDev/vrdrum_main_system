@@ -3,13 +3,13 @@
 
 <div class="card">
     <div class="card-header">
-        {{ trans('global.show') }} {{ trans('cruds.lessonTime.title') }}
+        {{ trans('global.show') }} {{ trans('cruds.lessonTimeStudent.title') }}
     </div>
 
     <div class="card-body">
         <div class="form-group">
             <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.lesson-times.index') }}">
+                <a class="btn btn-default" href="{{ route('admin.lesson-time-students.index') }}">
                     {{ trans('global.back_to_list') }}
                 </a>
             </div>
@@ -17,56 +17,56 @@
                 <tbody>
                     <tr>
                         <th>
-                            {{ trans('cruds.lessonTime.fields.id') }}
+                            {{ trans('cruds.lessonTimeStudent.fields.id') }}
                         </th>
                         <td>
-                            {{ $lessonTime->id }}
+                            {{ $lessonTimeStudent->id }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.lessonTime.fields.lesson_code') }}
+                            {{ trans('cruds.lessonTimeStudent.fields.attended_at') }}
                         </th>
                         <td>
-                            {{ $lessonTime->lesson_code }}
+                            {{ $lessonTimeStudent->attended_at }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.lessonTime.fields.date_from') }}
+                            {{ trans('cruds.lessonTimeStudent.fields.leave_at') }}
                         </th>
                         <td>
-                            {{ $lessonTime->date_from }}
+                            {{ $lessonTimeStudent->leave_at }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.lessonTime.fields.date_to') }}
+                            {{ trans('cruds.lessonTimeStudent.fields.cancel_at') }}
                         </th>
                         <td>
-                            {{ $lessonTime->date_to }}
+                            {{ $lessonTimeStudent->cancel_at }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.lessonTime.fields.class_room') }}
+                            {{ trans('cruds.lessonTimeStudent.fields.lesson_time') }}
                         </th>
                         <td>
-                            {{ $lessonTime->class_room->room_title ?? '' }}
+                            {{ $lessonTimeStudent->lesson_time->lesson_code ?? '' }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.lessonTime.fields.lesson') }}
+                            {{ trans('cruds.lessonTimeStudent.fields.student_efk') }}
                         </th>
                         <td>
-                            {{ $lessonTime->lesson->name ?? '' }}
+                            {{ $lessonTimeStudent->student_efk }}
                         </td>
                     </tr>
                 </tbody>
             </table>
             <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.lesson-times.index') }}">
+                <a class="btn btn-default" href="{{ route('admin.lesson-time-students.index') }}">
                     {{ trans('global.back_to_list') }}
                 </a>
             </div>
