@@ -23,6 +23,9 @@ class UpdateTuitionGiftRequest extends FormRequest
             'total_minute' => [
                 'numeric',
             ],
+            'total_lesson' => [
+                'numeric',
+            ],
             'quantity' => [
                 'numeric',
             ],
@@ -31,6 +34,9 @@ class UpdateTuitionGiftRequest extends FormRequest
                 'integer',
                 'min:-2147483648',
                 'max:2147483647',
+            ],
+            'tuition_package_id' => [
+                'required',
             ],
         ];
     }

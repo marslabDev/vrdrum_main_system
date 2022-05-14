@@ -13,7 +13,6 @@ use App\Models\Lesson;
 use App\Models\LessonCategory;
 use App\Models\LessonLevel;
 use Gate;
-use Validator;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
@@ -85,7 +84,7 @@ class LessonController extends Controller
         return view('admin.lessons.index');
     }
 
-    public function create($errors = null)
+    public function create()
     {
         abort_if(Gate::denies('lesson_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -99,25 +98,12 @@ class LessonController extends Controller
 
         $coachs = CoachDetail::pluck('coach_efk', 'coach_efk');
 
-        if($errors != null) return view('admin.lessons.create', compact('lesson_levels', 'coachs'))->withErrors($errors);
-
         return view('admin.lessons.create', compact('lesson_levels', 'coachs'));
     }
 
     public function store(StoreLessonRequest $request)
     {
         $request_data = $request->all();
-
-        // ------------------------------ validation ------------------------------
-        $errors = [];
-
-        if ($request_data['lesson_level_id'] == null){
-            $errors['lesson_level'] = trans('validation.lesson_level_required');
-        }
-
-        if(count($errors) > 0){
-            return $this->create($errors);
-        }
 
         // ------------------------------ data assign ------------------------------
         $request_data['no_of_class'] = Lesson::where('lesson_level_id', $request_data['lesson_level_id'])->get()->count() + 1;
@@ -127,7 +113,7 @@ class LessonController extends Controller
         return redirect()->route('admin.lessons.index');
     }
 
-    public function edit(Lesson $lesson, $errors = null)
+    public function edit(Lesson $lesson)
     {
         abort_if(Gate::denies('lesson_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -150,25 +136,12 @@ class LessonController extends Controller
             $old_coachs_efk[$value->coach_efk] = $value->coach_efk;
         }
         
-        if($errors != null) return view('admin.lessons.edit', compact('lesson', 'lesson_levels', 'coachs', 'old_coachs_efk'))->withErrors($errors);
-
         return view('admin.lessons.edit', compact('lesson', 'lesson_levels', 'coachs', 'old_coachs_efk'));
     }
 
     public function update(UpdateLessonRequest $request, Lesson $lesson)
     {
         $request_data = $request->all();
-
-        // ------------------------------ validation ------------------------------
-        $errors = [];
-
-        if ($request_data['lesson_level_id'] == null){
-            $errors['lesson_level'] = trans('validation.lesson_level_required');
-        }
-
-        if(count($errors) > 0){
-            return $this->edit($lesson, $errors);
-        }
 
         // ------------------------------ data assign ------------------------------
         if($lesson->lesson_level_id != $request_data['lesson_level_id']){

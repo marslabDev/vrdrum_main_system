@@ -21,6 +21,9 @@ class StoreStudentTuitionRequest extends FormRequest
             //     'numeric',
             //     'required',
             // ],
+            'tuition_package_id' => [
+                'required',
+            ],
             'student_efk' => [
                 'required',
                 'integer',

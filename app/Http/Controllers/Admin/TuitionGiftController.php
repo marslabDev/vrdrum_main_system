@@ -107,10 +107,6 @@ class TuitionGiftController extends Controller
             $errros['inventory_efk'] = trans('validation.inventory_required');
         }
 
-        if ($request_data['tuition_package_id'] == null){
-            $errros['tuition_package'] = trans('validation.tuition_package_required');
-        }
-
         if(count($errors) > 0){
             return $this->create($errros);
         }
@@ -155,10 +151,6 @@ class TuitionGiftController extends Controller
 
         if ($request_data['type'] == 'product' && $request_data['inventory_efk'] == null){
             $errros['inventory_efk'] = trans('validation.inventory_required');
-        }
-
-        if ($request_data['tuition_package_id'] == null){
-            $errros['tuition_package'] = trans('validation.tuition_package_required');
         }
 
         if(count($errors) > 0){

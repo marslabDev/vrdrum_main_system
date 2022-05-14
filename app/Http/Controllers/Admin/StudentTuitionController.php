@@ -11,7 +11,6 @@ use App\Models\StudentTuition;
 use App\Models\TuitionGift;
 use App\Models\TuitionPackage;
 use Gate;
-use Validator;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
@@ -71,13 +70,11 @@ class StudentTuitionController extends Controller
         return view('admin.studentTuitions.index');
     }
 
-    public function create($errors = null)
+    public function create()
     {
         abort_if(Gate::denies('student_tuition_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $tuition_packages = TuitionPackage::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        if($errors != null) return view('admin.studentTuitions.create', compact('tuition_packages'))->withErrors($errors);
 
         return view('admin.studentTuitions.create', compact('tuition_packages'));
     }
@@ -85,17 +82,6 @@ class StudentTuitionController extends Controller
     public function store(StoreStudentTuitionRequest $request)
     {
         $request_data = $request->all();
-
-        // ------------------------------ validation ------------------------------
-        $errros = [];
-
-        if ($request_data['tuition_package_id'] == null){
-            $errros['tuition_package'] = trans('validation.tuition_package_required');
-        }
-
-        if(count($errors) > 0){
-            return $this->create($errros);
-        }
 
         // ------------------------------ data assign ------------------------------
         $tuitionPackage = TuitionPackage::find($request_data['tuition_package_id']);
@@ -117,7 +103,7 @@ class StudentTuitionController extends Controller
         return redirect()->route('admin.student-tuitions.index');
     }
 
-    public function edit(StudentTuition $studentTuition, $errors = null)
+    public function edit(StudentTuition $studentTuition)
     {
         abort_if(Gate::denies('student_tuition_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -125,25 +111,12 @@ class StudentTuitionController extends Controller
 
         $studentTuition->load('tuition_package', 'created_by');
 
-        if($errors != null) return view('admin.studentTuitions.edit', compact('studentTuition', 'tuition_packages'))->withErrors($errors);
-
         return view('admin.studentTuitions.edit', compact('studentTuition', 'tuition_packages'));
     }
 
     public function update(UpdateStudentTuitionRequest $request, StudentTuition $studentTuition)
     {
         // $request_data = $request->all();
-
-        // // ------------------------------ validation ------------------------------
-        // $errros = [];
-
-        // if ($request_data['tuition_package_id'] == null){
-        //     $errros['tuition_package'] = trans('validation.tuition_package_required');
-        // }
-
-        // if(count($errors) > 0){
-        //     return $this->edit($studentTuition, $errros);
-        // }
 
         // // ------------------------------ data assign ------------------------------
         // $tuitionPackage = TuitionPackage::find($request_data['tuition_package_id']);

@@ -85,13 +85,11 @@ class TuitionPackageController extends Controller
         return view('admin.tuitionPackages.index');
     }
 
-    public function create($errors = null)
+    public function create()
     {
         abort_if(Gate::denies('tuition_package_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $lesson_categories = LessonCategory::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
-
-        if($errors != null) return view('admin.tuitionPackages.create', compact('lesson_categories'))->withErrors($errors);
 
         return view('admin.tuitionPackages.create', compact('lesson_categories'));
     }
@@ -99,17 +97,6 @@ class TuitionPackageController extends Controller
     public function store(StoreTuitionPackageRequest $request)
     {
         $request_data = $request->all();
-
-        // ------------------------------ validation ------------------------------
-        $errros = [];
-
-        if ($request_data['lesson_category_id'] == null){
-            $errros['lesson_category'] = trans('validation.lesson_category_required');
-        }
-
-        if(count($errors) > 0){
-            return $this->create($errros);
-        }
 
         // ------------------------------ data assign ------------------------------
         $request_data['total_minute'] = $request_data['total_lesson'] * config('constants.lesson.one_lesson_time') ;
@@ -120,7 +107,7 @@ class TuitionPackageController extends Controller
         return redirect()->route('admin.tuition-packages.index');
     }
 
-    public function edit(TuitionPackage $tuitionPackage, $errors = null)
+    public function edit(TuitionPackage $tuitionPackage)
     {
         abort_if(Gate::denies('tuition_package_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -130,25 +117,12 @@ class TuitionPackageController extends Controller
 
         $tuitionPackage->total_lesson = $tuitionPackage->total_minute / config('constants.lesson.one_lesson_time');
 
-        if($errors != null) return view('admin.tuitionPackages.edit', compact('lesson_categories', 'tuitionPackage'))->withErrors($errors);
-
         return view('admin.tuitionPackages.edit', compact('lesson_categories', 'tuitionPackage'));
     }
 
     public function update(UpdateTuitionPackageRequest $request, TuitionPackage $tuitionPackage)
     {
         $request_data = $request->all();
-
-        // ------------------------------ validation ------------------------------
-        $errros = [];
-
-        if ($request_data['lesson_category_id'] == null){
-            $errros['lesson_category'] = trans('validation.lesson_category_required');
-        }
-
-        if(count($errors) > 0){
-            return $this->edit($tuitionPackage, $errros);
-        }
 
         // ------------------------------ data assign ------------------------------
         $request_data['total_minute'] = $request_data['total_lesson'] * config('constants.lesson.one_lesson_time') ;

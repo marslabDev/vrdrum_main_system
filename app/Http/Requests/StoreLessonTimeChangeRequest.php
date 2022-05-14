@@ -17,9 +17,18 @@ class StoreLessonTimeChangeRequest extends FormRequest
     public function rules()
     {
         return [
+            'old_lesson_time_id' => [
+                'required',
+            ],
             'date_from' => [
                 'required',
                 'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
+            ],
+            'class_room_id' => [
+                'required',
+            ],
+            'lesson_id' => [
+                'required',
             ],
             // 'date_to' => [
             //     'required',

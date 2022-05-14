@@ -112,14 +112,6 @@ class LessonTimeController extends Controller
 
         // ------------------------------ validation ------------------------------
         $errros = [];
-        
-        if ($request_data['class_room_id'] == null){
-            $errros['class_room'] = trans('validation.class_room_required');
-        }
-
-        if ($request_data['lesson_id'] == null){
-            $errros['lesson'] = trans('validation.lesson_required');
-        }
 
         // if (!array_key_exists('coachs_efk', $request_data)){
         //     $errros['lesson'] = trans('validation.coach_required');
@@ -187,14 +179,6 @@ class LessonTimeController extends Controller
         // ------------------------------ validation ------------------------------
         $errros = [];
         
-        if ($request_data['class_room_id'] == null){
-            $errros['class_room'] = trans('validation.class_room_required');
-        }
-
-        if ($request_data['lesson_id'] == null){
-            $errros['lesson'] = trans('validation.lesson_required');
-        }
-
         // if (!array_key_exists('coachs_efk', $request_data)){
         //     $errros['lesson'] = trans('validation.coach_required');
 

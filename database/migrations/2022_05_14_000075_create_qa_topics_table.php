@@ -12,9 +12,7 @@ class CreateQaTopicsTable extends Migration
             $table->bigIncrements('id');
             $table->string('subject');
             $table->unsignedBigInteger('creator_id');
-            $table->foreign('creator_id')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('receiver_id');
-            $table->foreign('receiver_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

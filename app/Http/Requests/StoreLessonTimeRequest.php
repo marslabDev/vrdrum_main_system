@@ -25,6 +25,12 @@ class StoreLessonTimeRequest extends FormRequest
                 'required',
                 'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
             ],
+            'class_room_id' => [
+                'required',
+            ],
+            'lesson_id' => [
+                'required',
+            ],
             // 'date_to' => [
             //     'required',
             //     'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),

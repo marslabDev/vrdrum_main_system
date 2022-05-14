@@ -13,7 +13,6 @@ use App\Models\LessonTime;
 use App\Models\LessonTimeChange;
 use Carbon\Carbon;
 use Gate;
-use Validator;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
@@ -83,7 +82,7 @@ class LessonTimeChangeController extends Controller
         return view('admin.lessonTimeChanges.index');
     }
 
-    public function create($errors = null)
+    public function create()
     {
         abort_if(Gate::denies('lesson_time_change_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -93,33 +92,12 @@ class LessonTimeChangeController extends Controller
 
         $lessons = Lesson::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        if($errors != null) return view('admin.lessonTimeChanges.create', compact('class_rooms', 'lessons', 'old_lesson_times'))->withErrors($errors);
-
         return view('admin.lessonTimeChanges.create', compact('class_rooms', 'lessons', 'old_lesson_times'));
     }
 
     public function store(StoreLessonTimeChangeRequest $request)
     {
         $request_data = $request->all();
-
-        // ------------------------------ validation ------------------------------
-        $errros = [];
-        
-        if ($request_data['old_lesson_time_id'] == null){
-            $errros['old_lesson_time'] = trans('validation.lesson_time_required');
-        }
-
-        if ($request_data['class_room_id'] == null){
-            $errros['class_room'] = trans('validation.class_room_required');
-        }
-
-        if ($request_data['lesson_id'] == null){
-            $errros['lesson'] = trans('validation.lesson_required');
-        }
-
-        if(count($errros) > 0){
-            return $this->create($errros);
-        }
 
         // ------------------------------ data assign ------------------------------
         $date_to = Carbon::parse($request_data['date_from']);
@@ -164,18 +142,6 @@ class LessonTimeChangeController extends Controller
         
         if($lessonTimeChange->status != config('constants.lesson_time_change.status.pending')){
             $errros['not_allow_edit'] = trans('validation.lesson_time_change_not_allow_edit');
-        }
-
-        if ($request_data['old_lesson_time_id'] == null){
-            $errros['old_lesson_time'] = trans('validation.lesson_time_required');
-        }
-
-        if ($request_data['class_room_id'] == null){
-            $errros['class_room'] = trans('validation.class_room_required');
-        }
-
-        if ($request_data['lesson_id'] == null){
-            $errros['lesson'] = trans('validation.lesson_required');
         }
 
         if(count($errros) > 0){

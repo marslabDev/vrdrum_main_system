@@ -21,6 +21,9 @@ class UpdateTuitionPackageRequest extends FormRequest
                 'string',
                 'required',
             ],
+            'lesson_category_id' => [
+                'required',
+            ],
             // 'price' => [
             //     'required',
             // ],

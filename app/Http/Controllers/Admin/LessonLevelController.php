@@ -84,11 +84,7 @@ class LessonLevelController extends Controller
         // ------------------------------ validation ------------------------------
         $errors = [];
 
-        if ($request_data['lesson_category_id'] == null){
-            $errors['lesson_category'] = trans('validation.lesson_category_required');
-        }
- 
-        if ($request_data['lesson_category_id'] != null && LessonLevel::where('level', $request_data['level'])->get()->first() != null){
+        if (LessonLevel::where('level', $request_data['level'])->get()->first() != null){
             $errors['level'] = sprintf(trans('validation.lesson_level_exist'), $request_data['level']);
         }
 
@@ -121,11 +117,7 @@ class LessonLevelController extends Controller
         // ------------------------------ validation ------------------------------
         $errors = [];
 
-        if ($request_data['lesson_category_id'] == null){
-            $errors['lesson_category'] = trans('validation.lesson_category_required');
-        }
-
-        if ($request_data['lesson_category_id'] != null && $request_data['level'] != $lessonLevel->level && LessonLevel::where('level', $request_data['level'])->get()->first() != null){
+        if ($request_data['level'] != $lessonLevel->level && LessonLevel::where('level', $request_data['level'])->get()->first() != null){
             $errors['level'] = sprintf(trans('validation.lesson_level_exist'), $request_data['level']);
         }
 

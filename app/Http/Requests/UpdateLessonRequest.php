@@ -31,6 +31,9 @@ class UpdateLessonRequest extends FormRequest
                 'string',
                 'nullable',
             ],
+            'lesson_level_id' => [
+                'required',
+            ]
         ];
     }
 }
