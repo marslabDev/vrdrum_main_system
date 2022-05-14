@@ -41,26 +41,6 @@
                 <span class="help-block">{{ trans('cruds.lessonTime.fields.date_to_helper') }}</span>
             </div>
             <div class="form-group">
-                <label for="attended_at">{{ trans('cruds.lessonTime.fields.attended_at') }}</label>
-                <input class="form-control datetime {{ $errors->has('attended_at') ? 'is-invalid' : '' }}" type="text" name="attended_at" id="attended_at" value="{{ old('attended_at', $lessonTime->attended_at) }}">
-                @if($errors->has('attended_at'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('attended_at') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.lessonTime.fields.attended_at_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label for="leaved_at">{{ trans('cruds.lessonTime.fields.leaved_at') }}</label>
-                <input class="form-control datetime {{ $errors->has('leaved_at') ? 'is-invalid' : '' }}" type="text" name="leaved_at" id="leaved_at" value="{{ old('leaved_at', $lessonTime->leaved_at) }}">
-                @if($errors->has('leaved_at'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('leaved_at') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.lessonTime.fields.leaved_at_helper') }}</span>
-            </div>
-            <div class="form-group">
                 <label for="class_room_id">{{ trans('cruds.lessonTime.fields.class_room') }}</label>
                 <select class="form-control select2 {{ $errors->has('class_room') ? 'is-invalid' : '' }}" name="class_room_id" id="class_room_id">
                     @foreach($class_rooms as $id => $entry)
@@ -87,16 +67,6 @@
                     </div>
                 @endif
                 <span class="help-block">{{ trans('cruds.lessonTime.fields.lesson_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label class="required" for="student_efk">{{ trans('cruds.lessonTime.fields.student_efk') }}</label>
-                <input class="form-control {{ $errors->has('student_efk') ? 'is-invalid' : '' }}" type="number" name="student_efk" id="student_efk" value="{{ old('student_efk', $lessonTime->student_efk) }}" step="1" required>
-                @if($errors->has('student_efk'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('student_efk') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.lessonTime.fields.student_efk_helper') }}</span>
             </div>
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">

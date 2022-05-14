@@ -224,19 +224,19 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('expense-reports/destroy', 'ExpenseReportController@massDestroy')->name('expense-reports.massDestroy');
     Route::resource('expense-reports', 'ExpenseReportController');
 
-    // Content Category
-    Route::delete('content-categories/destroy', 'ContentCategoryController@massDestroy')->name('content-categories.massDestroy');
-    Route::resource('content-categories', 'ContentCategoryController');
+    // Work Comment
+    Route::delete('work-comments/destroy', 'WorkCommentController@massDestroy')->name('work-comments.massDestroy');
+    Route::post('work-comments/media', 'WorkCommentController@storeMedia')->name('work-comments.storeMedia');
+    Route::post('work-comments/ckmedia', 'WorkCommentController@storeCKEditorImages')->name('work-comments.storeCKEditorImages');
+    Route::post('work-comments/parse-csv-import', 'WorkCommentController@parseCsvImport')->name('work-comments.parseCsvImport');
+    Route::post('work-comments/process-csv-import', 'WorkCommentController@processCsvImport')->name('work-comments.processCsvImport');
+    Route::resource('work-comments', 'WorkCommentController');
 
-    // Content Tag
-    Route::delete('content-tags/destroy', 'ContentTagController@massDestroy')->name('content-tags.massDestroy');
-    Route::resource('content-tags', 'ContentTagController');
-
-    // Content Page
-    Route::delete('content-pages/destroy', 'ContentPageController@massDestroy')->name('content-pages.massDestroy');
-    Route::post('content-pages/media', 'ContentPageController@storeMedia')->name('content-pages.storeMedia');
-    Route::post('content-pages/ckmedia', 'ContentPageController@storeCKEditorImages')->name('content-pages.storeCKEditorImages');
-    Route::resource('content-pages', 'ContentPageController');
+    // Lesson Time Student
+    Route::delete('lesson-time-students/destroy', 'LessonTimeStudentController@massDestroy')->name('lesson-time-students.massDestroy');
+    Route::post('lesson-time-students/parse-csv-import', 'LessonTimeStudentController@parseCsvImport')->name('lesson-time-students.parseCsvImport');
+    Route::post('lesson-time-students/process-csv-import', 'LessonTimeStudentController@processCsvImport')->name('lesson-time-students.processCsvImport');
+    Route::resource('lesson-time-students', 'LessonTimeStudentController');
 
     Route::get('system-calendar', 'SystemCalendarController@index')->name('systemCalendar');
     Route::get('global-search', 'GlobalSearchController@search')->name('globalSearch');

@@ -29,20 +29,6 @@ class StoreLessonTimeRequest extends FormRequest
                 'required',
                 'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
             ],
-            'attended_at' => [
-                'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
-                'nullable',
-            ],
-            'leaved_at' => [
-                'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
-                'nullable',
-            ],
-            'student_efk' => [
-                'required',
-                'integer',
-                'min:-2147483648',
-                'max:2147483647',
-            ],
         ];
     }
 }

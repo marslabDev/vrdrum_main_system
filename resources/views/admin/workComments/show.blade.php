@@ -3,13 +3,13 @@
 
 <div class="card">
     <div class="card-header">
-        {{ trans('global.show') }} {{ trans('cruds.lessonTime.title') }}
+        {{ trans('global.show') }} {{ trans('cruds.workComment.title') }}
     </div>
 
     <div class="card-body">
         <div class="form-group">
             <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.lesson-times.index') }}">
+                <a class="btn btn-default" href="{{ route('admin.work-comments.index') }}">
                     {{ trans('global.back_to_list') }}
                 </a>
             </div>
@@ -17,56 +17,52 @@
                 <tbody>
                     <tr>
                         <th>
-                            {{ trans('cruds.lessonTime.fields.id') }}
+                            {{ trans('cruds.workComment.fields.id') }}
                         </th>
                         <td>
-                            {{ $lessonTime->id }}
+                            {{ $workComment->id }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.lessonTime.fields.lesson_code') }}
+                            {{ trans('cruds.workComment.fields.content') }}
                         </th>
                         <td>
-                            {{ $lessonTime->lesson_code }}
+                            {{ $workComment->content }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.lessonTime.fields.date_from') }}
+                            {{ trans('cruds.workComment.fields.attachment') }}
                         </th>
                         <td>
-                            {{ $lessonTime->date_from }}
+                            @if($workComment->attachment)
+                                <a href="{{ $workComment->attachment->getUrl() }}" target="_blank" style="display: inline-block">
+                                    <img src="{{ $workComment->attachment->getUrl('thumb') }}">
+                                </a>
+                            @endif
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.lessonTime.fields.date_to') }}
+                            {{ trans('cruds.workComment.fields.student_work') }}
                         </th>
                         <td>
-                            {{ $lessonTime->date_to }}
+                            {{ $workComment->student_work->title ?? '' }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.lessonTime.fields.class_room') }}
+                            {{ trans('cruds.workComment.fields.sender_efk') }}
                         </th>
                         <td>
-                            {{ $lessonTime->class_room->room_title ?? '' }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.lessonTime.fields.lesson') }}
-                        </th>
-                        <td>
-                            {{ $lessonTime->lesson->name ?? '' }}
+                            {{ $workComment->sender_efk }}
                         </td>
                     </tr>
                 </tbody>
             </table>
             <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.lesson-times.index') }}">
+                <a class="btn btn-default" href="{{ route('admin.work-comments.index') }}">
                     {{ trans('global.back_to_list') }}
                 </a>
             </div>

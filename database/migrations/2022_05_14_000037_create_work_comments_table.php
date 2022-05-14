@@ -4,15 +4,14 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateContentPagesTable extends Migration
+class CreateWorkCommentsTable extends Migration
 {
     public function up()
     {
-        Schema::create('content_pages', function (Blueprint $table) {
+        Schema::create('work_comments', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('title')->nullable();
-            $table->longText('page_text')->nullable();
-            $table->longText('excerpt')->nullable();
+            $table->string('content');
+            $table->integer('sender_efk');
             $table->timestamps();
             $table->softDeletes();
         });

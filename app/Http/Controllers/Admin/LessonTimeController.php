@@ -60,10 +60,6 @@ class LessonTimeController extends Controller
                 return $row->lesson ? $row->lesson->name : '';
             });
 
-            $table->editColumn('student_efk', function ($row) {
-                return $row->student_efk ? $row->student_efk : '';
-            });
-
             $table->rawColumns(['actions', 'placeholder', 'class_room', 'lesson']);
 
             return $table->make(true);
