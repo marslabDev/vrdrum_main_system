@@ -19,6 +19,13 @@ class UsersTableSeeder extends Seeder
             ],
         ];
 
-        User::insert($users);
+        User::upsert($users,
+            [
+                'name',
+                'email',
+                'password',
+            ],
+            ['id'],
+        );
     }
 }

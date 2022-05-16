@@ -1,0 +1,917 @@
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+DROP TABLE IF EXISTS `asset_categories`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `asset_categories` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_by_id` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `created_by_fk_6590410` (`created_by_id`),
+  CONSTRAINT `created_by_fk_6590410` FOREIGN KEY (`created_by_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `asset_locations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `asset_locations` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_by_id` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `created_by_fk_6590411` (`created_by_id`),
+  CONSTRAINT `created_by_fk_6590411` FOREIGN KEY (`created_by_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `asset_statuses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `asset_statuses` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_by_id` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `created_by_fk_6590412` (`created_by_id`),
+  CONSTRAINT `created_by_fk_6590412` FOREIGN KEY (`created_by_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `assets`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `assets` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `serial_number` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `notes` longtext COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `category_id` bigint(20) unsigned DEFAULT NULL,
+  `status_id` bigint(20) unsigned DEFAULT NULL,
+  `location_id` bigint(20) unsigned DEFAULT NULL,
+  `assigned_to_id` bigint(20) unsigned DEFAULT NULL,
+  `created_by_id` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `category_fk_6575902` (`category_id`),
+  KEY `status_fk_6575906` (`status_id`),
+  KEY `location_fk_6575907` (`location_id`),
+  KEY `assigned_to_fk_6575909` (`assigned_to_id`),
+  KEY `created_by_fk_6590413` (`created_by_id`),
+  CONSTRAINT `assigned_to_fk_6575909` FOREIGN KEY (`assigned_to_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `category_fk_6575902` FOREIGN KEY (`category_id`) REFERENCES `asset_categories` (`id`),
+  CONSTRAINT `created_by_fk_6590413` FOREIGN KEY (`created_by_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `location_fk_6575907` FOREIGN KEY (`location_id`) REFERENCES `asset_locations` (`id`),
+  CONSTRAINT `status_fk_6575906` FOREIGN KEY (`status_id`) REFERENCES `asset_statuses` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `assets_histories`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `assets_histories` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `asset_id` bigint(20) unsigned DEFAULT NULL,
+  `status_id` bigint(20) unsigned DEFAULT NULL,
+  `location_id` bigint(20) unsigned DEFAULT NULL,
+  `assigned_user_id` bigint(20) unsigned DEFAULT NULL,
+  `created_by_id` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `asset_fk_6575914` (`asset_id`),
+  KEY `status_fk_6575915` (`status_id`),
+  KEY `location_fk_6575916` (`location_id`),
+  KEY `assigned_user_fk_6575917` (`assigned_user_id`),
+  KEY `created_by_fk_6590414` (`created_by_id`),
+  CONSTRAINT `asset_fk_6575914` FOREIGN KEY (`asset_id`) REFERENCES `assets` (`id`),
+  CONSTRAINT `assigned_user_fk_6575917` FOREIGN KEY (`assigned_user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `created_by_fk_6590414` FOREIGN KEY (`created_by_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `location_fk_6575916` FOREIGN KEY (`location_id`) REFERENCES `asset_locations` (`id`),
+  CONSTRAINT `status_fk_6575915` FOREIGN KEY (`status_id`) REFERENCES `asset_statuses` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `audit_logs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `audit_logs` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `description` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `subject_id` bigint(20) unsigned DEFAULT NULL,
+  `subject_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `user_id` bigint(20) unsigned DEFAULT NULL,
+  `properties` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `host` varchar(46) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `branches`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `branches` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_by_id` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `created_by_fk_6575879` (`created_by_id`),
+  CONSTRAINT `created_by_fk_6575879` FOREIGN KEY (`created_by_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `class_rooms`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `class_rooms` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `room_title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `is_available` tinyint(1) NOT NULL DEFAULT 0,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `branch_id` bigint(20) unsigned DEFAULT NULL,
+  `created_by_id` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `branch_fk_6590728` (`branch_id`),
+  KEY `created_by_fk_6551244` (`created_by_id`),
+  CONSTRAINT `branch_fk_6590728` FOREIGN KEY (`branch_id`) REFERENCES `branches` (`id`),
+  CONSTRAINT `created_by_fk_6551244` FOREIGN KEY (`created_by_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `coach_details`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `coach_details` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `enrollment_status` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `coach_efk` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_by_id` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `created_by_fk_6551251` (`created_by_id`),
+  CONSTRAINT `created_by_fk_6551251` FOREIGN KEY (`created_by_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `coach_meta`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `coach_meta` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `meta_key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `meta_value` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `coach_efk` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_by_id` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `created_by_fk_6551259` (`created_by_id`),
+  CONSTRAINT `created_by_fk_6551259` FOREIGN KEY (`created_by_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `expense_categories`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `expense_categories` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_by_id` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `created_by_fk_6590415` (`created_by_id`),
+  CONSTRAINT `created_by_fk_6590415` FOREIGN KEY (`created_by_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `expenses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `expenses` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `entry_date` date DEFAULT NULL,
+  `amount` decimal(15,2) DEFAULT NULL,
+  `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `expense_category_id` bigint(20) unsigned DEFAULT NULL,
+  `created_by_id` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `expense_category_fk_6575931` (`expense_category_id`),
+  KEY `created_by_fk_6590417` (`created_by_id`),
+  CONSTRAINT `created_by_fk_6590417` FOREIGN KEY (`created_by_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `expense_category_fk_6575931` FOREIGN KEY (`expense_category_id`) REFERENCES `expense_categories` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `income_categories`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `income_categories` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_by_id` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `created_by_fk_6590416` (`created_by_id`),
+  CONSTRAINT `created_by_fk_6590416` FOREIGN KEY (`created_by_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `incomes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `incomes` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `entry_date` date DEFAULT NULL,
+  `amount` decimal(15,2) DEFAULT NULL,
+  `description` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `income_category_id` bigint(20) unsigned DEFAULT NULL,
+  `created_by_id` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `income_category_fk_6575939` (`income_category_id`),
+  KEY `created_by_fk_6590418` (`created_by_id`),
+  CONSTRAINT `created_by_fk_6590418` FOREIGN KEY (`created_by_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `income_category_fk_6575939` FOREIGN KEY (`income_category_id`) REFERENCES `income_categories` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `lesson_categories`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `lesson_categories` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `desc` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `group` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_by_id` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `created_by_fk_6551237` (`created_by_id`),
+  CONSTRAINT `created_by_fk_6551237` FOREIGN KEY (`created_by_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `lesson_coaches`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `lesson_coaches` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `coach_efk` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `lesson_id` bigint(20) unsigned DEFAULT NULL,
+  `created_by_id` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `lesson_fk_6548252` (`lesson_id`),
+  KEY `created_by_fk_6551240` (`created_by_id`),
+  CONSTRAINT `created_by_fk_6551240` FOREIGN KEY (`created_by_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `lesson_fk_6548252` FOREIGN KEY (`lesson_id`) REFERENCES `lessons` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `lesson_levels`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `lesson_levels` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `level` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `lesson_category_id` bigint(20) unsigned DEFAULT NULL,
+  `created_by_id` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `lesson_category_fk_6548238` (`lesson_category_id`),
+  KEY `created_by_fk_6551238` (`created_by_id`),
+  CONSTRAINT `created_by_fk_6551238` FOREIGN KEY (`created_by_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `lesson_category_fk_6548238` FOREIGN KEY (`lesson_category_id`) REFERENCES `lesson_categories` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `lesson_time_changes`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `lesson_time_changes` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `date_from` datetime NOT NULL,
+  `date_to` datetime NOT NULL,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `request_date` datetime DEFAULT NULL,
+  `request_user_efk` int(11) NOT NULL,
+  `response_date` datetime DEFAULT NULL,
+  `response_user_efk` int(11) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `old_lesson_time_id` bigint(20) unsigned DEFAULT NULL,
+  `class_room_id` bigint(20) unsigned DEFAULT NULL,
+  `lesson_id` bigint(20) unsigned DEFAULT NULL,
+  `created_by_id` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `old_lesson_time_fk_6548392` (`old_lesson_time_id`),
+  KEY `class_room_fk_6548393` (`class_room_id`),
+  KEY `lesson_fk_6548394` (`lesson_id`),
+  KEY `created_by_fk_6551243` (`created_by_id`),
+  CONSTRAINT `class_room_fk_6548393` FOREIGN KEY (`class_room_id`) REFERENCES `class_rooms` (`id`),
+  CONSTRAINT `created_by_fk_6551243` FOREIGN KEY (`created_by_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `lesson_fk_6548394` FOREIGN KEY (`lesson_id`) REFERENCES `lessons` (`id`),
+  CONSTRAINT `old_lesson_time_fk_6548392` FOREIGN KEY (`old_lesson_time_id`) REFERENCES `lesson_times` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `lesson_time_coaches`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `lesson_time_coaches` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `coach_efk` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `lesson_time_id` bigint(20) unsigned DEFAULT NULL,
+  `created_by_id` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `lesson_time_fk_6548349` (`lesson_time_id`),
+  KEY `created_by_fk_6551242` (`created_by_id`),
+  CONSTRAINT `created_by_fk_6551242` FOREIGN KEY (`created_by_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `lesson_time_fk_6548349` FOREIGN KEY (`lesson_time_id`) REFERENCES `lesson_times` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `lesson_time_students`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `lesson_time_students` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `attended_at` datetime DEFAULT NULL,
+  `leave_at` datetime DEFAULT NULL,
+  `cancel_at` datetime DEFAULT NULL,
+  `student_efk` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `lesson_time_id` bigint(20) unsigned DEFAULT NULL,
+  `created_by_id` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `lesson_time_fk_6596621` (`lesson_time_id`),
+  KEY `created_by_fk_6596626` (`created_by_id`),
+  CONSTRAINT `created_by_fk_6596626` FOREIGN KEY (`created_by_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `lesson_time_fk_6596621` FOREIGN KEY (`lesson_time_id`) REFERENCES `lesson_times` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `lesson_times`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `lesson_times` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `lesson_code` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `date_from` datetime NOT NULL,
+  `date_to` datetime NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `class_room_id` bigint(20) unsigned DEFAULT NULL,
+  `lesson_id` bigint(20) unsigned DEFAULT NULL,
+  `created_by_id` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `class_room_fk_6548342` (`class_room_id`),
+  KEY `lesson_fk_6548343` (`lesson_id`),
+  KEY `created_by_fk_6551241` (`created_by_id`),
+  CONSTRAINT `class_room_fk_6548342` FOREIGN KEY (`class_room_id`) REFERENCES `class_rooms` (`id`),
+  CONSTRAINT `created_by_fk_6551241` FOREIGN KEY (`created_by_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `lesson_fk_6548343` FOREIGN KEY (`lesson_id`) REFERENCES `lessons` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `lessons`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `lessons` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `no_of_class` int(11) NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `syllabus` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `lesson_level_id` bigint(20) unsigned DEFAULT NULL,
+  `created_by_id` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `lesson_level_fk_6548246` (`lesson_level_id`),
+  KEY `created_by_fk_6551239` (`created_by_id`),
+  CONSTRAINT `created_by_fk_6551239` FOREIGN KEY (`created_by_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `lesson_level_fk_6548246` FOREIGN KEY (`lesson_level_id`) REFERENCES `lesson_levels` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `media`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `media` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `model_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `model_id` bigint(20) unsigned NOT NULL,
+  `uuid` char(36) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `collection_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `file_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `mime_type` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `disk` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `conversions_disk` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `size` bigint(20) unsigned NOT NULL,
+  `manipulations` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`manipulations`)),
+  `custom_properties` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`custom_properties`)),
+  `generated_conversions` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`generated_conversions`)),
+  `responsive_images` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL CHECK (json_valid(`responsive_images`)),
+  `order_column` int(10) unsigned DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `media_uuid_unique` (`uuid`),
+  KEY `media_model_type_model_id_index` (`model_type`,`model_id`),
+  KEY `media_order_column_index` (`order_column`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `migrations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `migrations` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `batch` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `password_resets`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `password_resets` (
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  KEY `password_resets_email_index` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `permission_role`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `permission_role` (
+  `role_id` bigint(20) unsigned NOT NULL,
+  `permission_id` bigint(20) unsigned NOT NULL,
+  KEY `role_id_fk_6547971` (`role_id`),
+  KEY `permission_id_fk_6547971` (`permission_id`),
+  CONSTRAINT `permission_id_fk_6547971` FOREIGN KEY (`permission_id`) REFERENCES `permissions` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `role_id_fk_6547971` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `permissions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `permissions` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `personal_access_tokens`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `personal_access_tokens` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `tokenable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tokenable_id` bigint(20) unsigned NOT NULL,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `abilities` text COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `last_used_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
+  KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `qa_messages`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `qa_messages` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `topic_id` bigint(20) unsigned NOT NULL,
+  `sender_id` bigint(20) unsigned NOT NULL,
+  `read_at` timestamp NULL DEFAULT NULL,
+  `content` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `qa_messages_topic_id_foreign` (`topic_id`),
+  CONSTRAINT `qa_messages_topic_id_foreign` FOREIGN KEY (`topic_id`) REFERENCES `qa_topics` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `qa_topics`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `qa_topics` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `subject` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `creator_id` bigint(20) unsigned NOT NULL,
+  `receiver_id` bigint(20) unsigned NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `role_user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `role_user` (
+  `user_id` bigint(20) unsigned NOT NULL,
+  `role_id` bigint(20) unsigned NOT NULL,
+  KEY `user_id_fk_6547980` (`user_id`),
+  KEY `role_id_fk_6547980` (`role_id`),
+  CONSTRAINT `role_id_fk_6547980` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `user_id_fk_6547980` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `roles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `roles` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `student_details`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `student_details` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `full_name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `parent_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `parent_phone` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `lesson_categories` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `lesson_group` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `is_disabled` tinyint(1) NOT NULL DEFAULT 0,
+  `student_efk` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_by_id` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `created_by_fk_6551228` (`created_by_id`),
+  CONSTRAINT `created_by_fk_6551228` FOREIGN KEY (`created_by_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `student_lesson_progresses`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `student_lesson_progresses` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `progress` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `student_efk` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `lesson_category_id` bigint(20) unsigned DEFAULT NULL,
+  `created_by_id` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `lesson_category_fk_6548472` (`lesson_category_id`),
+  KEY `created_by_fk_6551227` (`created_by_id`),
+  CONSTRAINT `created_by_fk_6551227` FOREIGN KEY (`created_by_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `lesson_category_fk_6548472` FOREIGN KEY (`lesson_category_id`) REFERENCES `lesson_categories` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `student_meta`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `student_meta` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `meta_key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `meta_value` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `student_efk` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_by_id` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `created_by_fk_6551229` (`created_by_id`),
+  CONSTRAINT `created_by_fk_6551229` FOREIGN KEY (`created_by_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `student_tuitions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `student_tuitions` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `minute_left` double(15,2) NOT NULL,
+  `student_efk` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `tuition_package_id` bigint(20) unsigned DEFAULT NULL,
+  `created_by_id` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `tuition_package_fk_6548209` (`tuition_package_id`),
+  KEY `created_by_fk_6551236` (`created_by_id`),
+  CONSTRAINT `created_by_fk_6551236` FOREIGN KEY (`created_by_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `tuition_package_fk_6548209` FOREIGN KEY (`tuition_package_id`) REFERENCES `tuition_packages` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `student_works`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `student_works` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `category` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `desc` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `start_at` datetime DEFAULT NULL,
+  `end_at` datetime DEFAULT NULL,
+  `time_given_minute` double(15,2) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `lesson_time_id` bigint(20) unsigned DEFAULT NULL,
+  `created_by_id` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `lesson_time_fk_6551021` (`lesson_time_id`),
+  KEY `created_by_fk_6551230` (`created_by_id`),
+  CONSTRAINT `created_by_fk_6551230` FOREIGN KEY (`created_by_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `lesson_time_fk_6551021` FOREIGN KEY (`lesson_time_id`) REFERENCES `lesson_times` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `submissions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `submissions` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `status` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `submit_at` datetime DEFAULT NULL,
+  `mark` double(15,2) DEFAULT NULL,
+  `mark_at` datetime DEFAULT NULL,
+  `student_efk` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `student_work_id` bigint(20) unsigned DEFAULT NULL,
+  `created_by_id` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `student_work_fk_6551031` (`student_work_id`),
+  KEY `created_by_fk_6551231` (`created_by_id`),
+  CONSTRAINT `created_by_fk_6551231` FOREIGN KEY (`created_by_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `student_work_fk_6551031` FOREIGN KEY (`student_work_id`) REFERENCES `student_works` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `submit_resources`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `submit_resources` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `answer_text` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `student_work_id` bigint(20) unsigned DEFAULT NULL,
+  `created_by_id` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `student_work_fk_6551050` (`student_work_id`),
+  KEY `created_by_fk_6551233` (`created_by_id`),
+  CONSTRAINT `created_by_fk_6551233` FOREIGN KEY (`created_by_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `student_work_fk_6551050` FOREIGN KEY (`student_work_id`) REFERENCES `student_works` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `tuition_gifts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tuition_gifts` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `total_minute` double(15,2) DEFAULT NULL,
+  `quantity` double(15,2) DEFAULT NULL,
+  `inventory_efk` int(11) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `tuition_package_id` bigint(20) unsigned DEFAULT NULL,
+  `created_by_id` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `tuition_package_fk_6548095` (`tuition_package_id`),
+  KEY `created_by_fk_6551235` (`created_by_id`),
+  CONSTRAINT `created_by_fk_6551235` FOREIGN KEY (`created_by_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `tuition_package_fk_6548095` FOREIGN KEY (`tuition_package_id`) REFERENCES `tuition_packages` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `tuition_packages`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tuition_packages` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `price` decimal(15,2) NOT NULL,
+  `total_minute` double(15,2) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `lesson_category_id` bigint(20) unsigned DEFAULT NULL,
+  `created_by_id` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `lesson_category_fk_6548078` (`lesson_category_id`),
+  KEY `created_by_fk_6551234` (`created_by_id`),
+  CONSTRAINT `created_by_fk_6551234` FOREIGN KEY (`created_by_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `lesson_category_fk_6548078` FOREIGN KEY (`lesson_category_id`) REFERENCES `lesson_categories` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `user_alerts`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user_alerts` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `alert_text` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `alert_link` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `created_by_id` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `created_by_fk_6590409` (`created_by_id`),
+  CONSTRAINT `created_by_fk_6590409` FOREIGN KEY (`created_by_id`) REFERENCES `users` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `user_user_alert`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user_user_alert` (
+  `user_alert_id` bigint(20) unsigned NOT NULL,
+  `user_id` bigint(20) unsigned NOT NULL,
+  `read` tinyint(1) NOT NULL DEFAULT 0,
+  KEY `user_alert_id_fk_6575883` (`user_alert_id`),
+  KEY `user_id_fk_6575883` (`user_id`),
+  CONSTRAINT `user_alert_id_fk_6575883` FOREIGN KEY (`user_alert_id`) REFERENCES `user_alerts` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `user_id_fk_6575883` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email_verified_at` datetime DEFAULT NULL,
+  `password` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `remember_token` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `users_email_unique` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `work_comments`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `work_comments` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `content` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `sender_efk` int(11) NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `student_work_id` bigint(20) unsigned DEFAULT NULL,
+  `created_by_id` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `student_work_fk_6596611` (`student_work_id`),
+  KEY `created_by_fk_6596616` (`created_by_id`),
+  CONSTRAINT `created_by_fk_6596616` FOREIGN KEY (`created_by_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `student_work_fk_6596611` FOREIGN KEY (`student_work_id`) REFERENCES `student_works` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+DROP TABLE IF EXISTS `work_resources`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `work_resources` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `question_text` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL,
+  `student_work_id` bigint(20) unsigned DEFAULT NULL,
+  `created_by_id` bigint(20) unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `student_work_fk_6551042` (`student_work_id`),
+  KEY `created_by_fk_6551232` (`created_by_id`),
+  CONSTRAINT `created_by_fk_6551232` FOREIGN KEY (`created_by_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `student_work_fk_6551042` FOREIGN KEY (`student_work_id`) REFERENCES `student_works` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+INSERT INTO `migrations` VALUES (1,'2014_10_12_100000_create_password_resets_table',1);
+INSERT INTO `migrations` VALUES (2,'2019_12_14_000001_create_personal_access_tokens_table',1);
+INSERT INTO `migrations` VALUES (3,'2022_05_14_000001_create_audit_logs_table',1);
+INSERT INTO `migrations` VALUES (4,'2022_05_14_000002_create_media_table',1);
+INSERT INTO `migrations` VALUES (5,'2022_05_14_000003_create_permissions_table',1);
+INSERT INTO `migrations` VALUES (6,'2022_05_14_000004_create_roles_table',1);
+INSERT INTO `migrations` VALUES (7,'2022_05_14_000005_create_users_table',1);
+INSERT INTO `migrations` VALUES (8,'2022_05_14_000006_create_class_rooms_table',1);
+INSERT INTO `migrations` VALUES (9,'2022_05_14_000007_create_lesson_categories_table',1);
+INSERT INTO `migrations` VALUES (10,'2022_05_14_000008_create_tuition_packages_table',1);
+INSERT INTO `migrations` VALUES (11,'2022_05_14_000009_create_tuition_gifts_table',1);
+INSERT INTO `migrations` VALUES (12,'2022_05_14_000010_create_student_tuitions_table',1);
+INSERT INTO `migrations` VALUES (13,'2022_05_14_000011_create_lesson_levels_table',1);
+INSERT INTO `migrations` VALUES (14,'2022_05_14_000012_create_lessons_table',1);
+INSERT INTO `migrations` VALUES (15,'2022_05_14_000013_create_lesson_coaches_table',1);
+INSERT INTO `migrations` VALUES (16,'2022_05_14_000014_create_lesson_times_table',1);
+INSERT INTO `migrations` VALUES (17,'2022_05_14_000015_create_lesson_time_coaches_table',1);
+INSERT INTO `migrations` VALUES (18,'2022_05_14_000016_create_lesson_time_changes_table',1);
+INSERT INTO `migrations` VALUES (19,'2022_05_14_000017_create_student_lesson_progresses_table',1);
+INSERT INTO `migrations` VALUES (20,'2022_05_14_000018_create_student_details_table',1);
+INSERT INTO `migrations` VALUES (21,'2022_05_14_000019_create_student_meta_table',1);
+INSERT INTO `migrations` VALUES (22,'2022_05_14_000020_create_student_works_table',1);
+INSERT INTO `migrations` VALUES (23,'2022_05_14_000021_create_submissions_table',1);
+INSERT INTO `migrations` VALUES (24,'2022_05_14_000022_create_work_resources_table',1);
+INSERT INTO `migrations` VALUES (25,'2022_05_14_000023_create_submit_resources_table',1);
+INSERT INTO `migrations` VALUES (26,'2022_05_14_000024_create_coach_details_table',1);
+INSERT INTO `migrations` VALUES (27,'2022_05_14_000025_create_coach_meta_table',1);
+INSERT INTO `migrations` VALUES (28,'2022_05_14_000026_create_branches_table',1);
+INSERT INTO `migrations` VALUES (29,'2022_05_14_000027_create_user_alerts_table',1);
+INSERT INTO `migrations` VALUES (30,'2022_05_14_000028_create_asset_categories_table',1);
+INSERT INTO `migrations` VALUES (31,'2022_05_14_000029_create_asset_locations_table',1);
+INSERT INTO `migrations` VALUES (32,'2022_05_14_000030_create_asset_statuses_table',1);
+INSERT INTO `migrations` VALUES (33,'2022_05_14_000031_create_assets_table',1);
+INSERT INTO `migrations` VALUES (34,'2022_05_14_000032_create_assets_histories_table',1);
+INSERT INTO `migrations` VALUES (35,'2022_05_14_000033_create_expense_categories_table',1);
+INSERT INTO `migrations` VALUES (36,'2022_05_14_000034_create_income_categories_table',1);
+INSERT INTO `migrations` VALUES (37,'2022_05_14_000035_create_expenses_table',1);
+INSERT INTO `migrations` VALUES (38,'2022_05_14_000036_create_incomes_table',1);
+INSERT INTO `migrations` VALUES (39,'2022_05_14_000037_create_work_comments_table',1);
+INSERT INTO `migrations` VALUES (40,'2022_05_14_000038_create_lesson_time_students_table',1);
+INSERT INTO `migrations` VALUES (41,'2022_05_14_000039_create_permission_role_pivot_table',1);
+INSERT INTO `migrations` VALUES (42,'2022_05_14_000040_create_role_user_pivot_table',1);
+INSERT INTO `migrations` VALUES (43,'2022_05_14_000041_create_user_user_alert_pivot_table',1);
+INSERT INTO `migrations` VALUES (44,'2022_05_14_000042_add_relationship_fields_to_class_rooms_table',1);
+INSERT INTO `migrations` VALUES (45,'2022_05_14_000043_add_relationship_fields_to_lesson_categories_table',1);
+INSERT INTO `migrations` VALUES (46,'2022_05_14_000044_add_relationship_fields_to_tuition_packages_table',1);
+INSERT INTO `migrations` VALUES (47,'2022_05_14_000045_add_relationship_fields_to_tuition_gifts_table',1);
+INSERT INTO `migrations` VALUES (48,'2022_05_14_000046_add_relationship_fields_to_student_tuitions_table',1);
+INSERT INTO `migrations` VALUES (49,'2022_05_14_000047_add_relationship_fields_to_lesson_levels_table',1);
+INSERT INTO `migrations` VALUES (50,'2022_05_14_000048_add_relationship_fields_to_lessons_table',1);
+INSERT INTO `migrations` VALUES (51,'2022_05_14_000049_add_relationship_fields_to_lesson_coaches_table',1);
+INSERT INTO `migrations` VALUES (52,'2022_05_14_000050_add_relationship_fields_to_lesson_times_table',1);
+INSERT INTO `migrations` VALUES (53,'2022_05_14_000051_add_relationship_fields_to_lesson_time_coaches_table',1);
+INSERT INTO `migrations` VALUES (54,'2022_05_14_000052_add_relationship_fields_to_lesson_time_changes_table',1);
+INSERT INTO `migrations` VALUES (55,'2022_05_14_000053_add_relationship_fields_to_student_lesson_progresses_table',1);
+INSERT INTO `migrations` VALUES (56,'2022_05_14_000054_add_relationship_fields_to_student_details_table',1);
+INSERT INTO `migrations` VALUES (57,'2022_05_14_000055_add_relationship_fields_to_student_meta_table',1);
+INSERT INTO `migrations` VALUES (58,'2022_05_14_000056_add_relationship_fields_to_student_works_table',1);
+INSERT INTO `migrations` VALUES (59,'2022_05_14_000057_add_relationship_fields_to_submissions_table',1);
+INSERT INTO `migrations` VALUES (60,'2022_05_14_000058_add_relationship_fields_to_work_resources_table',1);
+INSERT INTO `migrations` VALUES (61,'2022_05_14_000059_add_relationship_fields_to_submit_resources_table',1);
+INSERT INTO `migrations` VALUES (62,'2022_05_14_000060_add_relationship_fields_to_coach_details_table',1);
+INSERT INTO `migrations` VALUES (63,'2022_05_14_000061_add_relationship_fields_to_coach_meta_table',1);
+INSERT INTO `migrations` VALUES (64,'2022_05_14_000062_add_relationship_fields_to_branches_table',1);
+INSERT INTO `migrations` VALUES (65,'2022_05_14_000063_add_relationship_fields_to_user_alerts_table',1);
+INSERT INTO `migrations` VALUES (66,'2022_05_14_000064_add_relationship_fields_to_asset_categories_table',1);
+INSERT INTO `migrations` VALUES (67,'2022_05_14_000065_add_relationship_fields_to_asset_locations_table',1);
+INSERT INTO `migrations` VALUES (68,'2022_05_14_000066_add_relationship_fields_to_asset_statuses_table',1);
+INSERT INTO `migrations` VALUES (69,'2022_05_14_000067_add_relationship_fields_to_assets_table',1);
+INSERT INTO `migrations` VALUES (70,'2022_05_14_000068_add_relationship_fields_to_assets_histories_table',1);
+INSERT INTO `migrations` VALUES (71,'2022_05_14_000069_add_relationship_fields_to_expense_categories_table',1);
+INSERT INTO `migrations` VALUES (72,'2022_05_14_000070_add_relationship_fields_to_income_categories_table',1);
+INSERT INTO `migrations` VALUES (73,'2022_05_14_000071_add_relationship_fields_to_expenses_table',1);
+INSERT INTO `migrations` VALUES (74,'2022_05_14_000072_add_relationship_fields_to_incomes_table',1);
+INSERT INTO `migrations` VALUES (75,'2022_05_14_000073_add_relationship_fields_to_work_comments_table',1);
+INSERT INTO `migrations` VALUES (76,'2022_05_14_000074_add_relationship_fields_to_lesson_time_students_table',1);
+INSERT INTO `migrations` VALUES (77,'2022_05_14_000075_create_qa_topics_table',1);
+INSERT INTO `migrations` VALUES (78,'2022_05_14_000076_create_qa_messages_table',1);

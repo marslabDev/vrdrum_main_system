@@ -8,6 +8,7 @@ use App\Http\Requests\MassDestroyTuitionPackageRequest;
 use App\Http\Requests\StoreTuitionPackageRequest;
 use App\Http\Requests\UpdateTuitionPackageRequest;
 use App\Models\LessonCategory;
+use App\Models\TuitionGift;
 use App\Models\TuitionPackage;
 use Gate;
 use Illuminate\Http\Request;
@@ -51,10 +52,25 @@ class TuitionPackageController extends Controller
                 return $row->name ? $row->name : '';
             });
             $table->editColumn('price', function ($row) {
-                return $row->price ? $row->price : '';
+                return $row->price || $row->price == 0 ? $row->price : '';
             });
-            $table->editColumn('total_minute', function ($row) {
-                return $row->total_minute ? $row->total_minute : '';
+            $table->editColumn('total_lesson', function ($row) {
+                $total_lesson = $row->total_minute || $row->total_minute == 0 
+                    ? $row->total_minute / config('constants.lesson.one_lesson_time') 
+                    : '';
+
+                $tuitionGifts = TuitionGift::where([
+                    ['tuition_package_id', '=', $row->id],
+                    ['type', '=', 'lesson']
+                ])->get();
+                
+                $addition_lesson = 0;
+
+                foreach ($tuitionGifts as $index => $value){
+                    $addition_lesson += $tuitionGifts[$index]->total_minute / config('constants.lesson.one_lesson_time');
+                }
+
+                return $total_lesson . ($addition_lesson == 0 ? '' : ' + ' .$addition_lesson);
             });
             $table->addColumn('lesson_category_name', function ($row) {
                 return $row->lesson_category ? $row->lesson_category->name : '';
@@ -79,7 +95,13 @@ class TuitionPackageController extends Controller
 
     public function store(StoreTuitionPackageRequest $request)
     {
-        $tuitionPackage = TuitionPackage::create($request->all());
+        $request_data = $request->all();
+
+        // ------------------------------ data assign ------------------------------
+        $request_data['total_minute'] = $request_data['total_lesson'] * config('constants.lesson.one_lesson_time') ;
+        $request_data['price'] = $request_data['total_lesson'] * config('constants.lesson.one_lesson_price') ;
+
+        $tuitionPackage = TuitionPackage::create($request_data);
 
         return redirect()->route('admin.tuition-packages.index');
     }
@@ -92,12 +114,20 @@ class TuitionPackageController extends Controller
 
         $tuitionPackage->load('lesson_category', 'created_by');
 
+        $tuitionPackage->total_lesson = $tuitionPackage->total_minute / config('constants.lesson.one_lesson_time');
+
         return view('admin.tuitionPackages.edit', compact('lesson_categories', 'tuitionPackage'));
     }
 
     public function update(UpdateTuitionPackageRequest $request, TuitionPackage $tuitionPackage)
     {
-        $tuitionPackage->update($request->all());
+        $request_data = $request->all();
+
+        // ------------------------------ data assign ------------------------------
+        $request_data['total_minute'] = $request_data['total_lesson'] * config('constants.lesson.one_lesson_time') ;
+        $request_data['price'] = $request_data['total_lesson'] * config('constants.lesson.one_lesson_price') ;
+
+        $tuitionPackage->update($request_data);
 
         return redirect()->route('admin.tuition-packages.index');
     }
@@ -107,6 +137,8 @@ class TuitionPackageController extends Controller
         abort_if(Gate::denies('tuition_package_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $tuitionPackage->load('lesson_category', 'created_by');
+
+        $tuitionPackage->total_lesson = $tuitionPackage->total_minute / config('constants.lesson.one_lesson_time');
 
         return view('admin.tuitionPackages.show', compact('tuitionPackage'));
     }

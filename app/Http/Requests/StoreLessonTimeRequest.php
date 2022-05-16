@@ -17,32 +17,24 @@ class StoreLessonTimeRequest extends FormRequest
     public function rules()
     {
         return [
-            'lesson_code' => [
-                'string',
-                'required',
-            ],
+            // 'lesson_code' => [
+            //     'string',
+            //     'required',
+            // ],
             'date_from' => [
                 'required',
                 'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
             ],
-            'date_to' => [
+            'class_room_id' => [
                 'required',
-                'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
             ],
-            'attended_at' => [
-                'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
-                'nullable',
-            ],
-            'leaved_at' => [
-                'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
-                'nullable',
-            ],
-            'student_efk' => [
+            'lesson_id' => [
                 'required',
-                'integer',
-                'min:-2147483648',
-                'max:2147483647',
             ],
+            // 'date_to' => [
+            //     'required',
+            //     'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
+            // ],
         ];
     }
 }

@@ -36,7 +36,7 @@ class LessonLevel extends Model
 
     public function lesson_category()
     {
-        return $this->belongsTo(LessonCategory::class, 'lesson_category_id');
+        return $this->belongsTo(LessonCategory::class, 'lesson_category_id')->withTrashed();
     }
 
     public function created_by()

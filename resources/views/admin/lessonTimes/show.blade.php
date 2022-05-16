@@ -49,22 +49,6 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.lessonTime.fields.attended_at') }}
-                        </th>
-                        <td>
-                            {{ $lessonTime->attended_at }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.lessonTime.fields.leaved_at') }}
-                        </th>
-                        <td>
-                            {{ $lessonTime->leaved_at }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
                             {{ trans('cruds.lessonTime.fields.class_room') }}
                         </th>
                         <td>
@@ -81,10 +65,18 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.lessonTime.fields.student_efk') }}
+                            {{ trans('cruds.lessonTimeStudent.fields.student_efk') }}
                         </th>
                         <td>
-                            {{ $lessonTime->student_efk }}
+                            {{ $students_efk ?? '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.lessonTimeCoach.fields.coach_efk') }}
+                        </th>
+                        <td>
+                            {{ $coachs_efk ?? '' }}
                         </td>
                     </tr>
                 </tbody>

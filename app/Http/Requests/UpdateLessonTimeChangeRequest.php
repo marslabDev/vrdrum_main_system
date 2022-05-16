@@ -17,38 +17,47 @@ class UpdateLessonTimeChangeRequest extends FormRequest
     public function rules()
     {
         return [
+            'old_lesson_time_id' => [
+                'required',
+            ],
             'date_from' => [
                 'required',
                 'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
             ],
-            'date_to' => [
+            'class_room_id' => [
                 'required',
-                'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
             ],
-            'status' => [
-                'string',
-                'nullable',
-            ],
-            'request_date' => [
-                'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
-                'nullable',
-            ],
-            'request_user_efk' => [
+            'lesson_id' => [
                 'required',
-                'integer',
-                'min:-2147483648',
-                'max:2147483647',
             ],
-            'response_date' => [
-                'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
-                'nullable',
-            ],
-            'response_user_efk' => [
-                'nullable',
-                'integer',
-                'min:-2147483648',
-                'max:2147483647',
-            ],
+            // 'date_to' => [
+            //     'required',
+            //     'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
+            // ],
+            // 'status' => [
+            //     'string',
+            //     'nullable',
+            // ],
+            // 'request_date' => [
+            //     'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
+            //     'nullable',
+            // ],
+            // 'request_user_efk' => [
+            //     'required',
+            //     'integer',
+            //     'min:-2147483648',
+            //     'max:2147483647',
+            // ],
+            // 'response_date' => [
+            //     'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
+            //     'nullable',
+            // ],
+            // 'response_user_efk' => [
+            //     'nullable',
+            //     'integer',
+            //     'min:-2147483648',
+            //     'max:2147483647',
+            // ],
         ];
     }
 }

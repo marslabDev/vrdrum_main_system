@@ -8,6 +8,7 @@ use App\Http\Requests\MassDestroyStudentTuitionRequest;
 use App\Http\Requests\StoreStudentTuitionRequest;
 use App\Http\Requests\UpdateStudentTuitionRequest;
 use App\Models\StudentTuition;
+use App\Models\TuitionGift;
 use App\Models\TuitionPackage;
 use Gate;
 use Illuminate\Http\Request;
@@ -31,7 +32,8 @@ class StudentTuitionController extends Controller
 
             $table->editColumn('actions', function ($row) {
                 $viewGate = 'student_tuition_show';
-                $editGate = 'student_tuition_edit';
+                // $editGate = 'student_tuition_edit';
+                $editGate = 'null';
                 $deleteGate = 'student_tuition_delete';
                 $crudRoutePart = 'student-tuitions';
 
@@ -47,8 +49,10 @@ class StudentTuitionController extends Controller
             $table->editColumn('id', function ($row) {
                 return $row->id ? $row->id : '';
             });
-            $table->editColumn('minute_left', function ($row) {
-                return $row->minute_left ? $row->minute_left : '';
+            $table->editColumn('lesson_left', function ($row) {
+                $lesson_left = $row->minute_left ? $row->minute_left / config('constants.lesson.one_lesson_time') : '';
+                
+                return $lesson_left;
             });
             $table->addColumn('tuition_package_name', function ($row) {
                 return $row->tuition_package ? $row->tuition_package->name : '';
@@ -77,7 +81,24 @@ class StudentTuitionController extends Controller
 
     public function store(StoreStudentTuitionRequest $request)
     {
-        $studentTuition = StudentTuition::create($request->all());
+        $request_data = $request->all();
+
+        // ------------------------------ data assign ------------------------------
+        $tuitionPackage = TuitionPackage::find($request_data['tuition_package_id']);
+
+        // check tuition gift for additional lesson (gift)
+        $tuition_gifts = TuitionGift::where([
+            ['tuition_package_id', '=', $request_data['tuition_package_id']],
+            ['type', '=', 'lesson']
+        ])->get();
+        
+        $request_data['minute_left'] = $tuitionPackage->total_minute;
+
+        foreach ($tuition_gifts as $index => $value){
+            $request_data['minute_left'] += $tuition_gifts[$index]->total_minute;
+        }
+
+        $studentTuition = StudentTuition::create($request_data);
 
         return redirect()->route('admin.student-tuitions.index');
     }
@@ -95,7 +116,24 @@ class StudentTuitionController extends Controller
 
     public function update(UpdateStudentTuitionRequest $request, StudentTuition $studentTuition)
     {
-        $studentTuition->update($request->all());
+        // $request_data = $request->all();
+
+        // // ------------------------------ data assign ------------------------------
+        // $tuitionPackage = TuitionPackage::find($request_data['tuition_package_id']);
+
+        // // check tuition gift for additional lesson (gift)
+        // $tuition_gifts = TuitionGift::where([
+        //     ['tuition_package_id', '=', $request_data['tuition_package_id']],
+        //     ['type', '=', 'lesson']
+        // ])->get();
+        
+        // $request_data['minute_left'] = $tuitionPackage->total_minute;
+
+        // foreach ($tuition_gifts as $index => $value){
+        //     $request_data['minute_left'] += $tuition_gifts[$index]->total_minute;
+        // }
+
+        // $studentTuition->update($request_data);
 
         return redirect()->route('admin.student-tuitions.index');
     }

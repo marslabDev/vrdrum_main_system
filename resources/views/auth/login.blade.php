@@ -24,7 +24,10 @@
                             </span>
                         </div>
 
-                        <input id="email" name="email" type="text" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" required autocomplete="email" autofocus placeholder="{{ trans('global.login_email') }}" value="{{ old('email', null) }}">
+                        <input id="email" name="email" type="text"
+                            class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" required
+                            autocomplete="email" autofocus placeholder="{{ trans('global.login_email') }}"
+                            value="{{  old('email',  env('APP_ENV') == 'local' ? 'admin@admin.com' : null) }}">
 
                         @if($errors->has('email'))
                             <div class="invalid-feedback">
@@ -38,7 +41,10 @@
                             <span class="input-group-text"><i class="fa fa-lock"></i></span>
                         </div>
 
-                        <input id="password" name="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" required placeholder="{{ trans('global.login_password') }}">
+                        <input id="password" name="password" type="password"
+                            class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" required
+                            value="{{ env('APP_ENV') == 'local' ? 'password' : null }}"
+                            placeholder="{{ trans('global.login_password') }}">
 
                         @if($errors->has('password'))
                             <div class="invalid-feedback">
@@ -49,7 +55,8 @@
 
                     <div class="input-group mb-4">
                         <div class="form-check checkbox">
-                            <input class="form-check-input" name="remember" type="checkbox" id="remember" style="vertical-align: middle;" />
+                            <input class="form-check-input" name="remember" type="checkbox" id="remember"
+                                style="vertical-align: middle;" />
                             <label class="form-check-label" for="remember" style="vertical-align: middle;">
                                 {{ trans('global.remember_me') }}
                             </label>

@@ -31,7 +31,10 @@
             </div>
             <div class="form-group">
                 <label for="parent_phone">{{ trans('cruds.studentDetail.fields.parent_phone') }}</label>
-                <input class="form-control {{ $errors->has('parent_phone') ? 'is-invalid' : '' }}" type="text" name="parent_phone" id="parent_phone" value="{{ old('parent_phone', '') }}">
+                <input class="form-control {{ $errors->has('parent_phone') ? 'is-invalid' : '' }}" 
+                type="tel" name="parent_phone" id="parent_phone" value="{{ old('parent_phone', '') }}"
+                pattern="{{ Config::get('constants.phone_number_pattern') }}"
+                title='{{ trans("validation.follow_phone_number_format") }}'>
                 @if($errors->has('parent_phone'))
                     <div class="invalid-feedback">
                         {{ $errors->first('parent_phone') }}
@@ -82,6 +85,17 @@
                 <span class="help-block">{{ trans('cruds.studentDetail.fields.is_disabled_helper') }}</span>
             </div>
             <div class="form-group">
+                <label class="required" for="email">{{ trans('cruds.user.fields.email') }}</label>
+                <input class="form-control {{ $errors->has('email') ? 'is-invalid' : '' }}" type="email" name="email" id="email" value="{{ old('email') }}" required>
+                @if($errors->has('email'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('email') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.user.fields.email_helper') }}</span>
+            </div>
+            <!--
+            <div class="form-group">
                 <label class="required" for="student_efk">{{ trans('cruds.studentDetail.fields.student_efk') }}</label>
                 <input class="form-control {{ $errors->has('student_efk') ? 'is-invalid' : '' }}" type="number" name="student_efk" id="student_efk" value="{{ old('student_efk', '') }}" step="1" required>
                 @if($errors->has('student_efk'))
@@ -91,6 +105,7 @@
                 @endif
                 <span class="help-block">{{ trans('cruds.studentDetail.fields.student_efk_helper') }}</span>
             </div>
+            -->
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}

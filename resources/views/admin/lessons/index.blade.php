@@ -41,6 +41,9 @@
                         {{ trans('cruds.lesson.fields.lesson_level') }}
                     </th>
                     <th>
+                        {{ trans('cruds.lessonCoach.fields.coach_efk') }}
+                    </th>
+                    <th>
                         &nbsp;
                     </th>
                 </tr>
@@ -80,11 +83,11 @@
           method: 'POST',
           url: config.url,
           data: { ids: ids, _method: 'DELETE' }})
-          .done(function () { location.reload() })
+        //   .done(function () { location.reload() })
       }
     }
   }
-  dtButtons.push(deleteButton)
+//   dtButtons.push(deleteButton)
 @endcan
 
   let dtOverrideGlobals = {
@@ -101,6 +104,7 @@
 { data: 'name', name: 'name' },
 { data: 'syllabus', name: 'syllabus' },
 { data: 'lesson_level_level', name: 'lesson_level.level' },
+{ data: 'coachs_efk', name: 'coachs_efk' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,

@@ -105,6 +105,28 @@
                     </tr>
                 </tbody>
             </table>
+            @if($lessonTimeChange->status == config('constants.lesson_time_change.status.pending'))
+                <div style="margin-bottom: 10px;" class="row">
+                    <div class="col-lg-12">
+                        <form method="POST" action="{{ route("function.lesson-time-changes.toApproved", [$lessonTimeChange->id]) }}" enctype="multipart/form-data">
+                            @csrf
+                            <div class="form-group">
+                                <button class="btn btn-success" type="submit">
+                                    {{ trans('global.approve') }}
+                                </button>
+                            </div>
+                        </form>
+                        <form method="POST" action="{{ route("function.lesson-time-changes.toRejected", [$lessonTimeChange->id]) }}" enctype="multipart/form-data">
+                            @csrf
+                            <div class="form-group">
+                                <button class="btn btn-danger" type="submit">
+                                    {{ trans('global.reject') }}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            @endif
             <div class="form-group">
                 <a class="btn btn-default" href="{{ route('admin.lesson-time-changes.index') }}">
                     {{ trans('global.back_to_list') }}

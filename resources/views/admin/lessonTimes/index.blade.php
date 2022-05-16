@@ -38,19 +38,16 @@
                         {{ trans('cruds.lessonTime.fields.date_to') }}
                     </th>
                     <th>
-                        {{ trans('cruds.lessonTime.fields.attended_at') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.lessonTime.fields.leaved_at') }}
-                    </th>
-                    <th>
                         {{ trans('cruds.lessonTime.fields.class_room') }}
                     </th>
                     <th>
                         {{ trans('cruds.lessonTime.fields.lesson') }}
                     </th>
                     <th>
-                        {{ trans('cruds.lessonTime.fields.student_efk') }}
+                        {{ trans('cruds.lessonTimeStudent.fields.student_efk') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.lessonTimeCoach.fields.coach_efk') }}
                     </th>
                     <th>
                         &nbsp;
@@ -112,11 +109,10 @@
 { data: 'lesson_code', name: 'lesson_code' },
 { data: 'date_from', name: 'date_from' },
 { data: 'date_to', name: 'date_to' },
-{ data: 'attended_at', name: 'attended_at' },
-{ data: 'leaved_at', name: 'leaved_at' },
 { data: 'class_room_room_title', name: 'class_room.room_title' },
 { data: 'lesson_name', name: 'lesson.name' },
-{ data: 'student_efk', name: 'student_efk' },
+{ data: 'students_efk', name: 'students_efk' },
+{ data: 'coachs_efk', name: 'coachs_efk' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,

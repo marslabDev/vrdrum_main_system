@@ -11,16 +11,6 @@
             @method('PUT')
             @csrf
             <div class="form-group">
-                <label class="required" for="lesson_code">{{ trans('cruds.lessonTime.fields.lesson_code') }}</label>
-                <input class="form-control {{ $errors->has('lesson_code') ? 'is-invalid' : '' }}" type="text" name="lesson_code" id="lesson_code" value="{{ old('lesson_code', $lessonTime->lesson_code) }}" required>
-                @if($errors->has('lesson_code'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('lesson_code') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.lessonTime.fields.lesson_code_helper') }}</span>
-            </div>
-            <div class="form-group">
                 <label class="required" for="date_from">{{ trans('cruds.lessonTime.fields.date_from') }}</label>
                 <input class="form-control datetime {{ $errors->has('date_from') ? 'is-invalid' : '' }}" type="text" name="date_from" id="date_from" value="{{ old('date_from', $lessonTime->date_from) }}" required>
                 @if($errors->has('date_from'))
@@ -31,38 +21,8 @@
                 <span class="help-block">{{ trans('cruds.lessonTime.fields.date_from_helper') }}</span>
             </div>
             <div class="form-group">
-                <label class="required" for="date_to">{{ trans('cruds.lessonTime.fields.date_to') }}</label>
-                <input class="form-control datetime {{ $errors->has('date_to') ? 'is-invalid' : '' }}" type="text" name="date_to" id="date_to" value="{{ old('date_to', $lessonTime->date_to) }}" required>
-                @if($errors->has('date_to'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('date_to') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.lessonTime.fields.date_to_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label for="attended_at">{{ trans('cruds.lessonTime.fields.attended_at') }}</label>
-                <input class="form-control datetime {{ $errors->has('attended_at') ? 'is-invalid' : '' }}" type="text" name="attended_at" id="attended_at" value="{{ old('attended_at', $lessonTime->attended_at) }}">
-                @if($errors->has('attended_at'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('attended_at') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.lessonTime.fields.attended_at_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label for="leaved_at">{{ trans('cruds.lessonTime.fields.leaved_at') }}</label>
-                <input class="form-control datetime {{ $errors->has('leaved_at') ? 'is-invalid' : '' }}" type="text" name="leaved_at" id="leaved_at" value="{{ old('leaved_at', $lessonTime->leaved_at) }}">
-                @if($errors->has('leaved_at'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('leaved_at') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.lessonTime.fields.leaved_at_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label for="class_room_id">{{ trans('cruds.lessonTime.fields.class_room') }}</label>
-                <select class="form-control select2 {{ $errors->has('class_room') ? 'is-invalid' : '' }}" name="class_room_id" id="class_room_id">
+                <label class="required" for="class_room_id">{{ trans('cruds.lessonTime.fields.class_room') }}</label>
+                <select class="form-control select2 {{ $errors->has('class_room') ? 'is-invalid' : '' }}" name="class_room_id" id="class_room_id" required>
                     @foreach($class_rooms as $id => $entry)
                         <option value="{{ $id }}" {{ (old('class_room_id') ? old('class_room_id') : $lessonTime->class_room->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
                     @endforeach
@@ -75,8 +35,8 @@
                 <span class="help-block">{{ trans('cruds.lessonTime.fields.class_room_helper') }}</span>
             </div>
             <div class="form-group">
-                <label for="lesson_id">{{ trans('cruds.lessonTime.fields.lesson') }}</label>
-                <select class="form-control select2 {{ $errors->has('lesson') ? 'is-invalid' : '' }}" name="lesson_id" id="lesson_id">
+                <label class="required" for="lesson_id">{{ trans('cruds.lessonTime.fields.lesson') }}</label>
+                <select class="form-control select2 {{ $errors->has('lesson') ? 'is-invalid' : '' }}" name="lesson_id" id="lesson_id" required>
                     @foreach($lessons as $id => $entry)
                         <option value="{{ $id }}" {{ (old('lesson_id') ? old('lesson_id') : $lessonTime->lesson->id ?? '') == $id ? 'selected' : '' }}>{{ $entry }}</option>
                     @endforeach
@@ -87,6 +47,26 @@
                     </div>
                 @endif
                 <span class="help-block">{{ trans('cruds.lessonTime.fields.lesson_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label class="required" for="coachs_efk[]">{{ trans('cruds.lessonTimeCoach.fields.coach_efk') }}</label>
+                <select class="form-control select2 {{ $errors->has('coachs_efk[]') ? 'is-invalid' : '' }}" name="coachs_efk[]" id="coachs_efk" required>
+                    @foreach($lesson_coachs as $lesson_id => $this_lesson_coachs)
+                        @if($lesson_id == "")
+                            <option value="{{ $this_lesson_coachs }}" parentLesson="" {{ old('coachs_efk[]') == $id ? 'selected' : '' }}>{{ $this_lesson_coachs }}</option>
+                        @else    
+                            @foreach($this_lesson_coachs as $index => $value)
+                                <option value="{{ $value->coach_efk }}" parentLesson="{{ $value->lesson_id }}" {{ old('coachs_efk[]') == $id ? 'selected' : '' }}>{{ $value->coach_efk }}</option>
+                            @endforeach
+                        @endif
+                    @endforeach
+                </select>
+                @if($errors->has('coachs_efk[]'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('coachs_efk[]') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.lessonCoach.fields.coach_efk_helper') }}</span>
             </div>
             <div class="form-group">
                 <label class="required" for="student_efk">{{ trans('cruds.lessonTime.fields.student_efk') }}</label>
@@ -109,4 +89,68 @@
 
 
 
+@endsection
+@section('scripts')
+<script>
+$(function () {
+    var $date_select = $('#date_from')
+    var $lesson_select = $('#lesson_id')
+    var $coach_select = $('#coachs_efk')
+    var $coach_options = $coach_select.find('option')
+    
+
+    $lesson_select.on('change', function(){
+        coachOptionController()
+    }).trigger('change');
+
+    
+    $date_select.on('dp.change', function(e){
+        coachOptionController()
+    }).trigger('change');
+
+
+    function coachOptionController(){
+        enableAllCoachOption()
+        disableCoachOption()
+
+        var $options = $coach_options.filter('[parentLesson="'+ $lesson_select.val() + '"]')
+
+        if($options.length == 0){
+            $coach_select.val("")
+            $coach_select.html($coach_options.filter('[parentLesson=""]'))
+        }else{
+            $coach_select.val("")
+            $coach_select.html($options)
+        }
+    }
+    
+    function disableCoachOption(){
+        var $lesson_time_used = <?php echo $lesson_time_used ?>;
+
+        var $time_used = $lesson_time_used.filter((e) => {
+            return e['date_from'] <= $date_select.val() && $date_select.val() <= e['date_to']
+        })
+
+        $time_used.forEach(($value) => {
+            if($value['coachs_efk'] != null){
+                $value['coachs_efk'].forEach(($coach_id) => {
+                    var $options = $coach_options.filter('[value="'+ $coach_id + '"]')
+
+                    $options.each(($index, $option) => {
+                        $option.disabled = true;
+                    })
+                })
+            }
+        })
+    }
+
+    function enableAllCoachOption(){
+        var $options = $coach_options.filter('[disabled="disabled"]')
+
+        $options.each(($index, $option) => {
+            $option.disabled = false;
+        })
+    }
+});
+</script>
 @endsection

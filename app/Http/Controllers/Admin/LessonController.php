@@ -7,12 +7,18 @@ use App\Http\Controllers\Traits\CsvImportTrait;
 use App\Http\Requests\MassDestroyLessonRequest;
 use App\Http\Requests\StoreLessonRequest;
 use App\Http\Requests\UpdateLessonRequest;
+use App\Models\CoachDetail;
+use App\Models\LessonCoach;
 use App\Models\Lesson;
+use App\Models\LessonCategory;
 use App\Models\LessonLevel;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
+
+use App\Http\Controllers\Admin\LessonCoachController;
+use App\Http\Requests\StoreLessonCoachRequest;
 
 class LessonController extends Controller
 {
@@ -59,6 +65,16 @@ class LessonController extends Controller
             $table->addColumn('lesson_level_level', function ($row) {
                 return $row->lesson_level ? $row->lesson_level->level : '';
             });
+            $table->addColumn('coachs_efk', function ($row) {
+                $coachs_efk = LessonCoach::where('lesson_id', $row->id)->get();
+
+                $coachs_efk_str = [];
+                foreach ($coachs_efk as $index => $value){
+                    $coachs_efk_str[$index] = $value->coach_efk;
+                }
+
+                return $coachs_efk_str;
+            });
 
             $table->rawColumns(['actions', 'placeholder', 'lesson_level']);
 
@@ -72,14 +88,27 @@ class LessonController extends Controller
     {
         abort_if(Gate::denies('lesson_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $lesson_levels = LessonLevel::pluck('level', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $lesson_levels = [ '' => trans('global.pleaseSelect') ];
 
-        return view('admin.lessons.create', compact('lesson_levels'));
+        $all_lesson_level = LessonLevel::all();
+        foreach ($all_lesson_level as $index => $value){
+            $lesson_category = LessonCategory::find($value->lesson_category_id);
+            $lesson_levels[$value->id] = $lesson_category->name . ' - ' . $value->level;
+        }
+
+        $coachs = CoachDetail::pluck('coach_efk', 'coach_efk');
+
+        return view('admin.lessons.create', compact('lesson_levels', 'coachs'));
     }
 
     public function store(StoreLessonRequest $request)
     {
-        $lesson = Lesson::create($request->all());
+        $request_data = $request->all();
+
+        // ------------------------------ data assign ------------------------------
+        $request_data['no_of_class'] = Lesson::where('lesson_level_id', $request_data['lesson_level_id'])->get()->count() + 1;
+
+        $lesson = Lesson::create($request_data);
 
         return redirect()->route('admin.lessons.index');
     }
@@ -88,16 +117,38 @@ class LessonController extends Controller
     {
         abort_if(Gate::denies('lesson_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $lesson_levels = LessonLevel::pluck('level', 'id')->prepend(trans('global.pleaseSelect'), '');
-
         $lesson->load('lesson_level', 'created_by');
 
-        return view('admin.lessons.edit', compact('lesson', 'lesson_levels'));
+        $lesson_levels = [ '' => trans('global.pleaseSelect') ];
+
+        $all_lesson_level = LessonLevel::all();
+        foreach ($all_lesson_level as $index => $value){
+            $lesson_category = LessonCategory::find($value->lesson_category_id);
+            $lesson_levels[$value->id] = $lesson_category->name . ' - ' . $value->level;
+        }
+        
+        $coachs = CoachDetail::pluck('coach_efk', 'coach_efk');
+
+        $current_coachs_efk = LessonCoach::where('lesson_id', $lesson->id)->get();
+
+        $old_coachs_efk = [];
+        foreach ($current_coachs_efk as $index => $value){
+            $old_coachs_efk[$value->coach_efk] = $value->coach_efk;
+        }
+        
+        return view('admin.lessons.edit', compact('lesson', 'lesson_levels', 'coachs', 'old_coachs_efk'));
     }
 
     public function update(UpdateLessonRequest $request, Lesson $lesson)
     {
-        $lesson->update($request->all());
+        $request_data = $request->all();
+
+        // ------------------------------ data assign ------------------------------
+        if($lesson->lesson_level_id != $request_data['lesson_level_id']){
+            $request_data['no_of_class'] = Lesson::where('lesson_level_id', $request_data['lesson_level_id'])->get()->count() + 1;
+        }
+
+        $lesson->update($request_data);
 
         return redirect()->route('admin.lessons.index');
     }
@@ -108,13 +159,28 @@ class LessonController extends Controller
 
         $lesson->load('lesson_level', 'created_by');
 
-        return view('admin.lessons.show', compact('lesson'));
+        $lesson_coach_efk = LessonCoach::where('lesson_id', $lesson->id)->get();
+
+        $coachs_efk = [];
+        foreach ($lesson_coach_efk as $index => $value){
+            $coachs_efk[$index] = $value->coach_efk;
+        }
+        $coachs_efk = implode(", ", $coachs_efk);
+        
+        return view('admin.lessons.show', compact('lesson', 'coachs_efk'));
     }
 
     public function destroy(Lesson $lesson)
     {
         abort_if(Gate::denies('lesson_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
+        // ------------------------------ validation ------------------------------
+        $last_lesson = Lesson::where('lesson_level_id', $lesson->lesson_level_id)->orderBy('no_of_class', 'DESC')->get()->first();
+
+        if($last_lesson != null && $lesson->id != $last_lesson->id){
+            return back()->withErrors(['lesson_level' => trans('validation.lesson_level_delete_last')]);
+        }
+        
         $lesson->delete();
 
         return back();

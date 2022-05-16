@@ -8,6 +8,8 @@ use App\Http\Requests\MassDestroyStudentLessonProgressRequest;
 use App\Http\Requests\StoreStudentLessonProgressRequest;
 use App\Http\Requests\UpdateStudentLessonProgressRequest;
 use App\Models\LessonCategory;
+use App\Models\LessonLevel;
+use App\Models\Lesson;
 use App\Models\StudentLessonProgress;
 use Gate;
 use Illuminate\Http\Request;
@@ -31,8 +33,10 @@ class StudentLessonProgressController extends Controller
 
             $table->editColumn('actions', function ($row) {
                 $viewGate = 'student_lesson_progress_show';
-                $editGate = 'student_lesson_progress_edit';
-                $deleteGate = 'student_lesson_progress_delete';
+                $editGate = 'null';
+                // $editGate = 'student_lesson_progress_edit';
+                $deleteGate = 'null';
+                // $deleteGate = 'student_lesson_progress_delete';
                 $crudRoutePart = 'student-lesson-progresses';
 
                 return view('partials.datatablesActions', compact(
@@ -106,7 +110,50 @@ class StudentLessonProgressController extends Controller
 
         $studentLessonProgress->load('lesson_category', 'created_by');
 
-        return view('admin.studentLessonProgresses.show', compact('studentLessonProgress'));
+        // ------------------------------ check has next level ------------------------------
+        $has_next_level = false;
+
+        $progress_ary = explode(",", $studentLessonProgress->progress);
+        $level = (int)$progress_ary[0];
+        $lesson = (int)$progress_ary[1];
+
+        $current_lesson_level = LessonLevel::find($level);
+        $total_lesson_level = LessonLevel::where('lesson_category_id', $studentLessonProgress->lesson_category_id)->get();
+        $total_lesson = Lesson::where('lesson_level_id', $current_lesson_level->id)->get();
+
+        if($lesson + 1 <= count($total_lesson)){
+            $has_next_level = true;
+        }else if($level + 1 <= count($total_lesson_level)){
+            $next_lesson_level = null;
+
+            foreach ($total_lesson_level as $index => $value){
+                if($value->level == $level + 1){
+                    $next_lesson_level = $value;
+                    break;
+                }
+            }
+            
+            if($next_lesson_level != null){
+                $total_lesson = Lesson::where('lesson_level_id', $next_lesson_level->id)->get();
+
+                if(count($total_lesson) >= 1){
+                    $has_next_level = true;
+                }
+            }
+        }
+
+        // ------------------------------ check has low level ------------------------------
+        $has_low_level = true;
+
+        $progress_ary = explode(",", $studentLessonProgress->progress);
+        $level = (int)$progress_ary[0];
+        $lesson = (int)$progress_ary[1];
+
+        if($level == 1 && $lesson == 1){
+            $has_low_level = false;
+        }
+
+        return view('admin.studentLessonProgresses.show', compact('studentLessonProgress', 'has_next_level', 'has_low_level'));
     }
 
     public function destroy(StudentLessonProgress $studentLessonProgress)

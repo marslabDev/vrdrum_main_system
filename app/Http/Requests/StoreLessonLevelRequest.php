@@ -27,6 +27,9 @@ class StoreLessonLevelRequest extends FormRequest
                 'string',
                 'nullable',
             ],
+            'lesson_category_id' => [
+                'required',
+            ]
         ];
     }
 }

@@ -37,7 +37,7 @@ class Lesson extends Model
 
     public function lesson_level()
     {
-        return $this->belongsTo(LessonLevel::class, 'lesson_level_id');
+        return $this->belongsTo(LessonLevel::class, 'lesson_level_id')->withTrashed();
     }
 
     public function created_by()

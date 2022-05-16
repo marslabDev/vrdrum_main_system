@@ -17,8 +17,11 @@ class UpdateStudentTuitionRequest extends FormRequest
     public function rules()
     {
         return [
-            'minute_left' => [
-                'numeric',
+            // 'minute_left' => [
+            //     'numeric',
+            //     'required',
+            // ],
+            'tuition_package_id' => [
                 'required',
             ],
             'student_efk' => [

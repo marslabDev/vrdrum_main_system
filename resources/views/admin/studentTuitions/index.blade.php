@@ -29,7 +29,7 @@
                         {{ trans('cruds.studentTuition.fields.id') }}
                     </th>
                     <th>
-                        {{ trans('cruds.studentTuition.fields.minute_left') }}
+                        {{ trans('cruds.studentTuition.fields.lesson_left') }}
                     </th>
                     <th>
                         {{ trans('cruds.studentTuition.fields.tuition_package') }}
@@ -94,7 +94,7 @@
     columns: [
       { data: 'placeholder', name: 'placeholder' },
 { data: 'id', name: 'id' },
-{ data: 'minute_left', name: 'minute_left' },
+{ data: 'lesson_left', name: 'lesson_left' },
 { data: 'tuition_package_name', name: 'tuition_package.name' },
 { data: 'student_efk', name: 'student_efk' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }

@@ -65,23 +65,38 @@ class LessonLevelController extends Controller
         return view('admin.lessonLevels.index');
     }
 
-    public function create()
+    public function create($errors = null)
     {
         abort_if(Gate::denies('lesson_level_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         $lesson_categories = LessonCategory::pluck('name', 'id')->prepend(trans('global.pleaseSelect'), '');
+
+        if($errors != null) return view('admin.lessonLevels.create', compact('lesson_categories'))->withErrors($errors);
 
         return view('admin.lessonLevels.create', compact('lesson_categories'));
     }
 
     public function store(StoreLessonLevelRequest $request)
     {
-        $lessonLevel = LessonLevel::create($request->all());
+        $request_data = $request->all();
+
+        // ------------------------------ validation ------------------------------
+        $errors = [];
+
+        if (LessonLevel::where('level', $request_data['level'])->get()->first() != null){
+            $errors['level'] = sprintf(trans('validation.lesson_level_exist'), $request_data['level']);
+        }
+
+        if(count($errors) > 0){
+            return $this->create($errors);
+        }
+
+        $lessonLevel = LessonLevel::create($request_data);
 
         return redirect()->route('admin.lesson-levels.index');
     }
 
-    public function edit(LessonLevel $lessonLevel)
+    public function edit(LessonLevel $lessonLevel, $errors = null)
     {
         abort_if(Gate::denies('lesson_level_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
@@ -89,12 +104,27 @@ class LessonLevelController extends Controller
 
         $lessonLevel->load('lesson_category', 'created_by');
 
+        if($errors != null) return view('admin.lessonLevels.edit', compact('lessonLevel', 'lesson_categories'))->withErrors($errors);
+
         return view('admin.lessonLevels.edit', compact('lessonLevel', 'lesson_categories'));
     }
 
     public function update(UpdateLessonLevelRequest $request, LessonLevel $lessonLevel)
     {
-        $lessonLevel->update($request->all());
+        $request_data = $request->all();
+
+        // ------------------------------ validation ------------------------------
+        $errors = [];
+
+        if ($request_data['level'] != $lessonLevel->level && LessonLevel::where('level', $request_data['level'])->get()->first() != null){
+            $errors['level'] = sprintf(trans('validation.lesson_level_exist'), $request_data['level']);
+        }
+
+        if(count($errors) > 0){
+            return $this->edit($lessonLevel, $errors);
+        }
+
+        $lessonLevel->update($request_data);
 
         return redirect()->route('admin.lesson-levels.index');
     }

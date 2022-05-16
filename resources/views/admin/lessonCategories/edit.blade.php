@@ -31,8 +31,8 @@
                 <span class="help-block">{{ trans('cruds.lessonCategory.fields.desc_helper') }}</span>
             </div>
             <div class="form-group">
-                <label>{{ trans('cruds.lessonCategory.fields.group') }}</label>
-                <select class="form-control {{ $errors->has('group') ? 'is-invalid' : '' }}" name="group" id="group">
+                <label class="required">{{ trans('cruds.lessonCategory.fields.group') }}</label>
+                <select class="form-control {{ $errors->has('group') ? 'is-invalid' : '' }}" name="group" id="group" required>
                     <option value disabled {{ old('group', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
                     @foreach(App\Models\LessonCategory::GROUP_SELECT as $key => $label)
                         <option value="{{ $key }}" {{ old('group', $lessonCategory->group) === (string) $key ? 'selected' : '' }}>{{ $label }}</option>

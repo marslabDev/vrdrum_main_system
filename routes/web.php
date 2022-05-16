@@ -50,10 +50,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('tuition-gifts', 'TuitionGiftController');
 
     // Student Tuition
-    Route::delete('student-tuitions/destroy', 'StudentTuitionController@massDestroy')->name('student-tuitions.massDestroy');
+    Route::delete('student-tuitions/destroy', 'StudentTuitionWithProgressController@massDestroy')->name('student-tuitions.massDestroy');
     Route::post('student-tuitions/parse-csv-import', 'StudentTuitionController@parseCsvImport')->name('student-tuitions.parseCsvImport');
     Route::post('student-tuitions/process-csv-import', 'StudentTuitionController@processCsvImport')->name('student-tuitions.processCsvImport');
-    Route::resource('student-tuitions', 'StudentTuitionController');
+    Route::resource('student-tuitions', 'StudentTuitionWithProgressController');
 
     // Lesson Level
     Route::delete('lesson-levels/destroy', 'LessonLevelController@massDestroy')->name('lesson-levels.massDestroy');
@@ -62,28 +62,28 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('lesson-levels', 'LessonLevelController');
 
     // Lesson
-    Route::delete('lessons/destroy', 'LessonController@massDestroy')->name('lessons.massDestroy');
+    Route::delete('lessons/destroy', 'LessonWithLessonCoachController@massDestroy')->name('lessons.massDestroy');
     Route::post('lessons/parse-csv-import', 'LessonController@parseCsvImport')->name('lessons.parseCsvImport');
     Route::post('lessons/process-csv-import', 'LessonController@processCsvImport')->name('lessons.processCsvImport');
-    Route::resource('lessons', 'LessonController');
+    Route::resource('lessons', 'LessonWithLessonCoachController');
 
     // Lesson Coach
-    Route::delete('lesson-coaches/destroy', 'LessonCoachController@massDestroy')->name('lesson-coaches.massDestroy');
-    Route::post('lesson-coaches/parse-csv-import', 'LessonCoachController@parseCsvImport')->name('lesson-coaches.parseCsvImport');
-    Route::post('lesson-coaches/process-csv-import', 'LessonCoachController@processCsvImport')->name('lesson-coaches.processCsvImport');
-    Route::resource('lesson-coaches', 'LessonCoachController');
+    // Route::delete('lesson-coaches/destroy', 'LessonCoachController@massDestroy')->name('lesson-coaches.massDestroy');
+    // Route::post('lesson-coaches/parse-csv-import', 'LessonCoachController@parseCsvImport')->name('lesson-coaches.parseCsvImport');
+    // Route::post('lesson-coaches/process-csv-import', 'LessonCoachController@processCsvImport')->name('lesson-coaches.processCsvImport');
+    // Route::resource('lesson-coaches', 'LessonCoachController');
 
     // Lesson Time
-    Route::delete('lesson-times/destroy', 'LessonTimeController@massDestroy')->name('lesson-times.massDestroy');
+    Route::delete('lesson-times/destroy', 'LessonTimeWithLessonTimeCoachController@massDestroy')->name('lesson-times.massDestroy');
     Route::post('lesson-times/parse-csv-import', 'LessonTimeController@parseCsvImport')->name('lesson-times.parseCsvImport');
     Route::post('lesson-times/process-csv-import', 'LessonTimeController@processCsvImport')->name('lesson-times.processCsvImport');
-    Route::resource('lesson-times', 'LessonTimeController');
+    Route::resource('lesson-times', 'LessonTimeWithLessonTimeCoachController');
 
     // Lesson Time Coach
-    Route::delete('lesson-time-coaches/destroy', 'LessonTimeCoachController@massDestroy')->name('lesson-time-coaches.massDestroy');
-    Route::post('lesson-time-coaches/parse-csv-import', 'LessonTimeCoachController@parseCsvImport')->name('lesson-time-coaches.parseCsvImport');
-    Route::post('lesson-time-coaches/process-csv-import', 'LessonTimeCoachController@processCsvImport')->name('lesson-time-coaches.processCsvImport');
-    Route::resource('lesson-time-coaches', 'LessonTimeCoachController');
+    // Route::delete('lesson-time-coaches/destroy', 'LessonTimeCoachController@massDestroy')->name('lesson-time-coaches.massDestroy');
+    // Route::post('lesson-time-coaches/parse-csv-import', 'LessonTimeCoachController@parseCsvImport')->name('lesson-time-coaches.parseCsvImport');
+    // Route::post('lesson-time-coaches/process-csv-import', 'LessonTimeCoachController@processCsvImport')->name('lesson-time-coaches.processCsvImport');
+    // Route::resource('lesson-time-coaches', 'LessonTimeCoachController');
 
     // Lesson Time Change
     Route::delete('lesson-time-changes/destroy', 'LessonTimeChangeController@massDestroy')->name('lesson-time-changes.massDestroy');
@@ -163,7 +163,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('user-alerts/parse-csv-import', 'UserAlertsController@parseCsvImport')->name('user-alerts.parseCsvImport');
     Route::post('user-alerts/process-csv-import', 'UserAlertsController@processCsvImport')->name('user-alerts.processCsvImport');
     Route::get('user-alerts/read', 'UserAlertsController@read');
-    Route::resource('user-alerts', 'UserAlertsController');
+    Route::resource('user-alerts', 'UserAlertsController', ['except' => ['edit', 'update']]);
 
     // Asset Category
     Route::delete('asset-categories/destroy', 'AssetCategoryController@massDestroy')->name('asset-categories.massDestroy');
@@ -194,7 +194,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Assets History
     Route::post('assets-histories/parse-csv-import', 'AssetsHistoryController@parseCsvImport')->name('assets-histories.parseCsvImport');
     Route::post('assets-histories/process-csv-import', 'AssetsHistoryController@processCsvImport')->name('assets-histories.processCsvImport');
-    Route::resource('assets-histories', 'AssetsHistoryController', ['except' => ['create', 'store', 'edit', 'update', 'destroy']]);
+    Route::resource('assets-histories', 'AssetsHistoryController', ['except' => ['create', 'store', 'edit', 'update', 'show', 'destroy']]);
 
     // Expense Category
     Route::delete('expense-categories/destroy', 'ExpenseCategoryController@massDestroy')->name('expense-categories.massDestroy');
@@ -224,6 +224,20 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('expense-reports/destroy', 'ExpenseReportController@massDestroy')->name('expense-reports.massDestroy');
     Route::resource('expense-reports', 'ExpenseReportController');
 
+    // Work Comment
+    Route::delete('work-comments/destroy', 'WorkCommentController@massDestroy')->name('work-comments.massDestroy');
+    Route::post('work-comments/media', 'WorkCommentController@storeMedia')->name('work-comments.storeMedia');
+    Route::post('work-comments/ckmedia', 'WorkCommentController@storeCKEditorImages')->name('work-comments.storeCKEditorImages');
+    Route::post('work-comments/parse-csv-import', 'WorkCommentController@parseCsvImport')->name('work-comments.parseCsvImport');
+    Route::post('work-comments/process-csv-import', 'WorkCommentController@processCsvImport')->name('work-comments.processCsvImport');
+    Route::resource('work-comments', 'WorkCommentController');
+
+    // Lesson Time Student
+    Route::delete('lesson-time-students/destroy', 'LessonTimeStudentController@massDestroy')->name('lesson-time-students.massDestroy');
+    Route::post('lesson-time-students/parse-csv-import', 'LessonTimeStudentController@parseCsvImport')->name('lesson-time-students.parseCsvImport');
+    Route::post('lesson-time-students/process-csv-import', 'LessonTimeStudentController@processCsvImport')->name('lesson-time-students.processCsvImport');
+    Route::resource('lesson-time-students', 'LessonTimeStudentController');
+
     Route::get('system-calendar', 'SystemCalendarController@index')->name('systemCalendar');
     Route::get('global-search', 'GlobalSearchController@search')->name('globalSearch');
     Route::get('messenger', 'MessengerController@index')->name('messenger.index');
@@ -244,4 +258,13 @@ Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 
         Route::post('profile', 'ChangePasswordController@updateProfile')->name('password.updateProfile');
         Route::post('profile/destroy', 'ChangePasswordController@destroy')->name('password.destroyProfile');
     }
+});
+
+
+Route::group(['prefix' => 'function', 'as' => 'function.', 'namespace' => 'Function', 'middleware' => ['auth']], function () {
+    Route::post('lesson-time-changes/{id}/approve', 'LessonTimeChangeActionController@toApproved')->name('lesson-time-changes.toApproved');
+    Route::post('lesson-time-changes/{id}/reject', 'LessonTimeChangeActionController@toRejected')->name('lesson-time-changes.toRejected');
+
+    Route::post('student-lesson-progresses/{id}/toNextLevel', 'StudentLessonProgressControlController@toNextLevel')->name('student-lesson-progresses.toNextLevel');
+    Route::post('student-lesson-progresses/{id}/toLowLevel', 'StudentLessonProgressControlController@toLowLevel')->name('student-lesson-progresses.toLowLevel');
 });

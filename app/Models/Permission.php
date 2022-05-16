@@ -13,6 +13,7 @@ class Permission extends Model
     use HasFactory;
 
     public $table = 'permissions';
+    protected $connection = 'sso_db';
 
     protected $dates = [
         'created_at',

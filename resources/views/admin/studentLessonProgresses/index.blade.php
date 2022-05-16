@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 @section('content')
-@can('student_lesson_progress_create')
+<!-- @can('student_lesson_progress_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
             <a class="btn btn-success" href="{{ route('admin.student-lesson-progresses.create') }}">
@@ -12,7 +12,7 @@
             @include('csvImport.modal', ['model' => 'StudentLessonProgress', 'route' => 'admin.student-lesson-progresses.parseCsvImport'])
         </div>
     </div>
-@endcan
+@endcan -->
 <div class="card">
     <div class="card-header">
         {{ trans('cruds.studentLessonProgress.title_singular') }} {{ trans('global.list') }}
