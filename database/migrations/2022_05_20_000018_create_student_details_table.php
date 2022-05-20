@@ -13,8 +13,6 @@ class CreateStudentDetailsTable extends Migration
             $table->string('full_name');
             $table->string('parent_name')->nullable();
             $table->string('parent_phone')->nullable();
-            $table->string('lesson_categories');
-            $table->string('lesson_group');
             $table->boolean('is_disabled')->default(0);
             $table->integer('student_efk');
             $table->timestamps();

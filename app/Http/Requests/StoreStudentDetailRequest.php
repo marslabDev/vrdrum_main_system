@@ -29,12 +29,6 @@ class StoreStudentDetailRequest extends FormRequest
                 'string',
                 'nullable',
             ],
-            'lesson_categories' => [
-                'required',
-            ],
-            'lesson_group' => [
-                'required',
-            ],
             'is_disabled' => [
                 'required',
             ],

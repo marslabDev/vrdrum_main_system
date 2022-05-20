@@ -8,6 +8,7 @@ use App\Http\Requests\MassDestroyStudentDetailRequest;
 use App\Http\Requests\StoreStudentDetailRequest;
 use App\Http\Requests\UpdateStudentDetailRequest;
 use App\Models\StudentDetail;
+use App\Models\User;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -55,12 +56,6 @@ class StudentDetailController extends Controller
             $table->editColumn('parent_phone', function ($row) {
                 return $row->parent_phone ? $row->parent_phone : '';
             });
-            $table->editColumn('lesson_categories', function ($row) {
-                return $row->lesson_categories ? StudentDetail::LESSON_CATEGORIES_SELECT[$row->lesson_categories] : '';
-            });
-            $table->editColumn('lesson_group', function ($row) {
-                return $row->lesson_group ? StudentDetail::LESSON_GROUP_SELECT[$row->lesson_group] : '';
-            });
             $table->editColumn('is_disabled', function ($row) {
                 return '<input type="checkbox" disabled ' . ($row->is_disabled ? 'checked' : null) . '>';
             });
@@ -73,7 +68,9 @@ class StudentDetailController extends Controller
             return $table->make(true);
         }
 
-        return view('admin.studentDetails.index');
+        $users = User::get();
+
+        return view('admin.studentDetails.index', compact('users'));
     }
 
     public function create()
