@@ -32,16 +32,43 @@
                         {{ trans('cruds.studentDetail.fields.full_name') }}
                     </th>
                     <th>
-                        {{ trans('cruds.studentDetail.fields.parent_name') }}
+                        {{ trans('cruds.studentDetail.fields.is_handicapped') }}
                     </th>
                     <th>
-                        {{ trans('cruds.studentDetail.fields.parent_phone') }}
+                        {{ trans('cruds.studentDetail.fields.gender') }}
                     </th>
                     <th>
-                        {{ trans('cruds.studentDetail.fields.is_disabled') }}
+                        {{ trans('cruds.studentDetail.fields.country') }}
                     </th>
                     <th>
-                        {{ trans('cruds.studentDetail.fields.student_efk') }}
+                        {{ trans('cruds.studentDetail.fields.home_address') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.studentDetail.fields.mail_address') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.studentDetail.fields.state') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.studentDetail.fields.city') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.studentDetail.fields.postcode') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.studentDetail.fields.phone') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.studentDetail.fields.nric_no') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.studentDetail.fields.user') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.user.fields.name') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.studentDetail.fields.guardian') }}
                     </th>
                     <th>
                         &nbsp;
@@ -57,15 +84,56 @@
                         <input class="search" type="text" placeholder="{{ trans('global.search') }}">
                     </td>
                     <td>
+                    </td>
+                    <td>
+                        <select class="search" strict="true">
+                            <option value>{{ trans('global.all') }}</option>
+                            @foreach(App\Models\StudentDetail::GENDER_SELECT as $key => $item)
+                                <option value="{{ $key }}">{{ $item }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                    <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
                         <input class="search" type="text" placeholder="{{ trans('global.search') }}">
                     </td>
                     <td>
                         <input class="search" type="text" placeholder="{{ trans('global.search') }}">
                     </td>
                     <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
                     </td>
                     <td>
                         <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                    </td>
+                    <td>
+                        <select class="search">
+                            <option value>{{ trans('global.all') }}</option>
+                            @foreach($users as $key => $item)
+                                <option value="{{ $item->email }}">{{ $item->email }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                        <select class="search">
+                            <option value>{{ trans('global.all') }}</option>
+                            @foreach($student_parents as $key => $item)
+                                <option value="{{ $item->name }}">{{ $item->name }}</option>
+                            @endforeach
+                        </select>
                     </td>
                     <td>
                     </td>
@@ -124,10 +192,19 @@
       { data: 'placeholder', name: 'placeholder' },
 { data: 'id', name: 'id' },
 { data: 'full_name', name: 'full_name' },
-{ data: 'parent_name', name: 'parent_name' },
-{ data: 'parent_phone', name: 'parent_phone' },
-{ data: 'is_disabled', name: 'is_disabled' },
-{ data: 'student_efk', name: 'student_efk' },
+{ data: 'is_handicapped', name: 'is_handicapped' },
+{ data: 'gender', name: 'gender' },
+{ data: 'country', name: 'country' },
+{ data: 'home_address', name: 'home_address' },
+{ data: 'mail_address', name: 'mail_address' },
+{ data: 'state', name: 'state' },
+{ data: 'city', name: 'city' },
+{ data: 'postcode', name: 'postcode' },
+{ data: 'phone', name: 'phone' },
+{ data: 'nric_no', name: 'nric_no' },
+{ data: 'user_email', name: 'user.email' },
+{ data: 'user.name', name: 'user.name' },
+{ data: 'guardian', name: 'guardians.name' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,

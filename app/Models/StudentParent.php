@@ -9,18 +9,24 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class TuitionPackage extends Model
+class StudentParent extends Model
 {
     use SoftDeletes;
     use MultiTenantModelTrait;
     use Auditable;
     use HasFactory;
 
-    public $table = 'tuition_packages';
-
-    public static $searchable = [
-        'name',
+    public const RELATIONSHIP_SELECT = [
+        'Mother'      => 'Mother',
+        'Father'      => 'Father',
+        'Grandma'     => 'Grandma',
+        'Grandfather' => 'Grandfather',
+        'Brother'     => 'Brother',
+        'Sister'      => 'Sister',
+        'Guardian'    => 'Guardian',
     ];
+
+    public $table = 'student_parents';
 
     protected $dates = [
         'created_at',
@@ -30,23 +36,30 @@ class TuitionPackage extends Model
 
     protected $fillable = [
         'name',
-        'price',
-        'total_minute',
-        'lesson_category_id',
+        'nationality',
+        'relationship',
+        'address',
         'created_at',
         'updated_at',
+        'nric_no',
         'deleted_at',
         'created_by_id',
+        'user_id',
     ];
 
-    public function lesson_category()
+    public function guardianStudentDetails()
     {
-        return $this->belongsTo(LessonCategory::class, 'lesson_category_id');
+        return $this->belongsToMany(StudentDetail::class);
     }
 
     public function created_by()
     {
         return $this->belongsTo(User::class, 'created_by_id');
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     protected function serializeDate(DateTimeInterface $date)
