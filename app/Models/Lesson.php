@@ -18,6 +18,10 @@ class Lesson extends Model
 
     public $table = 'lessons';
 
+    public static $searchable = [
+        'name',
+    ];
+
     protected $dates = [
         'created_at',
         'updated_at',

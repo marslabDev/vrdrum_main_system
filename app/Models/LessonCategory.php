@@ -24,6 +24,10 @@ class LessonCategory extends Model
 
     public $table = 'lesson_categories';
 
+    public static $searchable = [
+        'name',
+    ];
+
     protected $dates = [
         'created_at',
         'updated_at',

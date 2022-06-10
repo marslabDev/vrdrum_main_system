@@ -788,6 +788,26 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'id'    => 195,
+                'title' => 'student_parent_create',
+            ],
+            [
+                'id'    => 196,
+                'title' => 'student_parent_edit',
+            ],
+            [
+                'id'    => 197,
+                'title' => 'student_parent_show',
+            ],
+            [
+                'id'    => 198,
+                'title' => 'student_parent_delete',
+            ],
+            [
+                'id'    => 199,
+                'title' => 'student_parent_access',
+            ],
+            [
+                'id'    => 200,
                 'title' => 'profile_password_edit',
             ],
         ];

@@ -33,34 +33,100 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.studentDetail.fields.parent_name') }}
+                            {{ trans('cruds.studentDetail.fields.is_handicapped') }}
                         </th>
                         <td>
-                            {{ $studentDetail->parent_name }}
+                            <input type="checkbox" disabled="disabled" {{ $studentDetail->is_handicapped ? 'checked' : '' }}>
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.studentDetail.fields.parent_phone') }}
+                            {{ trans('cruds.studentDetail.fields.gender') }}
                         </th>
                         <td>
-                            {{ $studentDetail->parent_phone }}
+                            {{ App\Models\StudentDetail::GENDER_SELECT[$studentDetail->gender] ?? '' }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.studentDetail.fields.is_disabled') }}
+                            {{ trans('cruds.studentDetail.fields.country') }}
                         </th>
                         <td>
-                            <input type="checkbox" disabled="disabled" {{ $studentDetail->is_disabled ? 'checked' : '' }}>
+                            {{ $studentDetail->country }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.studentDetail.fields.student_efk') }}
+                            {{ trans('cruds.studentDetail.fields.home_address') }}
                         </th>
                         <td>
-                            {{ $studentDetail->student_efk }}
+                            {{ $studentDetail->home_address }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.studentDetail.fields.mail_address') }}
+                        </th>
+                        <td>
+                            {{ $studentDetail->mail_address }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.studentDetail.fields.state') }}
+                        </th>
+                        <td>
+                            {{ $studentDetail->state }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.studentDetail.fields.city') }}
+                        </th>
+                        <td>
+                            {{ $studentDetail->city }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.studentDetail.fields.postcode') }}
+                        </th>
+                        <td>
+                            {{ $studentDetail->postcode }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.studentDetail.fields.phone') }}
+                        </th>
+                        <td>
+                            {{ $studentDetail->phone }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.studentDetail.fields.nric_no') }}
+                        </th>
+                        <td>
+                            {{ $studentDetail->nric_no }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.studentDetail.fields.user') }}
+                        </th>
+                        <td>
+                            {{ $studentDetail->user->email ?? '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.studentDetail.fields.guardian') }}
+                        </th>
+                        <td>
+                            @foreach($studentDetail->guardians as $key => $guardian)
+                                <span class="label label-info">{{ $guardian->name }}</span>
+                            @endforeach
                         </td>
                     </tr>
                 </tbody>

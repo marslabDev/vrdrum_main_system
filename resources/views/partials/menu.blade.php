@@ -63,7 +63,7 @@
             </li>
         @endcan
         @can('student_management_access')
-            <li class="c-sidebar-nav-dropdown {{ request()->is("admin/student-lesson-progresses*") ? "c-show" : "" }} {{ request()->is("admin/student-details*") ? "c-show" : "" }} {{ request()->is("admin/student-meta*") ? "c-show" : "" }}">
+            <li class="c-sidebar-nav-dropdown {{ request()->is("admin/student-lesson-progresses*") ? "c-show" : "" }} {{ request()->is("admin/student-details*") ? "c-show" : "" }} {{ request()->is("admin/student-meta*") ? "c-show" : "" }} {{ request()->is("admin/student-parents*") ? "c-show" : "" }}">
                 <a class="c-sidebar-nav-dropdown-toggle" href="#">
                     <i class="fa-fw fas fa-user-graduate c-sidebar-nav-icon">
 
@@ -98,6 +98,16 @@
 
                                 </i>
                                 {{ trans('cruds.studentMetum.title') }}
+                            </a>
+                        </li>
+                    @endcan
+                    @can('student_parent_access')
+                        <li class="c-sidebar-nav-item">
+                            <a href="{{ route("admin.student-parents.index") }}" class="c-sidebar-nav-link {{ request()->is("admin/student-parents") || request()->is("admin/student-parents/*") ? "c-active" : "" }}">
+                                <i class="fa-fw fas fa-cogs c-sidebar-nav-icon">
+
+                                </i>
+                                {{ trans('cruds.studentParent.title') }}
                             </a>
                         </li>
                     @endcan

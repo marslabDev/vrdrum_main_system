@@ -112,4 +112,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
 
     // Lesson Time Student
     Route::apiResource('lesson-time-students', 'LessonTimeStudentApiController');
+
+    // Student Parent
+    Route::apiResource('student-parents', 'StudentParentApiController');
 });

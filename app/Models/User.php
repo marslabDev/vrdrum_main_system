@@ -48,6 +48,11 @@ class User extends Authenticatable
         return $this->roles()->where('id', 1)->exists();
     }
 
+    public function userStudentDetails()
+    {
+        return $this->hasMany(StudentDetail::class, 'user_id', 'id');
+    }
+
     public function userUserAlerts()
     {
         return $this->belongsToMany(UserAlert::class);
