@@ -115,4 +115,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
 
     // Student Parent
     Route::apiResource('student-parents', 'StudentParentApiController');
+
+    // Address
+    Route::apiResource('addresses', 'AddressApiController');
 });

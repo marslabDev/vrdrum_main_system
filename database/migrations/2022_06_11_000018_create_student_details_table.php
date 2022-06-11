@@ -11,16 +11,9 @@ class CreateStudentDetailsTable extends Migration
         Schema::create('student_details', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('full_name');
-            $table->boolean('is_handicapped')->default(0)->nullable();
-            $table->string('gender')->nullable();
-            $table->string('country')->nullable();
-            $table->string('home_address')->nullable();
-            $table->string('mail_address');
-            $table->string('state')->nullable();
-            $table->string('city')->nullable();
-            $table->integer('postcode')->nullable();
-            $table->string('phone')->nullable();
             $table->integer('nric_no')->nullable();
+            $table->string('gender')->nullable();
+            $table->boolean('is_handicapped')->default(0)->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

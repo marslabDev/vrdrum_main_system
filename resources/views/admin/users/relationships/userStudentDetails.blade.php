@@ -28,34 +28,49 @@
                             {{ trans('cruds.studentDetail.fields.full_name') }}
                         </th>
                         <th>
-                            {{ trans('cruds.studentDetail.fields.is_handicapped') }}
+                            {{ trans('cruds.studentDetail.fields.nric_no') }}
                         </th>
                         <th>
                             {{ trans('cruds.studentDetail.fields.gender') }}
                         </th>
                         <th>
-                            {{ trans('cruds.studentDetail.fields.country') }}
+                            {{ trans('cruds.studentDetail.fields.is_handicapped') }}
                         </th>
                         <th>
                             {{ trans('cruds.studentDetail.fields.home_address') }}
                         </th>
                         <th>
+                            {{ trans('cruds.address.fields.address_2') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.address.fields.city') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.address.fields.state') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.address.fields.postcode') }}
+                        </th>
+                        <th>
+                            {{ trans('cruds.address.fields.phone') }}
+                        </th>
+                        <th>
                             {{ trans('cruds.studentDetail.fields.mail_address') }}
                         </th>
                         <th>
-                            {{ trans('cruds.studentDetail.fields.state') }}
+                            {{ trans('cruds.address.fields.address_2') }}
                         </th>
                         <th>
-                            {{ trans('cruds.studentDetail.fields.city') }}
+                            {{ trans('cruds.address.fields.city') }}
                         </th>
                         <th>
-                            {{ trans('cruds.studentDetail.fields.postcode') }}
+                            {{ trans('cruds.address.fields.state') }}
                         </th>
                         <th>
-                            {{ trans('cruds.studentDetail.fields.phone') }}
+                            {{ trans('cruds.address.fields.postcode') }}
                         </th>
                         <th>
-                            {{ trans('cruds.studentDetail.fields.nric_no') }}
+                            {{ trans('cruds.address.fields.phone') }}
                         </th>
                         <th>
                             {{ trans('cruds.studentDetail.fields.user') }}
@@ -84,35 +99,50 @@
                                 {{ $studentDetail->full_name ?? '' }}
                             </td>
                             <td>
-                                <span style="display:none">{{ $studentDetail->is_handicapped ?? '' }}</span>
-                                <input type="checkbox" disabled="disabled" {{ $studentDetail->is_handicapped ? 'checked' : '' }}>
+                                {{ $studentDetail->nric_no ?? '' }}
                             </td>
                             <td>
                                 {{ App\Models\StudentDetail::GENDER_SELECT[$studentDetail->gender] ?? '' }}
                             </td>
                             <td>
-                                {{ $studentDetail->country ?? '' }}
+                                <span style="display:none">{{ $studentDetail->is_handicapped ?? '' }}</span>
+                                <input type="checkbox" disabled="disabled" {{ $studentDetail->is_handicapped ? 'checked' : '' }}>
                             </td>
                             <td>
-                                {{ $studentDetail->home_address ?? '' }}
+                                {{ $studentDetail->home_address->address_1 ?? '' }}
                             </td>
                             <td>
-                                {{ $studentDetail->mail_address ?? '' }}
+                                {{ $studentDetail->home_address->address_2 ?? '' }}
                             </td>
                             <td>
-                                {{ $studentDetail->state ?? '' }}
+                                {{ $studentDetail->home_address->city ?? '' }}
                             </td>
                             <td>
-                                {{ $studentDetail->city ?? '' }}
+                                {{ $studentDetail->home_address->state ?? '' }}
                             </td>
                             <td>
-                                {{ $studentDetail->postcode ?? '' }}
+                                {{ $studentDetail->home_address->postcode ?? '' }}
                             </td>
                             <td>
-                                {{ $studentDetail->phone ?? '' }}
+                                {{ $studentDetail->home_address->phone ?? '' }}
                             </td>
                             <td>
-                                {{ $studentDetail->nric_no ?? '' }}
+                                {{ $studentDetail->mail_address->address_1 ?? '' }}
+                            </td>
+                            <td>
+                                {{ $studentDetail->mail_address->address_2 ?? '' }}
+                            </td>
+                            <td>
+                                {{ $studentDetail->mail_address->city ?? '' }}
+                            </td>
+                            <td>
+                                {{ $studentDetail->mail_address->state ?? '' }}
+                            </td>
+                            <td>
+                                {{ $studentDetail->mail_address->postcode ?? '' }}
+                            </td>
+                            <td>
+                                {{ $studentDetail->mail_address->phone ?? '' }}
                             </td>
                             <td>
                                 {{ $studentDetail->user->email ?? '' }}

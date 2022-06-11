@@ -17,7 +17,7 @@ class StudentDetailApiController extends Controller
     {
         abort_if(Gate::denies('student_detail_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new StudentDetailResource(StudentDetail::with(['user', 'created_by', 'guardians'])->get());
+        return new StudentDetailResource(StudentDetail::with(['home_address', 'mail_address', 'user', 'created_by', 'guardians'])->get());
     }
 
     public function store(StoreStudentDetailRequest $request)
@@ -34,7 +34,7 @@ class StudentDetailApiController extends Controller
     {
         abort_if(Gate::denies('student_detail_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        return new StudentDetailResource($studentDetail->load(['user', 'created_by', 'guardians']));
+        return new StudentDetailResource($studentDetail->load(['home_address', 'mail_address', 'user', 'created_by', 'guardians']));
     }
 
     public function update(UpdateStudentDetailRequest $request, StudentDetail $studentDetail)

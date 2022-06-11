@@ -32,34 +32,49 @@
                         {{ trans('cruds.studentDetail.fields.full_name') }}
                     </th>
                     <th>
-                        {{ trans('cruds.studentDetail.fields.is_handicapped') }}
+                        {{ trans('cruds.studentDetail.fields.nric_no') }}
                     </th>
                     <th>
                         {{ trans('cruds.studentDetail.fields.gender') }}
                     </th>
                     <th>
-                        {{ trans('cruds.studentDetail.fields.country') }}
+                        {{ trans('cruds.studentDetail.fields.is_handicapped') }}
                     </th>
                     <th>
                         {{ trans('cruds.studentDetail.fields.home_address') }}
                     </th>
                     <th>
+                        {{ trans('cruds.address.fields.address_2') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.address.fields.city') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.address.fields.state') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.address.fields.postcode') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.address.fields.phone') }}
+                    </th>
+                    <th>
                         {{ trans('cruds.studentDetail.fields.mail_address') }}
                     </th>
                     <th>
-                        {{ trans('cruds.studentDetail.fields.state') }}
+                        {{ trans('cruds.address.fields.address_2') }}
                     </th>
                     <th>
-                        {{ trans('cruds.studentDetail.fields.city') }}
+                        {{ trans('cruds.address.fields.city') }}
                     </th>
                     <th>
-                        {{ trans('cruds.studentDetail.fields.postcode') }}
+                        {{ trans('cruds.address.fields.state') }}
                     </th>
                     <th>
-                        {{ trans('cruds.studentDetail.fields.phone') }}
+                        {{ trans('cruds.address.fields.postcode') }}
                     </th>
                     <th>
-                        {{ trans('cruds.studentDetail.fields.nric_no') }}
+                        {{ trans('cruds.address.fields.phone') }}
                     </th>
                     <th>
                         {{ trans('cruds.studentDetail.fields.user') }}
@@ -84,6 +99,7 @@
                         <input class="search" type="text" placeholder="{{ trans('global.search') }}">
                     </td>
                     <td>
+                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
                     </td>
                     <td>
                         <select class="search" strict="true">
@@ -94,28 +110,42 @@
                         </select>
                     </td>
                     <td>
-                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
                     </td>
                     <td>
-                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                        <select class="search">
+                            <option value>{{ trans('global.all') }}</option>
+                            @foreach($addresses as $key => $item)
+                                <option value="{{ $item->address_1 }}">{{ $item->address_1 }}</option>
+                            @endforeach
+                        </select>
                     </td>
                     <td>
-                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
                     </td>
                     <td>
-                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
                     </td>
                     <td>
-                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
                     </td>
                     <td>
-                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
                     </td>
                     <td>
-                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
                     </td>
                     <td>
-                        <input class="search" type="text" placeholder="{{ trans('global.search') }}">
+                        <select class="search">
+                            <option value>{{ trans('global.all') }}</option>
+                            @foreach($addresses as $key => $item)
+                                <option value="{{ $item->address_1 }}">{{ $item->address_1 }}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
+                    </td>
+                    <td>
                     </td>
                     <td>
                         <select class="search">
@@ -192,16 +222,21 @@
       { data: 'placeholder', name: 'placeholder' },
 { data: 'id', name: 'id' },
 { data: 'full_name', name: 'full_name' },
-{ data: 'is_handicapped', name: 'is_handicapped' },
-{ data: 'gender', name: 'gender' },
-{ data: 'country', name: 'country' },
-{ data: 'home_address', name: 'home_address' },
-{ data: 'mail_address', name: 'mail_address' },
-{ data: 'state', name: 'state' },
-{ data: 'city', name: 'city' },
-{ data: 'postcode', name: 'postcode' },
-{ data: 'phone', name: 'phone' },
 { data: 'nric_no', name: 'nric_no' },
+{ data: 'gender', name: 'gender' },
+{ data: 'is_handicapped', name: 'is_handicapped' },
+{ data: 'home_address_address_1', name: 'home_address.address_1' },
+{ data: 'home_address.address_2', name: 'home_address.address_2' },
+{ data: 'home_address.city', name: 'home_address.city' },
+{ data: 'home_address.state', name: 'home_address.state' },
+{ data: 'home_address.postcode', name: 'home_address.postcode' },
+{ data: 'home_address.phone', name: 'home_address.phone' },
+{ data: 'mail_address_address_1', name: 'mail_address.address_1' },
+{ data: 'mail_address.address_2', name: 'mail_address.address_2' },
+{ data: 'mail_address.city', name: 'mail_address.city' },
+{ data: 'mail_address.state', name: 'mail_address.state' },
+{ data: 'mail_address.postcode', name: 'mail_address.postcode' },
+{ data: 'mail_address.phone', name: 'mail_address.phone' },
 { data: 'user_email', name: 'user.email' },
 { data: 'user.name', name: 'user.name' },
 { data: 'guardian', name: 'guardians.name' },

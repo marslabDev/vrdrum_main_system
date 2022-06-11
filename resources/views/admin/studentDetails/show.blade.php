@@ -33,10 +33,10 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.studentDetail.fields.is_handicapped') }}
+                            {{ trans('cruds.studentDetail.fields.nric_no') }}
                         </th>
                         <td>
-                            <input type="checkbox" disabled="disabled" {{ $studentDetail->is_handicapped ? 'checked' : '' }}>
+                            {{ $studentDetail->nric_no }}
                         </td>
                     </tr>
                     <tr>
@@ -49,10 +49,10 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.studentDetail.fields.country') }}
+                            {{ trans('cruds.studentDetail.fields.is_handicapped') }}
                         </th>
                         <td>
-                            {{ $studentDetail->country }}
+                            <input type="checkbox" disabled="disabled" {{ $studentDetail->is_handicapped ? 'checked' : '' }}>
                         </td>
                     </tr>
                     <tr>
@@ -60,7 +60,7 @@
                             {{ trans('cruds.studentDetail.fields.home_address') }}
                         </th>
                         <td>
-                            {{ $studentDetail->home_address }}
+                            {{ $studentDetail->home_address->address_1 ?? '' }}
                         </td>
                     </tr>
                     <tr>
@@ -68,47 +68,7 @@
                             {{ trans('cruds.studentDetail.fields.mail_address') }}
                         </th>
                         <td>
-                            {{ $studentDetail->mail_address }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.studentDetail.fields.state') }}
-                        </th>
-                        <td>
-                            {{ $studentDetail->state }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.studentDetail.fields.city') }}
-                        </th>
-                        <td>
-                            {{ $studentDetail->city }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.studentDetail.fields.postcode') }}
-                        </th>
-                        <td>
-                            {{ $studentDetail->postcode }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.studentDetail.fields.phone') }}
-                        </th>
-                        <td>
-                            {{ $studentDetail->phone }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.studentDetail.fields.nric_no') }}
-                        </th>
-                        <td>
-                            {{ $studentDetail->nric_no }}
+                            {{ $studentDetail->mail_address->address_1 ?? '' }}
                         </td>
                     </tr>
                     <tr>

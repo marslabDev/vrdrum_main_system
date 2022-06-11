@@ -26,6 +26,7 @@ class StudentDetail extends Model
 
     public static $searchable = [
         'full_name',
+        'nric_no',
     ];
 
     protected $dates = [
@@ -36,22 +37,27 @@ class StudentDetail extends Model
 
     protected $fillable = [
         'full_name',
+        'nric_no',
+        'gender',
         'is_handicapped',
         'created_at',
-        'gender',
-        'country',
-        'home_address',
-        'mail_address',
-        'state',
-        'city',
-        'postcode',
-        'phone',
         'updated_at',
         'deleted_at',
-        'nric_no',
+        'home_address_id',
+        'mail_address_id',
         'user_id',
         'created_by_id',
     ];
+
+    public function home_address()
+    {
+        return $this->belongsTo(Address::class, 'home_address_id');
+    }
+
+    public function mail_address()
+    {
+        return $this->belongsTo(Address::class, 'mail_address_id');
+    }
 
     public function user()
     {

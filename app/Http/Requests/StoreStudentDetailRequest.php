@@ -21,36 +21,6 @@ class StoreStudentDetailRequest extends FormRequest
                 'string',
                 'required',
             ],
-            'country' => [
-                'string',
-                'nullable',
-            ],
-            'home_address' => [
-                'string',
-                'nullable',
-            ],
-            'mail_address' => [
-                'string',
-                'required',
-            ],
-            'state' => [
-                'string',
-                'nullable',
-            ],
-            'city' => [
-                'string',
-                'nullable',
-            ],
-            'postcode' => [
-                'nullable',
-                'integer',
-                'min:-2147483648',
-                'max:2147483647',
-            ],
-            'phone' => [
-                'string',
-                'nullable',
-            ],
             'nric_no' => [
                 'nullable',
                 'integer',
