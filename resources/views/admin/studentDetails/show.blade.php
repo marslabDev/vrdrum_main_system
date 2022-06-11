@@ -60,7 +60,7 @@
                             {{ trans('cruds.studentDetail.fields.home_address') }}
                         </th>
                         <td>
-                            {{ $studentDetail->home_address->address_1 ?? '' }}
+                            {{ $studentDetail->home_address->address_line_1 ?? '' }}
                         </td>
                     </tr>
                     <tr>
@@ -68,7 +68,7 @@
                             {{ trans('cruds.studentDetail.fields.mail_address') }}
                         </th>
                         <td>
-                            {{ $studentDetail->mail_address->address_1 ?? '' }}
+                            {{ $studentDetail->mail_address->address_line_1 ?? '' }}
                         </td>
                     </tr>
                     <tr>

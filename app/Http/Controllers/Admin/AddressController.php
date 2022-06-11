@@ -46,11 +46,11 @@ class AddressController extends Controller
             $table->editColumn('id', function ($row) {
                 return $row->id ? $row->id : '';
             });
-            $table->editColumn('address_1', function ($row) {
-                return $row->address_1 ? $row->address_1 : '';
+            $table->editColumn('address_line_1', function ($row) {
+                return $row->address_line_1 ? $row->address_line_1 : '';
             });
-            $table->editColumn('address_2', function ($row) {
-                return $row->address_2 ? $row->address_2 : '';
+            $table->editColumn('address_line_2', function ($row) {
+                return $row->address_line_2 ? $row->address_line_2 : '';
             });
             $table->editColumn('city', function ($row) {
                 return $row->city ? $row->city : '';
@@ -63,6 +63,9 @@ class AddressController extends Controller
             });
             $table->editColumn('phone', function ($row) {
                 return $row->phone ? $row->phone : '';
+            });
+            $table->editColumn('country', function ($row) {
+                return $row->country ? $row->country : '';
             });
 
             $table->rawColumns(['actions', 'placeholder']);

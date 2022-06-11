@@ -44,9 +44,6 @@
                         {{ trans('cruds.studentDetail.fields.home_address') }}
                     </th>
                     <th>
-                        {{ trans('cruds.address.fields.address_2') }}
-                    </th>
-                    <th>
                         {{ trans('cruds.address.fields.city') }}
                     </th>
                     <th>
@@ -60,9 +57,6 @@
                     </th>
                     <th>
                         {{ trans('cruds.studentDetail.fields.mail_address') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.address.fields.address_2') }}
                     </th>
                     <th>
                         {{ trans('cruds.address.fields.city') }}
@@ -115,11 +109,9 @@
                         <select class="search">
                             <option value>{{ trans('global.all') }}</option>
                             @foreach($addresses as $key => $item)
-                                <option value="{{ $item->address_1 }}">{{ $item->address_1 }}</option>
+                                <option value="{{ $item->address_line_1 }}">{{ $item->address_line_1 }}</option>
                             @endforeach
                         </select>
-                    </td>
-                    <td>
                     </td>
                     <td>
                     </td>
@@ -133,11 +125,9 @@
                         <select class="search">
                             <option value>{{ trans('global.all') }}</option>
                             @foreach($addresses as $key => $item)
-                                <option value="{{ $item->address_1 }}">{{ $item->address_1 }}</option>
+                                <option value="{{ $item->address_line_1 }}">{{ $item->address_line_1 }}</option>
                             @endforeach
                         </select>
-                    </td>
-                    <td>
                     </td>
                     <td>
                     </td>
@@ -225,14 +215,12 @@
 { data: 'nric_no', name: 'nric_no' },
 { data: 'gender', name: 'gender' },
 { data: 'is_handicapped', name: 'is_handicapped' },
-{ data: 'home_address_address_1', name: 'home_address.address_1' },
-{ data: 'home_address.address_2', name: 'home_address.address_2' },
+{ data: 'home_address_address_line_1', name: 'home_address.address_line_1' },
 { data: 'home_address.city', name: 'home_address.city' },
 { data: 'home_address.state', name: 'home_address.state' },
 { data: 'home_address.postcode', name: 'home_address.postcode' },
 { data: 'home_address.phone', name: 'home_address.phone' },
-{ data: 'mail_address_address_1', name: 'mail_address.address_1' },
-{ data: 'mail_address.address_2', name: 'mail_address.address_2' },
+{ data: 'mail_address_address_line_1', name: 'mail_address.address_line_1' },
 { data: 'mail_address.city', name: 'mail_address.city' },
 { data: 'mail_address.state', name: 'mail_address.state' },
 { data: 'mail_address.postcode', name: 'mail_address.postcode' },

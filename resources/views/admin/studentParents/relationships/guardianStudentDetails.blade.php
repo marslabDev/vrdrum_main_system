@@ -40,9 +40,6 @@
                             {{ trans('cruds.studentDetail.fields.home_address') }}
                         </th>
                         <th>
-                            {{ trans('cruds.address.fields.address_2') }}
-                        </th>
-                        <th>
                             {{ trans('cruds.address.fields.city') }}
                         </th>
                         <th>
@@ -56,9 +53,6 @@
                         </th>
                         <th>
                             {{ trans('cruds.studentDetail.fields.mail_address') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.address.fields.address_2') }}
                         </th>
                         <th>
                             {{ trans('cruds.address.fields.city') }}
@@ -109,10 +103,7 @@
                                 <input type="checkbox" disabled="disabled" {{ $studentDetail->is_handicapped ? 'checked' : '' }}>
                             </td>
                             <td>
-                                {{ $studentDetail->home_address->address_1 ?? '' }}
-                            </td>
-                            <td>
-                                {{ $studentDetail->home_address->address_2 ?? '' }}
+                                {{ $studentDetail->home_address->address_line_1 ?? '' }}
                             </td>
                             <td>
                                 {{ $studentDetail->home_address->city ?? '' }}
@@ -127,10 +118,7 @@
                                 {{ $studentDetail->home_address->phone ?? '' }}
                             </td>
                             <td>
-                                {{ $studentDetail->mail_address->address_1 ?? '' }}
-                            </td>
-                            <td>
-                                {{ $studentDetail->mail_address->address_2 ?? '' }}
+                                {{ $studentDetail->mail_address->address_line_1 ?? '' }}
                             </td>
                             <td>
                                 {{ $studentDetail->mail_address->city ?? '' }}

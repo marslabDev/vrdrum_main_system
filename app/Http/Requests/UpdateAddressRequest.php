@@ -17,11 +17,11 @@ class UpdateAddressRequest extends FormRequest
     public function rules()
     {
         return [
-            'address_1' => [
+            'address_line_1' => [
                 'string',
-                'required',
+                'nullable',
             ],
-            'address_2' => [
+            'address_line_2' => [
                 'string',
                 'nullable',
             ],
@@ -40,6 +40,10 @@ class UpdateAddressRequest extends FormRequest
                 'max:2147483647',
             ],
             'phone' => [
+                'string',
+                'nullable',
+            ],
+            'country' => [
                 'string',
                 'nullable',
             ],

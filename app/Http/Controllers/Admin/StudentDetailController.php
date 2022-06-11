@@ -61,13 +61,10 @@ class StudentDetailController extends Controller
             $table->editColumn('is_handicapped', function ($row) {
                 return '<input type="checkbox" disabled ' . ($row->is_handicapped ? 'checked' : null) . '>';
             });
-            $table->addColumn('home_address_address_1', function ($row) {
-                return $row->home_address ? $row->home_address->address_1 : '';
+            $table->addColumn('home_address_address_line_1', function ($row) {
+                return $row->home_address ? $row->home_address->address_line_1 : '';
             });
 
-            $table->editColumn('home_address.address_2', function ($row) {
-                return $row->home_address ? (is_string($row->home_address) ? $row->home_address : $row->home_address->address_2) : '';
-            });
             $table->editColumn('home_address.city', function ($row) {
                 return $row->home_address ? (is_string($row->home_address) ? $row->home_address : $row->home_address->city) : '';
             });
@@ -80,13 +77,10 @@ class StudentDetailController extends Controller
             $table->editColumn('home_address.phone', function ($row) {
                 return $row->home_address ? (is_string($row->home_address) ? $row->home_address : $row->home_address->phone) : '';
             });
-            $table->addColumn('mail_address_address_1', function ($row) {
-                return $row->mail_address ? $row->mail_address->address_1 : '';
+            $table->addColumn('mail_address_address_line_1', function ($row) {
+                return $row->mail_address ? $row->mail_address->address_line_1 : '';
             });
 
-            $table->editColumn('mail_address.address_2', function ($row) {
-                return $row->mail_address ? (is_string($row->mail_address) ? $row->mail_address : $row->mail_address->address_2) : '';
-            });
             $table->editColumn('mail_address.city', function ($row) {
                 return $row->mail_address ? (is_string($row->mail_address) ? $row->mail_address : $row->mail_address->city) : '';
             });
@@ -131,9 +125,9 @@ class StudentDetailController extends Controller
     {
         abort_if(Gate::denies('student_detail_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $home_addresses = Address::pluck('address_1', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $home_addresses = Address::pluck('address_line_1', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $mail_addresses = Address::pluck('address_1', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $mail_addresses = Address::pluck('address_line_1', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $users = User::pluck('email', 'id')->prepend(trans('global.pleaseSelect'), '');
 
@@ -154,9 +148,9 @@ class StudentDetailController extends Controller
     {
         abort_if(Gate::denies('student_detail_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $home_addresses = Address::pluck('address_1', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $home_addresses = Address::pluck('address_line_1', 'id')->prepend(trans('global.pleaseSelect'), '');
 
-        $mail_addresses = Address::pluck('address_1', 'id')->prepend(trans('global.pleaseSelect'), '');
+        $mail_addresses = Address::pluck('address_line_1', 'id')->prepend(trans('global.pleaseSelect'), '');
 
         $users = User::pluck('email', 'id')->prepend(trans('global.pleaseSelect'), '');
 
