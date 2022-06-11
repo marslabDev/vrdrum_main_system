@@ -244,6 +244,12 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('student-parents/process-csv-import', 'StudentParentController@processCsvImport')->name('student-parents.processCsvImport');
     Route::resource('student-parents', 'StudentParentController');
 
+    // Address
+    Route::delete('addresses/destroy', 'AddressController@massDestroy')->name('addresses.massDestroy');
+    Route::post('addresses/parse-csv-import', 'AddressController@parseCsvImport')->name('addresses.parseCsvImport');
+    Route::post('addresses/process-csv-import', 'AddressController@processCsvImport')->name('addresses.processCsvImport');
+    Route::resource('addresses', 'AddressController');
+
     Route::get('system-calendar', 'SystemCalendarController@index')->name('systemCalendar');
     Route::get('global-search', 'GlobalSearchController@search')->name('globalSearch');
     Route::get('messenger', 'MessengerController@index')->name('messenger.index');

@@ -808,6 +808,26 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'id'    => 200,
+                'title' => 'address_create',
+            ],
+            [
+                'id'    => 201,
+                'title' => 'address_edit',
+            ],
+            [
+                'id'    => 202,
+                'title' => 'address_show',
+            ],
+            [
+                'id'    => 203,
+                'title' => 'address_delete',
+            ],
+            [
+                'id'    => 204,
+                'title' => 'address_access',
+            ],
+            [
+                'id'    => 205,
                 'title' => 'profile_password_edit',
             ],
         ];
