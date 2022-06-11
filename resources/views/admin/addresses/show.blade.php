@@ -25,18 +25,18 @@
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.address.fields.address_1') }}
+                            {{ trans('cruds.address.fields.address_line_1') }}
                         </th>
                         <td>
-                            {{ $address->address_1 }}
+                            {{ $address->address_line_1 }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.address.fields.address_2') }}
+                            {{ trans('cruds.address.fields.address_line_2') }}
                         </th>
                         <td>
-                            {{ $address->address_2 }}
+                            {{ $address->address_line_2 }}
                         </td>
                     </tr>
                     <tr>
@@ -61,6 +61,14 @@
                         </th>
                         <td>
                             {{ $address->postcode }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.address.fields.country') }}
+                        </th>
+                        <td>
+                            {{ $address->country }}
                         </td>
                     </tr>
                     <tr>

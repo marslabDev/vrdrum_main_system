@@ -10,11 +10,12 @@ class CreateAddressesTable extends Migration
     {
         Schema::create('addresses', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('address_1');
-            $table->string('address_2')->nullable();
+            $table->string('address_line_1')->nullable();
+            $table->string('address_line_2')->nullable();
             $table->string('city')->nullable();
             $table->string('state');
             $table->integer('postcode')->nullable();
+            $table->string('country')->nullable();
             $table->string('phone')->nullable();
             $table->timestamps();
             $table->softDeletes();

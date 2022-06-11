@@ -10,24 +10,24 @@
         <form method="POST" action="{{ route("admin.addresses.store") }}" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
-                <label class="required" for="address_1">{{ trans('cruds.address.fields.address_1') }}</label>
-                <input class="form-control {{ $errors->has('address_1') ? 'is-invalid' : '' }}" type="text" name="address_1" id="address_1" value="{{ old('address_1', '') }}" required>
-                @if($errors->has('address_1'))
+                <label for="address_line_1">{{ trans('cruds.address.fields.address_line_1') }}</label>
+                <input class="form-control {{ $errors->has('address_line_1') ? 'is-invalid' : '' }}" type="text" name="address_line_1" id="address_line_1" value="{{ old('address_line_1', '') }}">
+                @if($errors->has('address_line_1'))
                     <div class="invalid-feedback">
-                        {{ $errors->first('address_1') }}
+                        {{ $errors->first('address_line_1') }}
                     </div>
                 @endif
-                <span class="help-block">{{ trans('cruds.address.fields.address_1_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.address.fields.address_line_1_helper') }}</span>
             </div>
             <div class="form-group">
-                <label for="address_2">{{ trans('cruds.address.fields.address_2') }}</label>
-                <input class="form-control {{ $errors->has('address_2') ? 'is-invalid' : '' }}" type="text" name="address_2" id="address_2" value="{{ old('address_2', '') }}">
-                @if($errors->has('address_2'))
+                <label for="address_line_2">{{ trans('cruds.address.fields.address_line_2') }}</label>
+                <input class="form-control {{ $errors->has('address_line_2') ? 'is-invalid' : '' }}" type="text" name="address_line_2" id="address_line_2" value="{{ old('address_line_2', '') }}">
+                @if($errors->has('address_line_2'))
                     <div class="invalid-feedback">
-                        {{ $errors->first('address_2') }}
+                        {{ $errors->first('address_line_2') }}
                     </div>
                 @endif
-                <span class="help-block">{{ trans('cruds.address.fields.address_2_helper') }}</span>
+                <span class="help-block">{{ trans('cruds.address.fields.address_line_2_helper') }}</span>
             </div>
             <div class="form-group">
                 <label for="city">{{ trans('cruds.address.fields.city') }}</label>
@@ -58,6 +58,16 @@
                     </div>
                 @endif
                 <span class="help-block">{{ trans('cruds.address.fields.postcode_helper') }}</span>
+            </div>
+            <div class="form-group">
+                <label for="country">{{ trans('cruds.address.fields.country') }}</label>
+                <input class="form-control {{ $errors->has('country') ? 'is-invalid' : '' }}" type="text" name="country" id="country" value="{{ old('country', '') }}">
+                @if($errors->has('country'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('country') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.address.fields.country_helper') }}</span>
             </div>
             <div class="form-group">
                 <label for="phone">{{ trans('cruds.address.fields.phone') }}</label>
