@@ -13,7 +13,6 @@ class GlobalSearchController extends Controller
         'TuitionPackage' => 'cruds.tuitionPackage.title',
         'Lesson'         => 'cruds.lesson.title',
         'StudentDetail'  => 'cruds.studentDetail.title',
-        'Submission'     => 'cruds.submission.title',
     ];
 
     public function search(Request $request)

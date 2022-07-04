@@ -79,6 +79,11 @@
             </a>
         </li>
         <li class="nav-item">
+            <a class="nav-link" href="#customer_orders" role="tab" data-toggle="tab">
+                {{ trans('cruds.order.title') }}
+            </a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" href="#user_user_alerts" role="tab" data-toggle="tab">
                 {{ trans('cruds.userAlert.title') }}
             </a>
@@ -87,6 +92,9 @@
     <div class="tab-content">
         <div class="tab-pane" role="tabpanel" id="user_student_details">
             @includeIf('admin.users.relationships.userStudentDetails', ['studentDetails' => $user->userStudentDetails])
+        </div>
+        <div class="tab-pane" role="tabpanel" id="customer_orders">
+            @includeIf('admin.users.relationships.customerOrders', ['orders' => $user->customerOrders])
         </div>
         <div class="tab-pane" role="tabpanel" id="user_user_alerts">
             @includeIf('admin.users.relationships.userUserAlerts', ['userAlerts' => $user->userUserAlerts])

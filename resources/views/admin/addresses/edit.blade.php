@@ -31,6 +31,16 @@
                 <span class="help-block">{{ trans('cruds.address.fields.address_line_2_helper') }}</span>
             </div>
             <div class="form-group">
+                <label for="postal_code">{{ trans('cruds.address.fields.postal_code') }}</label>
+                <input class="form-control {{ $errors->has('postal_code') ? 'is-invalid' : '' }}" type="number" name="postal_code" id="postal_code" value="{{ old('postal_code', $address->postal_code) }}" step="1">
+                @if($errors->has('postal_code'))
+                    <div class="invalid-feedback">
+                        {{ $errors->first('postal_code') }}
+                    </div>
+                @endif
+                <span class="help-block">{{ trans('cruds.address.fields.postal_code_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <label for="city">{{ trans('cruds.address.fields.city') }}</label>
                 <input class="form-control {{ $errors->has('city') ? 'is-invalid' : '' }}" type="text" name="city" id="city" value="{{ old('city', $address->city) }}">
                 @if($errors->has('city'))
@@ -49,16 +59,6 @@
                     </div>
                 @endif
                 <span class="help-block">{{ trans('cruds.address.fields.state_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label for="postcode">{{ trans('cruds.address.fields.postcode') }}</label>
-                <input class="form-control {{ $errors->has('postcode') ? 'is-invalid' : '' }}" type="number" name="postcode" id="postcode" value="{{ old('postcode', $address->postcode) }}" step="1">
-                @if($errors->has('postcode'))
-                    <div class="invalid-feedback">
-                        {{ $errors->first('postcode') }}
-                    </div>
-                @endif
-                <span class="help-block">{{ trans('cruds.address.fields.postcode_helper') }}</span>
             </div>
             <div class="form-group">
                 <label for="country">{{ trans('cruds.address.fields.country') }}</label>

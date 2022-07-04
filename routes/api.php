@@ -52,20 +52,6 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     // Student Meta
     Route::apiResource('student-meta', 'StudentMetaApiController');
 
-    // Student Work
-    Route::apiResource('student-works', 'StudentWorkApiController');
-
-    // Submission
-    Route::apiResource('submissions', 'SubmissionApiController');
-
-    // Work Resource
-    Route::post('work-resources/media', 'WorkResourceApiController@storeMedia')->name('work-resources.storeMedia');
-    Route::apiResource('work-resources', 'WorkResourceApiController');
-
-    // Submit Resource
-    Route::post('submit-resources/media', 'SubmitResourceApiController@storeMedia')->name('submit-resources.storeMedia');
-    Route::apiResource('submit-resources', 'SubmitResourceApiController');
-
     // Coach Detail
     Route::apiResource('coach-details', 'CoachDetailApiController');
 
@@ -106,10 +92,6 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     // Income
     Route::apiResource('incomes', 'IncomeApiController');
 
-    // Work Comment
-    Route::post('work-comments/media', 'WorkCommentApiController@storeMedia')->name('work-comments.storeMedia');
-    Route::apiResource('work-comments', 'WorkCommentApiController');
-
     // Lesson Time Student
     Route::apiResource('lesson-time-students', 'LessonTimeStudentApiController');
 
@@ -118,4 +100,29 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
 
     // Address
     Route::apiResource('addresses', 'AddressApiController');
+
+    // Lesson Time Post
+    Route::post('lesson-time-posts/media', 'LessonTimePostApiController@storeMedia')->name('lesson-time-posts.storeMedia');
+    Route::apiResource('lesson-time-posts', 'LessonTimePostApiController');
+
+    // Post Content
+    Route::post('post-contents/media', 'PostContentApiController@storeMedia')->name('post-contents.storeMedia');
+    Route::apiResource('post-contents', 'PostContentApiController');
+
+    // Post Content Submit
+    Route::post('post-content-submits/media', 'PostContentSubmitApiController@storeMedia')->name('post-content-submits.storeMedia');
+    Route::apiResource('post-content-submits', 'PostContentSubmitApiController');
+
+    // Post Comment
+    Route::post('post-comments/media', 'PostCommentApiController@storeMedia')->name('post-comments.storeMedia');
+    Route::apiResource('post-comments', 'PostCommentApiController');
+
+    // Post Submission
+    Route::apiResource('post-submissions', 'PostSubmissionApiController');
+
+    // Order
+    Route::apiResource('orders', 'OrderApiController');
+
+    // Order Items
+    Route::apiResource('order-items', 'OrderItemsApiController');
 });

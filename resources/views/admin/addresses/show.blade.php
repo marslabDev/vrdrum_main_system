@@ -41,6 +41,14 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.address.fields.postal_code') }}
+                        </th>
+                        <td>
+                            {{ $address->postal_code }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.address.fields.city') }}
                         </th>
                         <td>
@@ -53,14 +61,6 @@
                         </th>
                         <td>
                             {{ $address->state }}
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.address.fields.postcode') }}
-                        </th>
-                        <td>
-                            {{ $address->postcode }}
                         </td>
                     </tr>
                     <tr>

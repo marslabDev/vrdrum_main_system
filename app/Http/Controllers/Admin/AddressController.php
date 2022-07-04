@@ -52,20 +52,20 @@ class AddressController extends Controller
             $table->editColumn('address_line_2', function ($row) {
                 return $row->address_line_2 ? $row->address_line_2 : '';
             });
+            $table->editColumn('postal_code', function ($row) {
+                return $row->postal_code ? $row->postal_code : '';
+            });
             $table->editColumn('city', function ($row) {
                 return $row->city ? $row->city : '';
             });
             $table->editColumn('state', function ($row) {
                 return $row->state ? $row->state : '';
             });
-            $table->editColumn('postcode', function ($row) {
-                return $row->postcode ? $row->postcode : '';
+            $table->editColumn('country', function ($row) {
+                return $row->country ? $row->country : '';
             });
             $table->editColumn('phone', function ($row) {
                 return $row->phone ? $row->phone : '';
-            });
-            $table->editColumn('country', function ($row) {
-                return $row->country ? $row->country : '';
             });
 
             $table->rawColumns(['actions', 'placeholder']);
