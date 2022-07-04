@@ -35,13 +35,13 @@
                         {{ trans('cruds.address.fields.address_line_2') }}
                     </th>
                     <th>
+                        {{ trans('cruds.address.fields.postal_code') }}
+                    </th>
+                    <th>
                         {{ trans('cruds.address.fields.city') }}
                     </th>
                     <th>
                         {{ trans('cruds.address.fields.state') }}
-                    </th>
-                    <th>
-                        {{ trans('cruds.address.fields.postcode') }}
                     </th>
                     <th>
                         {{ trans('cruds.address.fields.country') }}
@@ -108,9 +108,9 @@
 { data: 'id', name: 'id' },
 { data: 'address_line_1', name: 'address_line_1' },
 { data: 'address_line_2', name: 'address_line_2' },
+{ data: 'postal_code', name: 'postal_code' },
 { data: 'city', name: 'city' },
 { data: 'state', name: 'state' },
-{ data: 'postcode', name: 'postcode' },
 { data: 'country', name: 'country' },
 { data: 'phone', name: 'phone' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }

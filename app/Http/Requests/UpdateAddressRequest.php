@@ -25,6 +25,12 @@ class UpdateAddressRequest extends FormRequest
                 'string',
                 'nullable',
             ],
+            'postal_code' => [
+                'nullable',
+                'integer',
+                'min:-2147483648',
+                'max:2147483647',
+            ],
             'city' => [
                 'string',
                 'nullable',
@@ -33,17 +39,11 @@ class UpdateAddressRequest extends FormRequest
                 'string',
                 'required',
             ],
-            'postcode' => [
-                'nullable',
-                'integer',
-                'min:-2147483648',
-                'max:2147483647',
-            ],
-            'phone' => [
+            'country' => [
                 'string',
                 'nullable',
             ],
-            'country' => [
+            'phone' => [
                 'string',
                 'nullable',
             ],

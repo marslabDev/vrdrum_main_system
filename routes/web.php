@@ -109,34 +109,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('student-meta/process-csv-import', 'StudentMetaController@processCsvImport')->name('student-meta.processCsvImport');
     Route::resource('student-meta', 'StudentMetaController');
 
-    // Student Work
-    Route::delete('student-works/destroy', 'StudentWorkController@massDestroy')->name('student-works.massDestroy');
-    Route::post('student-works/parse-csv-import', 'StudentWorkController@parseCsvImport')->name('student-works.parseCsvImport');
-    Route::post('student-works/process-csv-import', 'StudentWorkController@processCsvImport')->name('student-works.processCsvImport');
-    Route::resource('student-works', 'StudentWorkController');
-
-    // Submission
-    Route::delete('submissions/destroy', 'SubmissionController@massDestroy')->name('submissions.massDestroy');
-    Route::post('submissions/parse-csv-import', 'SubmissionController@parseCsvImport')->name('submissions.parseCsvImport');
-    Route::post('submissions/process-csv-import', 'SubmissionController@processCsvImport')->name('submissions.processCsvImport');
-    Route::resource('submissions', 'SubmissionController');
-
-    // Work Resource
-    Route::delete('work-resources/destroy', 'WorkResourceController@massDestroy')->name('work-resources.massDestroy');
-    Route::post('work-resources/media', 'WorkResourceController@storeMedia')->name('work-resources.storeMedia');
-    Route::post('work-resources/ckmedia', 'WorkResourceController@storeCKEditorImages')->name('work-resources.storeCKEditorImages');
-    Route::post('work-resources/parse-csv-import', 'WorkResourceController@parseCsvImport')->name('work-resources.parseCsvImport');
-    Route::post('work-resources/process-csv-import', 'WorkResourceController@processCsvImport')->name('work-resources.processCsvImport');
-    Route::resource('work-resources', 'WorkResourceController');
-
-    // Submit Resource
-    Route::delete('submit-resources/destroy', 'SubmitResourceController@massDestroy')->name('submit-resources.massDestroy');
-    Route::post('submit-resources/media', 'SubmitResourceController@storeMedia')->name('submit-resources.storeMedia');
-    Route::post('submit-resources/ckmedia', 'SubmitResourceController@storeCKEditorImages')->name('submit-resources.storeCKEditorImages');
-    Route::post('submit-resources/parse-csv-import', 'SubmitResourceController@parseCsvImport')->name('submit-resources.parseCsvImport');
-    Route::post('submit-resources/process-csv-import', 'SubmitResourceController@processCsvImport')->name('submit-resources.processCsvImport');
-    Route::resource('submit-resources', 'SubmitResourceController');
-
     // Audit Logs
     Route::resource('audit-logs', 'AuditLogsController', ['except' => ['create', 'store', 'edit', 'update', 'destroy']]);
 
@@ -224,14 +196,6 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('expense-reports/destroy', 'ExpenseReportController@massDestroy')->name('expense-reports.massDestroy');
     Route::resource('expense-reports', 'ExpenseReportController');
 
-    // Work Comment
-    Route::delete('work-comments/destroy', 'WorkCommentController@massDestroy')->name('work-comments.massDestroy');
-    Route::post('work-comments/media', 'WorkCommentController@storeMedia')->name('work-comments.storeMedia');
-    Route::post('work-comments/ckmedia', 'WorkCommentController@storeCKEditorImages')->name('work-comments.storeCKEditorImages');
-    Route::post('work-comments/parse-csv-import', 'WorkCommentController@parseCsvImport')->name('work-comments.parseCsvImport');
-    Route::post('work-comments/process-csv-import', 'WorkCommentController@processCsvImport')->name('work-comments.processCsvImport');
-    Route::resource('work-comments', 'WorkCommentController');
-
     // Lesson Time Student
     Route::delete('lesson-time-students/destroy', 'LessonTimeStudentController@massDestroy')->name('lesson-time-students.massDestroy');
     Route::post('lesson-time-students/parse-csv-import', 'LessonTimeStudentController@parseCsvImport')->name('lesson-time-students.parseCsvImport');
@@ -249,6 +213,72 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('addresses/parse-csv-import', 'AddressController@parseCsvImport')->name('addresses.parseCsvImport');
     Route::post('addresses/process-csv-import', 'AddressController@processCsvImport')->name('addresses.processCsvImport');
     Route::resource('addresses', 'AddressController');
+
+    // Lesson Time Post
+    Route::delete('lesson-time-posts/destroy', 'LessonTimePostController@massDestroy')->name('lesson-time-posts.massDestroy');
+    Route::post('lesson-time-posts/media', 'LessonTimePostController@storeMedia')->name('lesson-time-posts.storeMedia');
+    Route::post('lesson-time-posts/ckmedia', 'LessonTimePostController@storeCKEditorImages')->name('lesson-time-posts.storeCKEditorImages');
+    Route::post('lesson-time-posts/parse-csv-import', 'LessonTimePostController@parseCsvImport')->name('lesson-time-posts.parseCsvImport');
+    Route::post('lesson-time-posts/process-csv-import', 'LessonTimePostController@processCsvImport')->name('lesson-time-posts.processCsvImport');
+    Route::resource('lesson-time-posts', 'LessonTimePostController');
+
+    // Post Content
+    Route::delete('post-contents/destroy', 'PostContentController@massDestroy')->name('post-contents.massDestroy');
+    Route::post('post-contents/media', 'PostContentController@storeMedia')->name('post-contents.storeMedia');
+    Route::post('post-contents/ckmedia', 'PostContentController@storeCKEditorImages')->name('post-contents.storeCKEditorImages');
+    Route::post('post-contents/parse-csv-import', 'PostContentController@parseCsvImport')->name('post-contents.parseCsvImport');
+    Route::post('post-contents/process-csv-import', 'PostContentController@processCsvImport')->name('post-contents.processCsvImport');
+    Route::resource('post-contents', 'PostContentController');
+
+    // Post Content Submit
+    Route::delete('post-content-submits/destroy', 'PostContentSubmitController@massDestroy')->name('post-content-submits.massDestroy');
+    Route::post('post-content-submits/media', 'PostContentSubmitController@storeMedia')->name('post-content-submits.storeMedia');
+    Route::post('post-content-submits/ckmedia', 'PostContentSubmitController@storeCKEditorImages')->name('post-content-submits.storeCKEditorImages');
+    Route::post('post-content-submits/parse-csv-import', 'PostContentSubmitController@parseCsvImport')->name('post-content-submits.parseCsvImport');
+    Route::post('post-content-submits/process-csv-import', 'PostContentSubmitController@processCsvImport')->name('post-content-submits.processCsvImport');
+    Route::resource('post-content-submits', 'PostContentSubmitController');
+
+    // Post Comment
+    Route::delete('post-comments/destroy', 'PostCommentController@massDestroy')->name('post-comments.massDestroy');
+    Route::post('post-comments/media', 'PostCommentController@storeMedia')->name('post-comments.storeMedia');
+    Route::post('post-comments/ckmedia', 'PostCommentController@storeCKEditorImages')->name('post-comments.storeCKEditorImages');
+    Route::post('post-comments/parse-csv-import', 'PostCommentController@parseCsvImport')->name('post-comments.parseCsvImport');
+    Route::post('post-comments/process-csv-import', 'PostCommentController@processCsvImport')->name('post-comments.processCsvImport');
+    Route::resource('post-comments', 'PostCommentController');
+
+    // Post Submission
+    Route::delete('post-submissions/destroy', 'PostSubmissionController@massDestroy')->name('post-submissions.massDestroy');
+    Route::post('post-submissions/parse-csv-import', 'PostSubmissionController@parseCsvImport')->name('post-submissions.parseCsvImport');
+    Route::post('post-submissions/process-csv-import', 'PostSubmissionController@processCsvImport')->name('post-submissions.processCsvImport');
+    Route::resource('post-submissions', 'PostSubmissionController');
+
+    // Product Category
+    Route::delete('product-categories/destroy', 'ProductCategoryController@massDestroy')->name('product-categories.massDestroy');
+    Route::post('product-categories/media', 'ProductCategoryController@storeMedia')->name('product-categories.storeMedia');
+    Route::post('product-categories/ckmedia', 'ProductCategoryController@storeCKEditorImages')->name('product-categories.storeCKEditorImages');
+    Route::resource('product-categories', 'ProductCategoryController');
+
+    // Product Tag
+    Route::delete('product-tags/destroy', 'ProductTagController@massDestroy')->name('product-tags.massDestroy');
+    Route::resource('product-tags', 'ProductTagController');
+
+    // Product
+    Route::delete('products/destroy', 'ProductController@massDestroy')->name('products.massDestroy');
+    Route::post('products/media', 'ProductController@storeMedia')->name('products.storeMedia');
+    Route::post('products/ckmedia', 'ProductController@storeCKEditorImages')->name('products.storeCKEditorImages');
+    Route::resource('products', 'ProductController');
+
+    // Order
+    Route::delete('orders/destroy', 'OrderController@massDestroy')->name('orders.massDestroy');
+    Route::post('orders/parse-csv-import', 'OrderController@parseCsvImport')->name('orders.parseCsvImport');
+    Route::post('orders/process-csv-import', 'OrderController@processCsvImport')->name('orders.processCsvImport');
+    Route::resource('orders', 'OrderController');
+
+    // Order Items
+    Route::delete('order-items/destroy', 'OrderItemsController@massDestroy')->name('order-items.massDestroy');
+    Route::post('order-items/parse-csv-import', 'OrderItemsController@parseCsvImport')->name('order-items.parseCsvImport');
+    Route::post('order-items/process-csv-import', 'OrderItemsController@processCsvImport')->name('order-items.processCsvImport');
+    Route::resource('order-items', 'OrderItemsController');
 
     Route::get('system-calendar', 'SystemCalendarController@index')->name('systemCalendar');
     Route::get('global-search', 'GlobalSearchController@search')->name('globalSearch');

@@ -53,6 +53,11 @@ class User extends Authenticatable
         return $this->hasMany(StudentDetail::class, 'user_id', 'id');
     }
 
+    public function customerOrders()
+    {
+        return $this->hasMany(Order::class, 'customer_id', 'id');
+    }
+
     public function userUserAlerts()
     {
         return $this->belongsToMany(UserAlert::class);

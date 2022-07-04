@@ -46,9 +46,6 @@
                             {{ trans('cruds.address.fields.state') }}
                         </th>
                         <th>
-                            {{ trans('cruds.address.fields.postcode') }}
-                        </th>
-                        <th>
                             {{ trans('cruds.address.fields.phone') }}
                         </th>
                         <th>
@@ -59,9 +56,6 @@
                         </th>
                         <th>
                             {{ trans('cruds.address.fields.state') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.address.fields.postcode') }}
                         </th>
                         <th>
                             {{ trans('cruds.address.fields.phone') }}
@@ -112,9 +106,6 @@
                                 {{ $studentDetail->home_address->state ?? '' }}
                             </td>
                             <td>
-                                {{ $studentDetail->home_address->postcode ?? '' }}
-                            </td>
-                            <td>
                                 {{ $studentDetail->home_address->phone ?? '' }}
                             </td>
                             <td>
@@ -125,9 +116,6 @@
                             </td>
                             <td>
                                 {{ $studentDetail->mail_address->state ?? '' }}
-                            </td>
-                            <td>
-                                {{ $studentDetail->mail_address->postcode ?? '' }}
                             </td>
                             <td>
                                 {{ $studentDetail->mail_address->phone ?? '' }}
